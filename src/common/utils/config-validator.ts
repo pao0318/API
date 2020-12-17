@@ -18,7 +18,7 @@ export class ConfigValidator {
             APP: {
                 MODE: string().valid(Constants.AppMode.DEV, Constants.AppMode.PROD, Constants.AppMode.TEST),
                 PREFIX: string(),
-                PORT: number().required()
+                PORT: number().min(1).max(65353)
             }
         });
     }

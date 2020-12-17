@@ -4,15 +4,12 @@ import { Constants } from '../constants';
 import { logger } from './logger';
 
 export class ConfigValidator {
-    public static async validate(): Promise<boolean> {
+    public static async validate(): Promise<void> {
         try {
             const validationSchema = this._getValidationSchema();
             await validationSchema.validateAsync(config);
-
-            return true;
         } catch(error) {
-            this._printErrorMessage(error.message);
-            return false;
+            this._printErrorMessageAndExit(error.message);
         }
     }
     
@@ -26,7 +23,8 @@ export class ConfigValidator {
         });
     }
     
-    private static _printErrorMessage(message: string): void {
+    private static _printErrorMessageAndExit(message: string): void {
         logger.red(`Environment variable error: ${message}`);
+        process.exit(0);
     }
 }

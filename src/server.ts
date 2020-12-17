@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import { ExtensionInitiator } from './common/utils/extension-initiator';
 import { logger } from './common/utils/logger';
 import config from './config';
 
@@ -12,8 +13,9 @@ class Server {
     }
 
     async start(): Promise<void> {
+        await ExtensionInitiator.initiate(this._app);
         this._app.listen(this._port, () => logger.green(`Server is running on port ${this._port}`));
     }
 }
 
-new Server().start()
+new Server().start();

@@ -7,6 +7,8 @@
     "build": "tsc",
     "start:dev": "cross-env APP_MODE=development concurrently \"tsc -w\" \"nodemon dist/server.js\"",
     "start:prod": "cross-env APP_MODE=production node dist/server.js",
+    "start:db": "bash ./src/scripts/start-db.sh",
+    "start:db:admin": "bash ./src/scripts/start-db-admin.sh",
     "lint": "eslint src"
   },
   "repository": {

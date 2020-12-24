@@ -1,4 +1,5 @@
 import { Schema, model, Model } from 'mongoose';
+import { Constants } from '../../common/constants';
 
 const UserSchema: Schema = new Schema({
     email: {
@@ -27,7 +28,7 @@ const UserSchema: Schema = new Schema({
     },
     accountType: {
         type: String,
-        enum: [Constants.AccountType.REGULAR, Constants.AccountType.GOOGLE, Constants.AccountType.GITHUB],
+        enum: [Constants.AccountType.REGULAR, Constants.AccountType.GOOGLE, Constants.AccountType.FACEBOOK],
         default: Constants.AccountType.REGULAR
     },
     confirmationCode: {

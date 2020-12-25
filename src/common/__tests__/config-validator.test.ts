@@ -54,6 +54,20 @@ describe('Config validator - validate method', () => {
             config.APP.PREFIX = '/api/v1';
         });
     });
+
+    describe('When APP.PORT is invalid', () => {
+        beforeAll(() => {
+            config.APP.PORT = 0
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.APP.PORT = 4000;
+        });
+    });
 }); 
 
 async function checkConfig(config: typeof globalConfig): Promise<void> {

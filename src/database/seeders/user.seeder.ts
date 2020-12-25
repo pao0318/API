@@ -3,6 +3,8 @@ import faker from 'faker';
 import { RegisterRequestDTO } from '../../routes/auth/dto/register.dto';
 import { hashString } from '../../common/helpers/hash-string';
 import { logger } from '../../common/utils/logger';
+import { sleep } from '../../common/helpers/sleep';
+import { Database } from '../../common/utils/database';
 
 export class UserSeeder {
     private _fakeUserData!: RegisterRequestDTO;
@@ -11,10 +13,22 @@ export class UserSeeder {
     constructor(private readonly _usersService: UsersService = new UsersService()) {}
 
     public async run(): Promise<void> {
+        await this._connectToDatabase();
 
+        this._generateFakeData();
+
+        await this._createFakeDataWithHashedPassword();
+
+        await this._saveUserAccount();
+
+        await this._printUserCredentialsAfterSleep();
     }
 
-    private _generateFakeData(isTutor: boolean): void {
+    private async _connectToDatabase(): Promise<void> {
+        await new Database().connect();
+    }
+
+    private _generateFakeData(): void {
         this._fakeUserData = {
             email: faker.internet.email(),
             name: faker.random.alphaNumeric(5),

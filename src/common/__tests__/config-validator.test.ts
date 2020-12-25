@@ -13,19 +13,9 @@ describe('Config validator - validate method', () => {
         },
         DATABASE: {
             NAME: "main",
-            URL: "mongodb://"
+            URL: 'mongodb://'
         }
     } as typeof globalConfig;
-
-    describe('When all variables are valid', () => {
-        it('Should not call process.exit', async () => {
-            const mockedExit = jest.spyOn(process, 'exit').mockImplementation(number => number as never);
-
-            await ConfigValidator.validate(config);
-        
-            expect(mockedExit).not.toHaveBeenCalled();
-        });
-    });
     
     describe('When APP.MODE is invalid', () => {
         beforeAll(() => {
@@ -37,7 +27,8 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.APP.MODE = Constants.AppMode.TEST
+            config.APP.MODE = Constants.AppMode.TEST;
+            jest.clearAllMocks();
         });
     });
 
@@ -52,6 +43,7 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.APP.PREFIX = '/api/v1';
+            jest.clearAllMocks();
         });
     });
 
@@ -66,14 +58,55 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.APP.PORT = 4000;
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When DATABASE.NAME is invalid', () => {
+        beforeAll(() => {
+            config.DATABASE.NAME = ''
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.DATABASE.NAME = 'main';
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When DATABASE.URL is invalid', () => {
+        beforeAll(() => {
+            config.DATABASE.URL = ''
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.DATABASE.URL = 'mongodb://';
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When all variables are valid', () => {
+        it('Should not call process.exit', async () => {
+            await checkConfig(config, false);
         });
     });
 }); 
 
-async function checkConfig(config: typeof globalConfig): Promise<void> {
+async function checkConfig(config: typeof globalConfig, isCalled: boolean = true): Promise<void> {
     const mockedExit = jest.spyOn(process, 'exit').mockImplementation(number => number as never);
 
     await ConfigValidator.validate(config);
 
-    expect(mockedExit).toHaveBeenCalledWith(1);
+    if(isCalled) {
+        expect(mockedExit).toHaveBeenCalledWith(1);
+    } else {
+        expect(mockedExit).not.toHaveBeenCalled();
+    }
 }

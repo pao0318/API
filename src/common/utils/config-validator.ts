@@ -1,10 +1,10 @@
 import { object, string, number } from 'joi';
-import config from '../../config';
+import globalConfig from '../../config';
 import { Constants } from '../constants';
 import { logger } from './logger';
 
 export class ConfigValidator {
-    public static async validate(): Promise<void> {
+    public static async validate(config: typeof globalConfig): Promise<void> {
         try {
             const validationSchema = this._getValidationSchema();
             await validationSchema.validateAsync(config);

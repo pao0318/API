@@ -1,6 +1,6 @@
 {
     "bail": true,
-    "moduleFileExtensions": ["ts", "tsx"],
+    "moduleFileExtensions": ["js", "ts", "tsx"],
     "roots": ["src"],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
     "transform": {

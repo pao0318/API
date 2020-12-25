@@ -1,6 +1,8 @@
 import { hash } from 'bcrypt';
 
-export async function hashString(text: string): Promise<string> {
-    const hashedString: string = await hash(text, 12);
+export async function hashString(string: string): Promise<string> {
+    if(string.length === 0) throw new Error('String should be at least 1 characters long');
+
+    const hashedString = await hash(string, 12);
     return hashedString;
 }

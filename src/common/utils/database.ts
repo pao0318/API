@@ -20,7 +20,7 @@ export class Database {
                 dbName: this._name
             });
 
-            logger.green(`Connected to the database [${this._name}] successfully!`);
+            logger.green(`Connected to the database [${this._name}] successfully`);
         } catch(error) {
             logger.red(`Error during connecting to the database [${this._name}]: ${error.message}`);
         }

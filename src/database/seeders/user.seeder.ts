@@ -51,9 +51,11 @@ export class UserSeeder {
 
     private async _printUserCredentialsAfterSleep(): Promise<void> {
         logger.green('User generated successfully');
-
         await sleep(1500);
 
         console.log(this._fakeUserData);
+        process.exit(0);
     }
 }
+
+new UserSeeder().run();

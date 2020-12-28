@@ -16,6 +16,7 @@ export class Database {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useCreateIndex: true,
+                useFindAndModify: false,
                 dbName: this._name
             });
 

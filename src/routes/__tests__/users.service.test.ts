@@ -102,4 +102,21 @@ describe('Users service', () => {
             expect(foundUser).toBeNull();
         });
     });
+
+    describe('Update user by id method', () => {
+        const userData = TestUtils.generateFakeUserData();
+        let user: IUser;
+
+        beforeAll(async () => {
+            user = await usersService.create(TestUtils.generateFakeUserData());
+        });
+
+        it('Should update user in the database', async () => {
+            await usersService.updateById(user.id, userData);
+
+            const foundUser = await usersService.get({ _id: user.id });
+
+            expect(foundUser).toMatchObject(userData);
+        });
+    });
 });

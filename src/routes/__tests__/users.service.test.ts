@@ -72,4 +72,20 @@ describe('Users service', () => {
             });
         });
     });
+
+    describe('Create method', () => {
+        const userData = TestUtils.generateFakeUserData();
+
+        it('Should create user in database with provided data', async () => {
+            await usersService.create(userData);
+
+            const user = await usersService.get({ email: userData.email });
+
+            expect(user).toMatchObject(userData);
+        });
+    });
 });
+
+/**
+ * 1. User 
+ */

@@ -1,7 +1,6 @@
 import { TestUtils } from '../../common/utils/test-utils';
 import { UsersService } from '../user/users.service';
 import faker from 'faker';
-import { Types } from 'mongoose';
 import { IUser } from '../user/interfaces/IUser';
 
 beforeAll(async () => {

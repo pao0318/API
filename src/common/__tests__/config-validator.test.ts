@@ -17,6 +17,12 @@ describe('Config validator - validate method', () => {
         DATABASE: {
             NAME: "main",
             URL: 'mongodb://'
+        },
+        MAIL: {
+            CLIENT_ID: faker.random.alphaNumeric(10),
+            CLIENT_SECRET: faker.random.alphaNumeric(10),
+            REFRESH_TOKEN: faker.random.alphaNumeric(10),
+            USER: faker.internet.email()
         }
     } as typeof globalConfig;
     
@@ -106,6 +112,66 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.DATABASE.URL = 'mongodb://';
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When MAIL.CLIENT_ID is invalid', () => {
+        beforeAll(() => {
+            config.MAIL.CLIENT_ID = '';
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.MAIL.CLIENT_ID = faker.random.alphaNumeric(10);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When MAIL.CLIENT_SECRET is invalid', () => {
+        beforeAll(() => {
+            config.MAIL.CLIENT_SECRET = '';
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.MAIL.CLIENT_SECRET = faker.random.alphaNumeric(10);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When MAIL.REFRESH_TOKEN is invalid', () => {
+        beforeAll(() => {
+            config.MAIL.REFRESH_TOKEN = '';
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.MAIL.REFRESH_TOKEN = faker.random.alphaNumeric(10);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When MAIL.USER is invalid', () => {
+        beforeAll(() => {
+            config.MAIL.USER = faker.random.alphaNumeric(10);
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.MAIL.USER = faker.internet.email();
             jest.clearAllMocks();
         });
     });

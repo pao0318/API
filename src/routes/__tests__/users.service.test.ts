@@ -1,6 +1,8 @@
 import { TestUtils } from '../../common/utils/test-utils';
 import { UsersService } from '../user/users.service';
 import faker from 'faker';
+import { Types } from 'mongoose';
+import { IUser } from '../user/interfaces/IUser';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -84,8 +86,20 @@ describe('Users service', () => {
             expect(user).toMatchObject(userData);
         });
     });
-});
 
-/**
- * 1. User 
- */
+    describe('Delete by id method', () => {
+        let user: IUser;
+
+        beforeAll(async () => {
+            user = await usersService.create(TestUtils.generateFakeUserData());
+        });
+
+        it('Should delete user from the database', async () => {
+            await usersService.deleteById(user.id);
+
+            const foundUser = await usersService.get({ _id: user.id });
+
+            expect(foundUser).toBeNull();
+        });
+    });
+});

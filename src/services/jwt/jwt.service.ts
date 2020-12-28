@@ -1,7 +1,7 @@
 import Token from '../../common/constants/token';
 import { TokenPayload } from '../../types';
 import { IAccessTokenPayload } from './interfaces/IAccessTokenPayload';
-import { sign, verify, VerifyErrors } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { ITokenProperties } from './interfaces/ITokenProperties';
 import config from '../../config';
 import { UnauthorizedException } from '../../common/exceptions/unauthorized.exception';
@@ -36,9 +36,9 @@ export class JwtService {
         const secret = this._getTokenProperties(type).secret;
         let payload = {} as TokenPayload;
 
-        verify(token, secret, (error: VerifyErrors | null, data: object | undefined) => {
+        verify(token, secret, (error, decoded) => {
             if(error) throw new UnauthorizedException();
-            payload = data as TokenPayload;
+            payload = decoded as TokenPayload;
         });
 
         return payload;

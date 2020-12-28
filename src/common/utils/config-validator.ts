@@ -25,7 +25,8 @@ export class ConfigValidator {
             },
             DATABASE: {
                 NAME: string(),
-                URL: string().required()
+                URL: string().required(),
+                TEST_URL: string().required()
             },
             MAIL: {
                 CLIENT_ID: string().required(),

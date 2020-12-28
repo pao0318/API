@@ -16,7 +16,8 @@ describe('Config validator - validate method', () => {
         },
         DATABASE: {
             NAME: "main",
-            URL: 'mongodb://'
+            URL: 'mongodb://',
+            TEST_URL: 'mongodb://'
         },
         MAIL: {
             CLIENT_ID: faker.random.alphaNumeric(10),
@@ -112,6 +113,21 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.DATABASE.URL = 'mongodb://';
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When DATABASE.TEST_URL is invalid', () => {
+        beforeAll(() => {
+            config.DATABASE.TEST_URL = ''
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.DATABASE.TEST_URL = 'mongodb://';
             jest.clearAllMocks();
         });
     });

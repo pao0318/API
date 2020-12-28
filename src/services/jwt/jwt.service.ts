@@ -1,9 +1,10 @@
 import Token from '../../common/constants/token';
 import { TokenPayload } from '../../types';
 import { IAccessTokenPayload } from './interfaces/IAccessTokenPayload';
-import { sign } from 'jsonwebtoken';
+import { sign, verify, VerifyErrors } from 'jsonwebtoken';
 import { ITokenProperties } from './interfaces/ITokenProperties';
 import config from '../../config';
+import { UnauthorizedException } from '../../common/exceptions/unauthorized.exception';
 
 export class JwtService {
     public generateToken(type: Token.ACCESS, payload: IAccessTokenPayload): string
@@ -33,11 +34,11 @@ export class JwtService {
 
     private _getPayloadOrThrowError(type: Token, token: string): TokenPayload {
         const secret = this._getTokenProperties(type).secret;
-        let payload: TokenPayload;
+        let payload = {} as TokenPayload;
 
-        verify(token, secret, (error: VerifyErrors, data: TokenPayload) => {
+        verify(token, secret, (error: VerifyErrors | null, data: object | undefined) => {
             if(error) throw new UnauthorizedException();
-            payload = data;
+            payload = data as TokenPayload;
         });
 
         return payload;

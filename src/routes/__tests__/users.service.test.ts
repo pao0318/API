@@ -23,7 +23,7 @@ describe('Users service', () => {
 
         describe('When users exist but arguments do not match any', () => {
             beforeAll(async () => {
-                await usersService.create({ email: faker.internet.email(), name: faker.internet.userName(), password: faker.internet.password() });
+                await usersService.create(TestUtils.generateFakeUserData());
             });
 
             it('Should return empty array', async () => {
@@ -33,7 +33,7 @@ describe('Users service', () => {
         });
 
         describe('When more than one user exists and provided arguments matches a record', () => {
-            const userData = { email: faker.internet.email(), name: faker.internet.userName(), password: faker.internet.password() };
+            const userData = TestUtils.generateFakeUserData();
             
             beforeAll(async () => {
                 await usersService.create(userData);
@@ -47,6 +47,28 @@ describe('Users service', () => {
             it('Should return user that matches provided data', async () => {
                 const users = await usersService.getMany({ email: userData.email });
                 expect(users[0]).toMatchObject(userData);
+            });
+        });
+    });
+
+    describe('Get method', () => {
+        describe('When user does not exist', () => {
+            it('Should return null', async () => {
+                const user = await usersService.get({ email: faker.internet.email() });
+                expect(user).toBeNull();
+            });
+        });
+
+        describe('When user exists', () => {
+            const userData = TestUtils.generateFakeUserData();
+
+            beforeAll(async () => {
+                await usersService.create(userData);
+            });
+
+            it('Should return user that matches provided data', async () => {
+                const user = await usersService.get({ email: userData.email });
+                expect(user).toMatchObject(userData);
             });
         });
     });

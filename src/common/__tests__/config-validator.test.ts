@@ -11,6 +11,9 @@ describe('Config validator - validate method', () => {
             PREFIX: 'api/v1/',
             PORT: 4000
         },
+        AUTH: {
+            ACCESS_TOKEN_SECRET: faker.random.alphaNumeric(48)
+        },
         DATABASE: {
             NAME: "main",
             URL: 'mongodb://'
@@ -58,6 +61,21 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.APP.PORT = 4000;
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When AUTH.ACCESS_TOKEN_SECRET is invalid', () => {
+        beforeAll(() => {
+            config.AUTH.ACCESS_TOKEN_SECRET = faker.random.alphaNumeric(16);
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.AUTH.ACCESS_TOKEN_SECRET = faker.random.alphaNumeric(48);
             jest.clearAllMocks();
         });
     });

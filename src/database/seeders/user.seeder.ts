@@ -5,6 +5,7 @@ import { hashString } from '../../common/helpers/hash-string';
 import { logger } from '../../common/utils/logger';
 import { sleep } from '../../common/helpers/sleep';
 import { Database } from '../../common/utils/database';
+import config from '../../config';
 
 export class UserSeeder {
     private _fakeUserData!: RegisterRequestDTO;
@@ -25,7 +26,7 @@ export class UserSeeder {
     }
 
     private async _connectToDatabase(): Promise<void> {
-        await new Database().connect();
+        await new Database(config.DATABASE.URL).connect();
     }
 
     private _generateFakeData(): void {

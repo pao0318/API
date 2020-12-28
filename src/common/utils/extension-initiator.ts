@@ -32,6 +32,6 @@ export class ExtensionInitiator {
     }
 
     private static async _initiateProviders(): Promise<void> {
-        await new Database().connect();
+        await new Database(config.DATABASE.URL, config.DATABASE.NAME).connect();
     }
 }

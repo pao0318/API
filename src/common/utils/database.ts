@@ -1,12 +1,11 @@
 import { connect as connectDatabase } from 'mongoose';
-import config from '../../config';
 import { logger } from './logger';
 
 export class Database {
     private readonly _url: string;
-    private readonly _name: string;
+    private readonly _name: string | undefined;
 
-    constructor(url: string = config.DATABASE.URL, name: string = config.DATABASE.NAME) {
+    constructor(url: string, name?: string) {
         this._url = url;
         this._name = name;
     }
@@ -17,6 +16,7 @@ export class Database {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useCreateIndex: true,
+                useFindAndModify: false,
                 dbName: this._name
             });
 

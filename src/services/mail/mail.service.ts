@@ -14,7 +14,7 @@ export class MailService {
         await this._transporter.sendMail({
             from: config.MAIL.USER,
             to: email,
-            subject: 'Chat.io - Confirmation code',
+            subject: 'Book App - Confirmation code',
             html: `<b>${confirmationCode}</b>`
         });
     }

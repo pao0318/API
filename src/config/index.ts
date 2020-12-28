@@ -1,9 +1,11 @@
-import appConfig from './app';
-import authConfig from './auth';
-import databaseConfig from './database';
+import APP from './app';
+import AUTH from './auth';
+import DATABASE from './database';
+import MAIL from './mail';
 
 export default {
-    APP: appConfig,
-    AUTH: authConfig,
-    DATABASE: databaseConfig
+    APP,
+    AUTH,
+    DATABASE,
+    MAIL
 } as const;

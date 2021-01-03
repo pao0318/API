@@ -1,7 +1,7 @@
 import { TestUtils } from '../../common/utils/test-utils';
-import { UsersService } from '../user/users.service';
+import { UsersService } from '../../database/models/user/users.service';
 import faker from 'faker';
-import { IUser } from '../user/interfaces/IUser';
+import { IUser } from '../../database/models/user/interfaces/IUser';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();

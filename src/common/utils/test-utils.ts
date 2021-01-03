@@ -1,7 +1,7 @@
 import config from '../../config';
 import { Database } from './database';
 import mongoose from 'mongoose';
-import { CreateUserDTO } from '../../routes/user/dto/create.dto';
+import { CreateUserDTO } from '../../database/models/user/dto/create.dto';
 import faker from 'faker';
 
 export class TestUtils {

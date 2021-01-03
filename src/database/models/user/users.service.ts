@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import User from '../../database/models/user.model';
+import User from './user.model';
 import { CreateUserDTO } from './dto/create.dto';
 import { GetUserDTO } from './dto/get.dto';
 import { UpdateUserDTO } from './dto/update.dto';

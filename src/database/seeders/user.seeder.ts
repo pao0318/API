@@ -1,4 +1,4 @@
-import { UsersService } from '../../routes/user/users.service';
+import { UsersService } from '../models/user/users.service';
 import faker from 'faker';
 import { RegisterRequestDTO } from '../../routes/auth/dto/register.dto';
 import { hashString } from '../../common/helpers/hash-string';

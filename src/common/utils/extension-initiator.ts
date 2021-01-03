@@ -3,8 +3,9 @@ import config from '../../config';
 import { ConfigValidator } from './config-validator';
 import { Database } from './database';
 import { logger } from './logger';
-import routes from '../../routes';
+import routers from '../../routes';
 import cors from 'cors';
+import { Router } from './router';
 
 export class ExtensionInitiator {
     public static async initiate(app: Application): Promise<void> {
@@ -39,6 +40,6 @@ export class ExtensionInitiator {
     }
 
     private static _renderRoutes(app: Application): void {
-        Object.values(routes).forEach(value => app.use(config.APP.PREFIX, value));
+        Object.values(routers).forEach(router => app.use(config.APP.PREFIX, (router as Router).getRouter()));
     }
 }

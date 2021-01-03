@@ -1,5 +1,5 @@
-import auth from './auth/auth.router';
+import { container } from '../common/utils/di-container';
 
 export default {
-    auth
+    auth: container.resolve('authRouter')
 }

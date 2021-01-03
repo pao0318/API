@@ -1,12 +1,14 @@
 import * as awilix from 'awilix';
 import { AuthController } from '../../routes/auth/auth.controller';
+import { AuthRouter } from '../../routes/auth/auth.router';
 
 export const container = awilix.createContainer({
-    injectionMode: awilix.InjectionMode.PROXY
+    injectionMode: awilix.InjectionMode.CLASSIC
 });
 
-export function setup(): void {
+export function setupDI(): void {
     container.register({
-        authController: awilix.asClass(AuthController)
+        _authController: awilix.asClass(AuthController),
+        authRouter: awilix.asClass(AuthRouter)
     });
 }

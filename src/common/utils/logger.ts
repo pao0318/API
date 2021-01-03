@@ -22,7 +22,7 @@ class Logger {
     }
 
     private _inTestingEnvironment(): boolean {
-        return config.APP.MODE === Constants.AppMode.TEST;
+        return config.APP.MODE === Constants.APP_MODE.TEST;
     }
 }
 

@@ -16,7 +16,7 @@ export class ConfigValidator {
     private static _getValidationSchema() {
         return object({
             APP: {
-                MODE: string().valid(Constants.AppMode.DEV, Constants.AppMode.PROD, Constants.AppMode.TEST),
+                MODE: string().valid(Constants.APP_MODE.DEV, Constants.APP_MODE.PROD, Constants.APP_MODE.TEST),
                 PREFIX: string(),
                 PORT: number().min(1).max(65353)
             },

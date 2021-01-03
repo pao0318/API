@@ -1,6 +1,8 @@
 import { Response } from 'express';
+import { Service } from '../../common/decorators/service.decorator';
 import { IIUserDAO } from '../../database/models/user/interfaces/IUserDao';
 
+@Service('_authService')
 export class AuthService {
     constructor(private readonly _userDAO: IIUserDAO) {}
 

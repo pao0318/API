@@ -1,5 +1,5 @@
-import { container } from '../common/utils/di-container';
+import DIContainer from '../common/utils/di-container';
 
 export default {
-    auth: container.resolve('authRouter')
+    auth: DIContainer.resolve('authRouter')
 }

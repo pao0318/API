@@ -1,5 +1,5 @@
-import { setupDI } from './common/utils/di-container';
-setupDI();
+// import { setupDI } from './common/utils/di-container';
+// setupDI();
 
 import config from './config';
 import { Server } from './server';

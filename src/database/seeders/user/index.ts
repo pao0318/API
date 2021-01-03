@@ -1,7 +1,7 @@
-import { container, setupDI } from '../../../common/utils/di-container';
-import { UserSeeder } from './user.seeder';
+// import { container, setupDI } from '../../../common/utils/di-container';
+// import { UserSeeder } from './user.seeder';
 
-setupDI();
+// setupDI();
 
-const userSeeder: UserSeeder = container.resolve('userSeeder');
-userSeeder.run();
+// const userSeeder: UserSeeder = container.resolve('userSeeder');
+// userSeeder.run();

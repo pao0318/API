@@ -10,7 +10,7 @@
     "start:db": "bash ./src/scripts/start-db.sh",
     "start:db:admin": "bash ./src/scripts/start-db-admin.sh",
     "test": "cross-env APP_MODE=testing jest --testTimeout=25000 --detectOpenHandles --forceExit",
-    "seed:user": "tsc && node dist/database/seeders/user.seeder.js",
+    "seed:user": "tsc && node dist/database/seeders/user/index.js",
     "lint": "eslint src"
   },
   "repository": {

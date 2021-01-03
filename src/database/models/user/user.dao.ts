@@ -7,7 +7,7 @@ import { IUser } from './interfaces/IUser';
 import { IIUserDAO } from './interfaces/IUserDao';
 
 export class UserDAO implements IIUserDAO {
-    constructor(private readonly _userModel: Model<IUser> = User) {}
+    constructor(private readonly _userModel: Model<IUser>) {}
 
     public async getMany(data: GetUserDTO = {}): Promise<IUser[]> {
         const users: IUser[] = await this._userModel.find(data);

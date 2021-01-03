@@ -1,18 +1,17 @@
 import faker from 'faker';
-import { RegisterRequestDTO } from '../../routes/auth/dto/register.dto';
-import { hashString } from '../../common/helpers/hash-string';
-import { logger } from '../../common/utils/logger';
-import { sleep } from '../../common/helpers/sleep';
-import { Database } from '../../common/utils/database';
-import config from '../../config';
-import { IIUserDAO } from '../models/user/interfaces/IUserDao';
-import { UserDAO } from '../models/user/users.dao';
+import { RegisterRequestDTO } from '../../../routes/auth/dto/register.dto';
+import { hashString } from '../../../common/helpers/hash-string';
+import { logger } from '../../../common/utils/logger';
+import { sleep } from '../../../common/helpers/sleep';
+import { Database } from '../../../common/utils/database';
+import config from '../../../config';
+import { IIUserDAO } from '../../models/user/interfaces/IUserDao';
 
 export class UserSeeder {
     private _fakeUserData!: RegisterRequestDTO;
     private _fakeUserDataWithHashedPassword!: RegisterRequestDTO;
 
-    constructor(private readonly _userDAO: IIUserDAO = new UserDAO) {}
+    constructor(private readonly _userDAO: IIUserDAO) {}
 
     public async run(): Promise<void> {
         await this._connectToDatabase();
@@ -27,7 +26,7 @@ export class UserSeeder {
     }
 
     private async _connectToDatabase(): Promise<void> {
-        await new Database(config.DATABASE.URL).connect();
+        await new Database(config.DATABASE.URL, config.DATABASE.NAME).connect();
     }
 
     private _generateFakeData(): void {
@@ -59,5 +58,3 @@ export class UserSeeder {
         process.exit(0);
     }
 }
-
-new UserSeeder().run();

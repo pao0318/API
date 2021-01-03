@@ -1,7 +1,8 @@
 import { TestUtils } from '../../common/utils/test-utils';
 import faker from 'faker';
 import { IUser } from '../models/user/interfaces/IUser';
-import { UserDAO } from '../models/user/users.dao';
+import { UserDAO } from '../models/user/user.dao';
+import User from '../models/user/user.model';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -12,7 +13,7 @@ afterAll(async () => {
 });
 
 describe('User DAO', () => {
-    const userDAO = new UserDAO();
+    const userDAO = new UserDAO(User);
 
     describe('Get many method', () => {
         describe('When users do not exist', () => {

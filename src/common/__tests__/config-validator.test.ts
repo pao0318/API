@@ -7,7 +7,7 @@ import { Constants } from '../constants';
 describe('Config validator - validate method', () => {
     const config = {
         APP: {
-            MODE: Constants.AppMode.TEST,
+            MODE: Constants.APP_MODE.TEST,
             PREFIX: 'api/v1/',
             PORT: 4000
         },
@@ -37,7 +37,7 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.APP.MODE = Constants.AppMode.TEST;
+            config.APP.MODE = Constants.APP_MODE.TEST;
             jest.clearAllMocks();
         });
     });

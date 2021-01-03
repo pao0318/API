@@ -27,10 +27,10 @@ const UserSchema: Schema = new Schema({
         type: String,
         default: 'default.jpeg'
     },
-    accountType: {
+    ACCOUNT_TYPE: {
         type: String,
-        enum: [Constants.AccountType.REGULAR, Constants.AccountType.GOOGLE, Constants.AccountType.FACEBOOK],
-        default: Constants.AccountType.REGULAR
+        enum: [Constants.ACCOUNT_TYPE.REGULAR, Constants.ACCOUNT_TYPE.GOOGLE, Constants.ACCOUNT_TYPE.FACEBOOK],
+        default: Constants.ACCOUNT_TYPE.REGULAR
     },
     confirmationCode: {
         code: {

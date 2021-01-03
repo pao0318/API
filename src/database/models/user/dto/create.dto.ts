@@ -1,9 +1,9 @@
-import AccountType from '../../../../common/constants/account-type';
+import ACCOUNT_TYPE from '../../../../common/constants/account-type';
 
 export class CreateUserDTO implements Readonly<CreateUserDTO> {
     email!: string;
     name!: string;
     password?: string;
     isConfirmed?: boolean;
-    accountType?: AccountType;
+    ACCOUNT_TYPE?: ACCOUNT_TYPE;
 }

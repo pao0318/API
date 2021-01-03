@@ -1,4 +1,4 @@
-import { red, green } from 'chalk';
+import { red, green, cyan } from 'chalk';
 import config from '../../config';
 import { Constants } from '../constants';
 
@@ -15,8 +15,14 @@ class Logger {
         console.log(red(text));
     }
 
+    public cyan(text: string): void {
+        if(this._inTestingEnvironment()) return;
+
+        console.log(cyan(text));
+    }
+
     private _inTestingEnvironment(): boolean {
-        return config.APP.MODE === Constants.AppMode.TEST;
+        return config.APP.MODE === Constants.APP_MODE.TEST;
     }
 }
 

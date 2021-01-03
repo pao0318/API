@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import { Server as HttpServer } from 'http';
 import { ExtensionInitiator } from './common/utils/extension-initiator';
 import { logger } from './common/utils/logger';
 import config from './config';
@@ -6,15 +7,20 @@ import config from './config';
 class Server {
     private readonly _port: number;
     private readonly _app: Application;
+    private _server: HttpServer | undefined;
 
     constructor(port: number = config.APP.PORT) {
         this._port = port;
         this._app = express();
     }
 
-    async start(): Promise<void> {
+    public async start(): Promise<void> {
         await ExtensionInitiator.initiate(this._app);
-        this._app.listen(this._port, () => logger.green(`Server is running on port ${this._port}`));
+        this._server = this._app.listen(this._port, () => logger.green(`Server is running on port ${this._port}`));
+    }
+
+    public stop(): void {
+        this._server?.close();
     }
 }
 

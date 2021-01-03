@@ -1,9 +1,10 @@
 import { Application } from 'express';
 import config from '../../config';
-import { corsMiddleware } from '../middlewares/cors.middleware';
 import { ConfigValidator } from './config-validator';
 import { Database } from './database';
 import { logger } from './logger';
+import routes from '../../routes';
+import cors from 'cors';
 
 export class ExtensionInitiator {
     public static async initiate(app: Application): Promise<void> {
@@ -14,6 +15,8 @@ export class ExtensionInitiator {
         this._initiateMiddlewares(app);
 
         await this._initiateProviders();
+
+        this._renderRoutes(app);
     }
 
     private static _initiateExceptionListeners(): void {
@@ -28,10 +31,14 @@ export class ExtensionInitiator {
     }
 
     private static _initiateMiddlewares(app: Application): void {
-        app.use(corsMiddleware);
+        app.use(cors({ credentials: true, origin: true }));
     }
 
     private static async _initiateProviders(): Promise<void> {
         await new Database(config.DATABASE.URL, config.DATABASE.NAME).connect();
+    }
+
+    private static _renderRoutes(app: Application): void {
+        Object.values(routes).forEach(value => app.use(config.APP.PREFIX, value));
     }
 }

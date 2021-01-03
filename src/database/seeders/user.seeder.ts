@@ -1,4 +1,3 @@
-import { UsersService } from '../../routes/user/users.service';
 import faker from 'faker';
 import { RegisterRequestDTO } from '../../routes/auth/dto/register.dto';
 import { hashString } from '../../common/helpers/hash-string';
@@ -6,12 +5,14 @@ import { logger } from '../../common/utils/logger';
 import { sleep } from '../../common/helpers/sleep';
 import { Database } from '../../common/utils/database';
 import config from '../../config';
+import { IIUserDAO } from '../models/user/interfaces/IUserDao';
+import { UserDAO } from '../models/user/users.dao';
 
 export class UserSeeder {
     private _fakeUserData!: RegisterRequestDTO;
     private _fakeUserDataWithHashedPassword!: RegisterRequestDTO;
 
-    constructor(private readonly _usersService: UsersService = new UsersService()) {}
+    constructor(private readonly _userDAO: IIUserDAO = new UserDAO) {}
 
     public async run(): Promise<void> {
         await this._connectToDatabase();
@@ -44,7 +45,7 @@ export class UserSeeder {
 
     private async _saveUserAccount(): Promise<void> {
         try {
-            await this._usersService.create(this._fakeUserDataWithHashedPassword);
+            await this._userDAO.create(this._fakeUserDataWithHashedPassword);
         } catch(error) {
             logger.red(error.message);
         }

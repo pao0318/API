@@ -1,7 +1,7 @@
 import { TestUtils } from '../../common/utils/test-utils';
-import { UsersService } from '../user/users.service';
 import faker from 'faker';
-import { IUser } from '../user/interfaces/IUser';
+import { IUser } from '../models/user/interfaces/IUser';
+import { UserDAO } from '../models/user/users.dao';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -11,24 +11,24 @@ afterAll(async () => {
     await TestUtils.dropDatabase();
 });
 
-describe('Users service', () => {
-    const usersService = new UsersService();
+describe('User DAO', () => {
+    const userDAO = new UserDAO();
 
     describe('Get many method', () => {
         describe('When users do not exist', () => {
             it('Should return empty array', async () => {
-                const users = await usersService.getMany();
+                const users = await userDAO.getMany();
                 expect(users).toHaveLength(0);
             });
         });
 
         describe('When users exist but arguments do not match any', () => {
             beforeAll(async () => {
-                await usersService.create(TestUtils.generateFakeUserData());
+                await userDAO.create(TestUtils.generateFakeUserData());
             });
 
             it('Should return empty array', async () => {
-                const users = await usersService.getMany({ email: faker.internet.email() });
+                const users = await userDAO.getMany({ email: faker.internet.email() });
                 expect(users).toHaveLength(0);
             });
         });
@@ -37,16 +37,16 @@ describe('Users service', () => {
             const userData = TestUtils.generateFakeUserData();
             
             beforeAll(async () => {
-                await usersService.create(userData);
+                await userDAO.create(userData);
             });
 
             it('Should return one record', async () => {
-                const users = await usersService.getMany({ email: userData.email });
+                const users = await userDAO.getMany({ email: userData.email });
                 expect(users).toHaveLength(1);
             });
 
             it('Should return user that matches provided data', async () => {
-                const users = await usersService.getMany({ email: userData.email });
+                const users = await userDAO.getMany({ email: userData.email });
                 expect(users[0]).toMatchObject(userData);
             });
         });
@@ -55,7 +55,7 @@ describe('Users service', () => {
     describe('Get method', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
-                const user = await usersService.get({ email: faker.internet.email() });
+                const user = await userDAO.get({ email: faker.internet.email() });
                 expect(user).toBeNull();
             });
         });
@@ -64,11 +64,11 @@ describe('Users service', () => {
             const userData = TestUtils.generateFakeUserData();
 
             beforeAll(async () => {
-                await usersService.create(userData);
+                await userDAO.create(userData);
             });
 
             it('Should return user that matches provided data', async () => {
-                const user = await usersService.get({ email: userData.email });
+                const user = await userDAO.get({ email: userData.email });
                 expect(user).toMatchObject(userData);
             });
         });
@@ -78,9 +78,9 @@ describe('Users service', () => {
         const userData = TestUtils.generateFakeUserData();
 
         it('Should create user in database with provided data', async () => {
-            await usersService.create(userData);
+            await userDAO.create(userData);
 
-            const user = await usersService.get({ email: userData.email });
+            const user = await userDAO.get({ email: userData.email });
 
             expect(user).toMatchObject(userData);
         });
@@ -90,13 +90,13 @@ describe('Users service', () => {
         let user: IUser;
 
         beforeAll(async () => {
-            user = await usersService.create(TestUtils.generateFakeUserData());
+            user = await userDAO.create(TestUtils.generateFakeUserData());
         });
 
         it('Should delete user from the database', async () => {
-            await usersService.deleteById(user.id);
+            await userDAO.deleteById(user.id);
 
-            const foundUser = await usersService.get({ _id: user.id });
+            const foundUser = await userDAO.get({ _id: user.id });
 
             expect(foundUser).toBeNull();
         });
@@ -107,13 +107,13 @@ describe('Users service', () => {
         let user: IUser;
 
         beforeAll(async () => {
-            user = await usersService.create(TestUtils.generateFakeUserData());
+            user = await userDAO.create(TestUtils.generateFakeUserData());
         });
 
         it('Should update user in the database', async () => {
-            await usersService.updateById(user.id, userData);
+            await userDAO.updateById(user.id, userData);
 
-            const foundUser = await usersService.get({ _id: user.id });
+            const foundUser = await userDAO.get({ _id: user.id });
 
             expect(foundUser).toMatchObject(userData);
         });

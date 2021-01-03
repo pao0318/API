@@ -1,20 +1,21 @@
 import { Model } from 'mongoose';
-import User from '../../database/models/user.model';
+import User from './user.model';
 import { CreateUserDTO } from './dto/create.dto';
 import { GetUserDTO } from './dto/get.dto';
 import { UpdateUserDTO } from './dto/update.dto';
 import { IUser } from './interfaces/IUser';
+import { IIUserDAO } from './interfaces/IUserDao';
 
-export class UsersService {
+export class UserDAO implements IIUserDAO {
     constructor(private readonly _userModel: Model<IUser> = User) {}
 
-    public async getMany(searchData: GetUserDTO = {}): Promise<IUser[]> {
-        const users: IUser[] = await this._userModel.find(searchData);
+    public async getMany(data: GetUserDTO = {}): Promise<IUser[]> {
+        const users: IUser[] = await this._userModel.find(data);
         return users;
     }
 
-    public async get(searchData: GetUserDTO = {}): Promise<IUser | null> {
-        const user: IUser | null = await this._userModel.findOne(searchData);
+    public async get(data: GetUserDTO = {}): Promise<IUser | null> {
+        const user: IUser | null = await this._userModel.findOne(data);
         return user;
     }
 

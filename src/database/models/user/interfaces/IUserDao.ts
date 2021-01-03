@@ -3,7 +3,7 @@ import { GetUserDTO } from '../dto/get.dto';
 import { UpdateUserDTO } from '../dto/update.dto';
 import { IUser } from './IUser';
 
-export interface IIUserDAO {
+export interface IUserDAO {
     getMany(data: GetUserDTO): Promise<IUser[]>;
 
     get(data: GetUserDTO): Promise<IUser | null>;

@@ -5,7 +5,6 @@ import { Database } from './database';
 import { logger } from './logger';
 import routers from '../../routes';
 import cors from 'cors';
-import { Router } from './router';
 
 export class ExtensionInitiator {
     public static async initiate(app: Application): Promise<void> {
@@ -40,6 +39,6 @@ export class ExtensionInitiator {
     }
 
     private static _renderRoutes(app: Application): void {
-        Object.values(routers).forEach(router => app.use(config.APP.PREFIX, (router as Router).getRouter()));
+        Object.values(routers).forEach(router => app.use(config.APP.PREFIX, router.getRouter()));
     }
 }

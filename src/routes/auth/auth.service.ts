@@ -1,10 +1,12 @@
 import { Response } from 'express';
-import { Service } from '../../common/decorators/service.decorator';
-import { IIUserDAO } from '../../database/models/user/interfaces/IUserDao';
+import { IUserDAO } from '../../database/models/user/interfaces/IUserDao';
+import { injectable, inject } from 'inversify';
+import { UserDAO } from '../../database/models/user/user.dao';
+import 'reflect-metadata';
 
-@Service('_authService')
+@injectable()
 export class AuthService {
-    constructor(private readonly _userDAO: IIUserDAO) {}
+    constructor(@inject(UserDAO) private readonly _userDAO: IUserDAO) {}
 
     public async register(res: Response): Promise<void> {
         const users = await this._userDAO.getMany({});

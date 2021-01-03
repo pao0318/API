@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
+import { injectable, inject } from 'inversify';
+import 'reflect-metadata';
 
+@injectable()
 export class AuthController {
-    constructor(private readonly _authService: AuthService) {
+    constructor(@inject(AuthService) private readonly _authService: AuthService) {
         this.register = this.register.bind(this);
     }
 

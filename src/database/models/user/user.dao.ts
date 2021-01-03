@@ -1,13 +1,16 @@
 import { Model } from 'mongoose';
-import User from './user.model';
 import { CreateUserDTO } from './dto/create.dto';
 import { GetUserDTO } from './dto/get.dto';
 import { UpdateUserDTO } from './dto/update.dto';
 import { IUser } from './interfaces/IUser';
-import { IIUserDAO } from './interfaces/IUserDao';
+import { injectable, inject } from 'inversify';
+import { IUserDAO } from './interfaces/IUserDao';
+import 'reflect-metadata';
+import InjectionType from '../../../common/constants/injection-type';
 
-export class UserDAO implements IIUserDAO {
-    constructor(private readonly _userModel: Model<IUser>) {}
+@injectable()
+export class UserDAO implements IUserDAO {
+    constructor(@inject(InjectionType.USER_MODEL) private readonly _userModel: Model<IUser>) {}
 
     public async getMany(data: GetUserDTO = {}): Promise<IUser[]> {
         const users: IUser[] = await this._userModel.find(data);

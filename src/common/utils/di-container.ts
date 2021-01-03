@@ -1,23 +1,23 @@
-import * as awilix from 'awilix';
+import { Container } from 'inversify';
+import { Model } from 'mongoose';
+import { IUser } from '../../database/models/user/interfaces/IUser';
+import { IUserDAO } from '../../database/models/user/interfaces/IUserDao';
 import { UserDAO } from '../../database/models/user/user.dao';
 import User from '../../database/models/user/user.model';
 import { UserSeeder } from '../../database/seeders/user/user.seeder';
 import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
+import InjectionType from '../constants/injection-type';
 
-export const container = awilix.createContainer({
-    injectionMode: awilix.InjectionMode.CLASSIC
-});
+const container = new Container();
 
-export function setupDI(): void {
-    container.register({
-        _userDAO: awilix.asClass(UserDAO),
-        _userModel: awilix.asValue(User),
-        userSeeder: awilix.asClass(UserSeeder),
+container.bind<AuthController>(InjectionType.AUTH_CONTROLLER).to(AuthController);
+container.bind<AuthRouter>(InjectionType.AUTH_ROUTER).to(AuthRouter);
+container.bind<AuthService>(InjectionType.AUTH_SERVICE).to(AuthService);
 
-        _authController: awilix.asClass(AuthController),
-        _authService: awilix.asClass(AuthService),
-        authRouter: awilix.asClass(AuthRouter)
-    });
-}
+container.bind<IUserDAO>(InjectionType.USER_DAO).to(UserDAO);
+container.bind<UserSeeder>(InjectionType.USER_SEEDER).to(UserSeeder);
+container.bind<Model<IUser>>(InjectionType.USER_MODEL).toConstantValue(User);
+
+export { container };

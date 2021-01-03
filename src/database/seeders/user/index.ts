@@ -1,7 +1,5 @@
-import { container, setupDI } from '../../../common/utils/di-container';
+import InjectionType from '../../../common/constants/injection-type';
+import { container } from '../../../common/utils/di-container';
 import { UserSeeder } from './user.seeder';
 
-setupDI();
-
-const userSeeder: UserSeeder = container.resolve('userSeeder');
-userSeeder.run();
+container.get<UserSeeder>(InjectionType.USER_SEEDER).run();

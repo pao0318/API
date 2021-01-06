@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Transporter, createTransport } from 'nodemailer';
-import InjectionType from '../../common/constants/injection-type';
+import Dependency from '../../common/constants/dependency';
 import { logger } from '../../common/utils/logger';
 import config from '../../config';
 import { IMailProvider } from './interfaces/IMailProvider';
@@ -9,7 +9,7 @@ import { IMailProvider } from './interfaces/IMailProvider';
 export class MailService {
     private readonly _transporter: Transporter;
 
-    constructor(@inject(InjectionType.MAIL_PROVIDER) private readonly _mailProvider: IMailProvider) {
+    constructor(@inject(Dependency.MAIL_PROVIDER) private readonly _mailProvider: IMailProvider) {
         this._transporter = this._createTransporter();
         this._verifyTransporter();
     }

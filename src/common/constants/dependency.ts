@@ -1,4 +1,4 @@
-enum InjectionType {
+enum Dependency {
     AUTH_CONTROLLER = 'AuthController',
     AUTH_ROUTER = 'AuthRouter',
     AUTH_SERVICE = 'AuthService',
@@ -11,4 +11,4 @@ enum InjectionType {
     MAIL_PROVIDER = 'MailProvider'
 }
 
-export default InjectionType;
+export default Dependency;

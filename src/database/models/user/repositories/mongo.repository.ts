@@ -1,6 +1,5 @@
 import { inject, injectable } from 'inversify';
 import { Model } from 'mongoose';
-import InjectionType from '../../../../common/constants/injection-type';
 import { CreateUserDTO } from '../dto/create.dto';
 import { GetUserDTO } from '../dto/get.dto';
 import { UpdateUserDTO } from '../dto/update.dto';
@@ -8,10 +7,11 @@ import { IUser } from '../interfaces/IUser';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import 'reflect-metadata';
 import { IMongoUser } from '../interfaces/IMongoUser';
+import { Constants } from '../../../../common/constants';
 
 @injectable()
 export class MongoUserRepository implements IUserRepository {
-    constructor(@inject(InjectionType.MONGO_USER_MODEL) private readonly _userModel: Model<IMongoUser>) {}
+    constructor(@inject(Constants.DEPENDENCY.MONGO_USER_MODEL) private readonly _userModel: Model<IMongoUser>) {}
     
     public async getMany(data: GetUserDTO = {}): Promise<IUser[]> {
         const users = this._userModel.find(data);

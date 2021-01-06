@@ -6,7 +6,7 @@ import { IUser } from './IUser';
 export interface IUserRepository {
     getMany(data: GetUserDTO ): Promise<IUser[]>;
 
-    get(data: GetUserDTO ): Promise<IUser>;
+    get(data: GetUserDTO ): Promise<IUser | null>;
 
     create(data: CreateUserDTO): Promise<IUser>;
 

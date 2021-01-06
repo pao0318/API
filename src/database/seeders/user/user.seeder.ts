@@ -7,15 +7,15 @@ import { Database } from '../../../common/utils/database';
 import config from '../../../config';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import Dependency from '../../../common/constants/dependency';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
+import { Constants } from '../../../common/constants';
 
 @injectable()
 export class UserSeeder {
     private _fakeUserData!: RegisterRequestDTO;
     private _fakeUserDataWithHashedPassword!: RegisterRequestDTO;
 
-    constructor(@inject(Dependency.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
+    constructor(@inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
 
     public async run(): Promise<void> {
         await this._connectToDatabase();

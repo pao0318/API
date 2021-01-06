@@ -1,5 +1,5 @@
-import Dependency from '../../../common/constants/dependency';
+import { Constants } from '../../../common/constants';
 import { container } from '../../../common/utils/di-container';
 import { UserSeeder } from './user.seeder';
 
-container.get<UserSeeder>(Dependency.USER_SEEDER).run();
+container.get<UserSeeder>(Constants.DEPENDENCY.USER_SEEDER).run();

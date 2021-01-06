@@ -11,7 +11,7 @@ import { IUserProvider } from '../interfaces/IUserProvider';
 
 @injectable()
 export class MongoUserProvider implements IUserProvider {
-    constructor(@inject(InjectionType.USER_MODEL) private readonly _userModel: Model<IUser>) {}
+    constructor(@inject(InjectionType.MONGO_USER_MODEL) private readonly _userModel: Model<IUser>) {}
 
     public async find(data: GetUserDTO): Promise<IUser[]> {
         const users = this._userModel.find(data);

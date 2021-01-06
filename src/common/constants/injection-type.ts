@@ -5,7 +5,9 @@ enum InjectionType {
 
     USER_REPOSITORY = 'UserRepository',
     USER_SEEDER = 'UserSeeder',
-    USER_MODEL = 'UserModel'
+    USER_PROVIDER = 'UserProvider',
+
+    MONGO_USER_MODEL = 'MongoUserModel'
 }
 
 export default InjectionType;

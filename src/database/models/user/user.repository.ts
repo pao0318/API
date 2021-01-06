@@ -1,4 +1,3 @@
-import { Model } from 'mongoose';
 import { CreateUserDTO } from './dto/create.dto';
 import { GetUserDTO } from './dto/get.dto';
 import { UpdateUserDTO } from './dto/update.dto';
@@ -6,31 +5,29 @@ import { IUser } from './interfaces/IUser';
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
 import InjectionType from '../../../common/constants/injection-type';
+import { IUserProvider } from './interfaces/IUserProvider';
 
 @injectable()
 export class UserRepository {
-    constructor(@inject(InjectionType.USER_MODEL) private readonly _userModel: Model<IUser>) {}
+    constructor(@inject(InjectionType.USER_PROVIDER) private readonly _userProvider: IUserProvider) {}
 
     public async getMany(data: GetUserDTO = {}): Promise<IUser[]> {
-        const users: IUser[] = await this._userModel.find(data);
-        return users;
+        return this._userProvider.find(data);
     }
 
     public async get(data: GetUserDTO = {}): Promise<IUser | null> {
-        const user: IUser | null = await this._userModel.findOne(data);
-        return user;
+        return this._userProvider.findOne(data);
     }
 
     public async create(data: CreateUserDTO): Promise<IUser> {
-        const user: IUser = new this._userModel(data);
-        return user.save();
+        return this._userProvider.create(data);
     }
 
     public async deleteById(id: string): Promise<void> {
-        await this._userModel.deleteOne({ _id: id });
+        return this._userProvider.deleteOne({ _id: id });
     }
 
-    public async updateById(id: string, data: UpdateUserDTO): Promise<void> {
-        await this._userModel.findByIdAndUpdate(id, data);
+    public async updateById(id: string, data: UpdateUserDTO): Promise<IUser | null> {
+        return this._userProvider.findByIdAndUpdate(id, data);
     }
 }

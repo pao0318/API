@@ -2,7 +2,6 @@ import { Constants } from '../../common/constants';
 import { Router } from '../../common/utils/router';
 import { AuthController } from './auth.controller';
 import { injectable, inject } from 'inversify';
-import 'reflect-metadata';
 import InjectionType from '../../common/constants/injection-type';
 
 @injectable()

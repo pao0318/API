@@ -1,8 +1,8 @@
 import { TestUtils } from '../../common/utils/test-utils';
 import faker from 'faker';
 import { IUser } from '../models/user/interfaces/IUser';
-import User from '../models/user/schemas/user.schema';
 import { MongoUserRepository } from '../models/user/repositories/mongo.repository';
+import { MongoUser } from '../models/user/schemas/user.schema';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -13,7 +13,7 @@ afterAll(async () => {
 });
 
 describe('Mongo user repository', () => {
-    const userRepository = new MongoUserRepository(User);
+    const userRepository = new MongoUserRepository(MongoUser);
 
     describe('Get many method', () => {
         describe('When users do not exist', () => {
@@ -95,7 +95,7 @@ describe('Mongo user repository', () => {
         });
 
         it('Should delete user from the database', async () => {
-            await userRepository.deleteById(user._id);
+            await userRepository.deleteById(user.id);
 
             const foundUser = await userRepository.get({ _id: user.id });
 
@@ -112,9 +112,9 @@ describe('Mongo user repository', () => {
         });
 
         it('Should update user in database', async () => {
-            await userRepository.updateById(user._id, userData);
+            await userRepository.updateById(user.id, userData);
             
-            const foundUser = await userRepository.get({ _id: user._id });
+            const foundUser = await userRepository.get({ _id: user.id });
 
             expect(foundUser).toMatchObject(userData);
         });

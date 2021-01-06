@@ -5,6 +5,7 @@ import DEFAULT_EXCEPTION from './default-exception';
 import EXCEPTION from './exception';
 import ENDPOINT from './endpoint';
 import DEPENDENCY from './dependency';
+import STATUS_CODE from './status-code';
 
 export const Constants = {
     APP_MODE,
@@ -13,5 +14,6 @@ export const Constants = {
     DEFAULT_EXCEPTION,
     EXCEPTION,
     ENDPOINT,
-    DEPENDENCY
+    DEPENDENCY,
+    STATUS_CODE
 } as const;

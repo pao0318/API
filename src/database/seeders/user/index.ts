@@ -1,5 +1,5 @@
-import InjectionType from '../../../common/constants/injection-type';
+import { Constants } from '../../../common/constants';
 import { container } from '../../../common/utils/di-container';
 import { UserSeeder } from './user.seeder';
 
-container.get<UserSeeder>(InjectionType.USER_SEEDER).run();
+container.get<UserSeeder>(Constants.DEPENDENCY.USER_SEEDER).run();

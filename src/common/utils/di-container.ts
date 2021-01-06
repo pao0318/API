@@ -1,9 +1,8 @@
 import { Container } from 'inversify';
 import { Model } from 'mongoose';
 import { IUser } from '../../database/models/user/interfaces/IUser';
-import { IUserDAO } from '../../database/models/user/interfaces/IUserDao';
-import { UserDAO } from '../../database/models/user/user.dao';
-import User from '../../database/models/user/user.model';
+import User from '../../database/models/user/schemas/user.schema';
+import { UserRepository } from '../../database/models/user/user.repository';
 import { UserSeeder } from '../../database/seeders/user/user.seeder';
 import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';
@@ -16,7 +15,7 @@ container.bind<AuthController>(InjectionType.AUTH_CONTROLLER).to(AuthController)
 container.bind<AuthRouter>(InjectionType.AUTH_ROUTER).to(AuthRouter);
 container.bind<AuthService>(InjectionType.AUTH_SERVICE).to(AuthService);
 
-container.bind<IUserDAO>(InjectionType.USER_DAO).to(UserDAO);
+container.bind<UserRepository>(InjectionType.USER_REPOSITORY).to(UserRepository);
 container.bind<UserSeeder>(InjectionType.USER_SEEDER).to(UserSeeder);
 container.bind<Model<IUser>>(InjectionType.USER_MODEL).toConstantValue(User);
 

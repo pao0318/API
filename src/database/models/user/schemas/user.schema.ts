@@ -1,6 +1,6 @@
 import { Schema, model, Model } from 'mongoose';
-import { Constants } from '../../../common/constants';
-import { IUser } from './interfaces/IUser';
+import { Constants } from '../../../../common/constants';
+import { IUser } from '../interfaces/IUser';
 
 const UserSchema: Schema = new Schema({
     email: {

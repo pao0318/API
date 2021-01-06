@@ -4,12 +4,11 @@ import { GetUserDTO } from './dto/get.dto';
 import { UpdateUserDTO } from './dto/update.dto';
 import { IUser } from './interfaces/IUser';
 import { injectable, inject } from 'inversify';
-import { IUserDAO } from './interfaces/IUserDao';
 import 'reflect-metadata';
 import InjectionType from '../../../common/constants/injection-type';
 
 @injectable()
-export class UserDAO implements IUserDAO {
+export class UserRepository {
     constructor(@inject(InjectionType.USER_MODEL) private readonly _userModel: Model<IUser>) {}
 
     public async getMany(data: GetUserDTO = {}): Promise<IUser[]> {

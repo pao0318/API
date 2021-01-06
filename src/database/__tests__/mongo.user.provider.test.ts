@@ -2,7 +2,8 @@ import { TestUtils } from '../../common/utils/test-utils';
 import faker from 'faker';
 import { IUser } from '../models/user/interfaces/IUser';
 import User from '../models/user/schemas/user.schema';
-import { UserRepository } from '../models/user/user.repository';
+import { Types } from 'mongoose';
+import { MongoUserProvider } from '../models/user/providers/mongo.provider';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -12,24 +13,24 @@ afterAll(async () => {
     await TestUtils.dropDatabase();
 });
 
-describe('User DAO', () => {
-    const userDAO = new UserRepository(User);
+describe('Mongo user provider', () => {
+    const userProvider = new MongoUserProvider(User);
 
-    describe('Get many method', () => {
+    describe('Find method', () => {
         describe('When users do not exist', () => {
             it('Should return empty array', async () => {
-                const users = await userDAO.getMany();
+                const users = await userProvider.find({});
                 expect(users).toHaveLength(0);
             });
         });
 
         describe('When users exist but arguments do not match any', () => {
             beforeAll(async () => {
-                await userDAO.create(TestUtils.generateFakeUserData());
+                await userProvider.create(TestUtils.generateFakeUserData());
             });
 
             it('Should return empty array', async () => {
-                const users = await userDAO.getMany({ email: faker.internet.email() });
+                const users = await userProvider.find({ email: faker.internet.email() });
                 expect(users).toHaveLength(0);
             });
         });
@@ -38,25 +39,25 @@ describe('User DAO', () => {
             const userData = TestUtils.generateFakeUserData();
             
             beforeAll(async () => {
-                await userDAO.create(userData);
+                await userProvider.create(userData);
             });
 
             it('Should return one record', async () => {
-                const users = await userDAO.getMany({ email: userData.email });
+                const users = await userProvider.find({ email: userData.email });
                 expect(users).toHaveLength(1);
             });
 
             it('Should return user that matches provided data', async () => {
-                const users = await userDAO.getMany({ email: userData.email });
+                const users = await userProvider.find({ email: userData.email });
                 expect(users[0]).toMatchObject(userData);
             });
         });
     });
 
-    describe('Get method', () => {
+    describe('Find one method', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
-                const user = await userDAO.get({ email: faker.internet.email() });
+                const user = await userProvider.findOne({ email: faker.internet.email() });
                 expect(user).toBeNull();
             });
         });
@@ -65,11 +66,11 @@ describe('User DAO', () => {
             const userData = TestUtils.generateFakeUserData();
 
             beforeAll(async () => {
-                await userDAO.create(userData);
+                await userProvider.create(userData);
             });
 
             it('Should return user that matches provided data', async () => {
-                const user = await userDAO.get({ email: userData.email });
+                const user = await userProvider.findOne({ email: userData.email });
                 expect(user).toMatchObject(userData);
             });
         });
@@ -79,44 +80,54 @@ describe('User DAO', () => {
         const userData = TestUtils.generateFakeUserData();
 
         it('Should create user in database with provided data', async () => {
-            await userDAO.create(userData);
+            await userProvider.create(userData);
 
-            const user = await userDAO.get({ email: userData.email });
+            const user = await userProvider.findOne({ email: userData.email });
 
             expect(user).toMatchObject(userData);
         });
     });
 
-    describe('Delete by id method', () => {
+    describe('Delete one method', () => {
         let user: IUser;
 
         beforeAll(async () => {
-            user = await userDAO.create(TestUtils.generateFakeUserData());
+            user = await userProvider.create(TestUtils.generateFakeUserData());
         });
 
         it('Should delete user from the database', async () => {
-            await userDAO.deleteById(user.id);
+            await userProvider.deleteOne(user._id);
 
-            const foundUser = await userDAO.get({ _id: user.id });
+            const foundUser = await userProvider.findOne({ _id: user.id });
 
             expect(foundUser).toBeNull();
         });
     });
 
-    describe('Update user by id method', () => {
+    describe('Find user by id and update method', () => {
         const userData = TestUtils.generateFakeUserData();
         let user: IUser;
 
-        beforeAll(async () => {
-            user = await userDAO.create(TestUtils.generateFakeUserData());
+        describe('When user does not exist', () => {
+            it('Should return null', async () => {
+                const randomId = Types.ObjectId.createFromTime(Date.now()).toHexString();
+
+                const foundUser = await userProvider.findByIdAndUpdate(randomId, {});
+
+                expect(foundUser).toBeNull();
+            });
         });
+        
+        describe('When user exists', () => {
+            beforeAll(async () => {
+                user = await userProvider.create(TestUtils.generateFakeUserData());
+            });
 
-        it('Should update user in the database', async () => {
-            await userDAO.updateById(user.id, userData);
-
-            const foundUser = await userDAO.get({ _id: user.id });
-
-            expect(foundUser).toMatchObject(userData);
+            it('Should return updated user', async () => {
+                const foundUser = await userProvider.findByIdAndUpdate(user.id, userData);
+    
+                expect(foundUser).toMatchObject(userData);
+            });
         });
     });
 });

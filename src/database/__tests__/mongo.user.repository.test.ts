@@ -1,8 +1,8 @@
 import { TestUtils } from '../../common/utils/test-utils';
 import faker from 'faker';
 import { IUser } from '../models/user/interfaces/IUser';
-import { UserDAO } from '../models/user/user.dao';
-import User from '../models/user/user.model';
+import { MongoUserRepository } from '../models/user/repositories/mongo.repository';
+import { MongoUser } from '../models/user/schemas/user.schema';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -12,24 +12,24 @@ afterAll(async () => {
     await TestUtils.dropDatabase();
 });
 
-describe('User DAO', () => {
-    const userDAO = new UserDAO(User);
+describe('Mongo user repository', () => {
+    const userRepository = new MongoUserRepository(MongoUser);
 
     describe('Get many method', () => {
         describe('When users do not exist', () => {
             it('Should return empty array', async () => {
-                const users = await userDAO.getMany();
+                const users = await userRepository.getMany();
                 expect(users).toHaveLength(0);
             });
         });
 
         describe('When users exist but arguments do not match any', () => {
             beforeAll(async () => {
-                await userDAO.create(TestUtils.generateFakeUserData());
+                await userRepository.create(TestUtils.generateFakeUserData());
             });
 
             it('Should return empty array', async () => {
-                const users = await userDAO.getMany({ email: faker.internet.email() });
+                const users = await userRepository.getMany({ email: faker.internet.email() });
                 expect(users).toHaveLength(0);
             });
         });
@@ -38,16 +38,16 @@ describe('User DAO', () => {
             const userData = TestUtils.generateFakeUserData();
             
             beforeAll(async () => {
-                await userDAO.create(userData);
+                await userRepository.create(userData);
             });
 
             it('Should return one record', async () => {
-                const users = await userDAO.getMany({ email: userData.email });
+                const users = await userRepository.getMany({ email: userData.email });
                 expect(users).toHaveLength(1);
             });
 
             it('Should return user that matches provided data', async () => {
-                const users = await userDAO.getMany({ email: userData.email });
+                const users = await userRepository.getMany({ email: userData.email });
                 expect(users[0]).toMatchObject(userData);
             });
         });
@@ -56,7 +56,7 @@ describe('User DAO', () => {
     describe('Get method', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
-                const user = await userDAO.get({ email: faker.internet.email() });
+                const user = await userRepository.get({ email: faker.internet.email() });
                 expect(user).toBeNull();
             });
         });
@@ -65,11 +65,11 @@ describe('User DAO', () => {
             const userData = TestUtils.generateFakeUserData();
 
             beforeAll(async () => {
-                await userDAO.create(userData);
+                await userRepository.create(userData);
             });
 
             it('Should return user that matches provided data', async () => {
-                const user = await userDAO.get({ email: userData.email });
+                const user = await userRepository.get({ email: userData.email });
                 expect(user).toMatchObject(userData);
             });
         });
@@ -79,9 +79,9 @@ describe('User DAO', () => {
         const userData = TestUtils.generateFakeUserData();
 
         it('Should create user in database with provided data', async () => {
-            await userDAO.create(userData);
+            await userRepository.create(userData);
 
-            const user = await userDAO.get({ email: userData.email });
+            const user = await userRepository.create(userData);
 
             expect(user).toMatchObject(userData);
         });
@@ -91,30 +91,30 @@ describe('User DAO', () => {
         let user: IUser;
 
         beforeAll(async () => {
-            user = await userDAO.create(TestUtils.generateFakeUserData());
+            user = await userRepository.create(TestUtils.generateFakeUserData());
         });
 
         it('Should delete user from the database', async () => {
-            await userDAO.deleteById(user.id);
+            await userRepository.deleteById(user.id);
 
-            const foundUser = await userDAO.get({ _id: user.id });
+            const foundUser = await userRepository.get({ _id: user.id });
 
             expect(foundUser).toBeNull();
         });
     });
 
-    describe('Update user by id method', () => {
+    describe('Update by id method', () => {
         const userData = TestUtils.generateFakeUserData();
         let user: IUser;
 
         beforeAll(async () => {
-            user = await userDAO.create(TestUtils.generateFakeUserData());
+            user = await userRepository.create(TestUtils.generateFakeUserData());
         });
 
-        it('Should update user in the database', async () => {
-            await userDAO.updateById(user.id, userData);
-
-            const foundUser = await userDAO.get({ _id: user.id });
+        it('Should update user in database', async () => {
+            await userRepository.updateById(user.id, userData);
+            
+            const foundUser = await userRepository.get({ _id: user.id });
 
             expect(foundUser).toMatchObject(userData);
         });

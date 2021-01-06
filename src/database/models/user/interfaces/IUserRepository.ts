@@ -3,10 +3,10 @@ import { GetUserDTO } from '../dto/get.dto';
 import { UpdateUserDTO } from '../dto/update.dto';
 import { IUser } from './IUser';
 
-export interface IUserDAO {
-    getMany(data: GetUserDTO): Promise<IUser[]>;
+export interface IUserRepository {
+    getMany(data: GetUserDTO ): Promise<IUser[]>;
 
-    get(data: GetUserDTO): Promise<IUser | null>;
+    get(data: GetUserDTO ): Promise<IUser | null>;
 
     create(data: CreateUserDTO): Promise<IUser>;
 

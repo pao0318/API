@@ -5,17 +5,17 @@ import { logger } from '../../../common/utils/logger';
 import { sleep } from '../../../common/helpers/sleep';
 import { Database } from '../../../common/utils/database';
 import config from '../../../config';
-import { IUserDAO } from '../../models/user/interfaces/IUserDao';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { UserDAO } from '../../models/user/user.dao';
+import InjectionType from '../../../common/constants/injection-type';
+import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
 
 @injectable()
 export class UserSeeder {
     private _fakeUserData!: RegisterRequestDTO;
     private _fakeUserDataWithHashedPassword!: RegisterRequestDTO;
 
-    constructor(@inject(UserDAO) private readonly _userDAO: IUserDAO) {}
+    constructor(@inject(InjectionType.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
 
     public async run(): Promise<void> {
         await this._connectToDatabase();
@@ -48,7 +48,7 @@ export class UserSeeder {
 
     private async _saveUserAccount(): Promise<void> {
         try {
-            await this._userDAO.create(this._fakeUserDataWithHashedPassword);
+            await this._userRepository.create(this._fakeUserDataWithHashedPassword);
         } catch(error) {
             logger.red(error.message);
         }

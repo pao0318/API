@@ -1,8 +1,7 @@
-import { Document } from 'mongoose';
 import ACCOUNT_TYPE from '../../../../common/constants/account-type';
 import { IConfirmationCode } from './IConfirmationCode';
 
-export interface IUser extends Document {
+export interface IUser {
     readonly id: string;
     readonly email: string;
     readonly name: string;

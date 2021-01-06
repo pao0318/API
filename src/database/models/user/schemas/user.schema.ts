@@ -1,6 +1,6 @@
 import { Schema, model, Model } from 'mongoose';
-import { Constants } from '../../../common/constants';
-import { IUser } from './interfaces/IUser';
+import { Constants } from '../../../../common/constants';
+import { IMongoUser } from '../interfaces/IMongoUser';
 
 const UserSchema: Schema = new Schema({
     email: {
@@ -44,6 +44,4 @@ const UserSchema: Schema = new Schema({
     }
 });
 
-const User: Model<IUser> = model('User', UserSchema);
-
-export default User;
+export const MongoUser: Model<IMongoUser> = model('User', UserSchema);

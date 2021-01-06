@@ -2,8 +2,7 @@ import { TestUtils } from '../../common/utils/test-utils';
 import faker from 'faker';
 import { IUser } from '../models/user/interfaces/IUser';
 import User from '../models/user/schemas/user.schema';
-import { Types } from 'mongoose';
-import { MongoUserProvider } from '../models/user/providers/mongo.provider';
+import { MongoUserRepository } from '../models/user/repositories/mongo.repository';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -13,24 +12,24 @@ afterAll(async () => {
     await TestUtils.dropDatabase();
 });
 
-describe('Mongo user provider', () => {
-    const userProvider = new MongoUserProvider(User);
+describe('Mongo user repository', () => {
+    const userRepository = new MongoUserRepository(User);
 
-    describe('Find method', () => {
+    describe('Get many method', () => {
         describe('When users do not exist', () => {
             it('Should return empty array', async () => {
-                const users = await userProvider.find({});
+                const users = await userRepository.getMany();
                 expect(users).toHaveLength(0);
             });
         });
 
         describe('When users exist but arguments do not match any', () => {
             beforeAll(async () => {
-                await userProvider.create(TestUtils.generateFakeUserData());
+                await userRepository.create(TestUtils.generateFakeUserData());
             });
 
             it('Should return empty array', async () => {
-                const users = await userProvider.find({ email: faker.internet.email() });
+                const users = await userRepository.getMany({ email: faker.internet.email() });
                 expect(users).toHaveLength(0);
             });
         });
@@ -39,25 +38,25 @@ describe('Mongo user provider', () => {
             const userData = TestUtils.generateFakeUserData();
             
             beforeAll(async () => {
-                await userProvider.create(userData);
+                await userRepository.create(userData);
             });
 
             it('Should return one record', async () => {
-                const users = await userProvider.find({ email: userData.email });
+                const users = await userRepository.getMany({ email: userData.email });
                 expect(users).toHaveLength(1);
             });
 
             it('Should return user that matches provided data', async () => {
-                const users = await userProvider.find({ email: userData.email });
+                const users = await userRepository.getMany({ email: userData.email });
                 expect(users[0]).toMatchObject(userData);
             });
         });
     });
 
-    describe('Find one method', () => {
+    describe('Get method', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
-                const user = await userProvider.findOne({ email: faker.internet.email() });
+                const user = await userRepository.get({ email: faker.internet.email() });
                 expect(user).toBeNull();
             });
         });
@@ -66,11 +65,11 @@ describe('Mongo user provider', () => {
             const userData = TestUtils.generateFakeUserData();
 
             beforeAll(async () => {
-                await userProvider.create(userData);
+                await userRepository.create(userData);
             });
 
             it('Should return user that matches provided data', async () => {
-                const user = await userProvider.findOne({ email: userData.email });
+                const user = await userRepository.get({ email: userData.email });
                 expect(user).toMatchObject(userData);
             });
         });
@@ -80,42 +79,42 @@ describe('Mongo user provider', () => {
         const userData = TestUtils.generateFakeUserData();
 
         it('Should create user in database with provided data', async () => {
-            await userProvider.create(userData);
+            await userRepository.create(userData);
 
-            const user = await userProvider.findOne({ email: userData.email });
+            const user = await userRepository.create(userData);
 
             expect(user).toMatchObject(userData);
         });
     });
 
-    describe('Delete one method', () => {
+    describe('Delete by id method', () => {
         let user: IUser;
 
         beforeAll(async () => {
-            user = await userProvider.create(TestUtils.generateFakeUserData());
+            user = await userRepository.create(TestUtils.generateFakeUserData());
         });
 
         it('Should delete user from the database', async () => {
-            await userProvider.deleteOne({ _id: user._id });
+            await userRepository.deleteById(user._id);
 
-            const foundUser = await userProvider.findOne({ _id: user.id });
+            const foundUser = await userRepository.get({ _id: user.id });
 
             expect(foundUser).toBeNull();
         });
     });
 
-    describe('Update one method', () => {
+    describe('Update by id method', () => {
         const userData = TestUtils.generateFakeUserData();
         let user: IUser;
 
         beforeAll(async () => {
-            user = await userProvider.create(TestUtils.generateFakeUserData());
+            user = await userRepository.create(TestUtils.generateFakeUserData());
         });
 
         it('Should update user in database', async () => {
-            await userProvider.updateOne({ _id: user._id }, userData);
+            await userRepository.updateById(user._id, userData);
             
-            const foundUser = await userProvider.findOne({ _id: user._id });
+            const foundUser = await userRepository.get({ _id: user._id });
 
             expect(foundUser).toMatchObject(userData);
         });

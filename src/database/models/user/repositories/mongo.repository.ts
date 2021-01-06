@@ -6,6 +6,7 @@ import { GetUserDTO } from '../dto/get.dto';
 import { UpdateUserDTO } from '../dto/update.dto';
 import { IUser } from '../interfaces/IUser';
 import { IUserRepository } from '../interfaces/IUserRepository';
+import 'reflect-metadata';
 
 @injectable()
 export class MongoUserRepository implements IUserRepository {

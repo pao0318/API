@@ -13,5 +13,5 @@ export interface IUserProvider {
 
     deleteOne(data: DeleteUserDTO): Promise<void>;
 
-    findByIdAndUpdate(id: string, data: UpdateUserDTO): Promise<IUser | null>
+    updateOne(searchData: GetUserDTO, updateData: UpdateUserDTO): Promise<void>
 }

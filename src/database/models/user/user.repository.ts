@@ -27,7 +27,7 @@ export class UserRepository {
         return this._userProvider.deleteOne({ _id: id });
     }
 
-    public async updateById(id: string, data: UpdateUserDTO): Promise<IUser | null> {
-        return this._userProvider.findByIdAndUpdate(id, data);
+    public async updateById(id: string, data: UpdateUserDTO): Promise<void> {
+        return this._userProvider.updateOne({ _id: id }, data);
     }
 }

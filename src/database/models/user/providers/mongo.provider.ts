@@ -32,8 +32,7 @@ export class MongoUserProvider implements IUserProvider {
         await this._userModel.deleteOne(data);
     }
 
-    public async findByIdAndUpdate(id: string, data: UpdateUserDTO): Promise<IUser | null> {
-        const user = await this._userModel.findByIdAndUpdate(id, data);
-        return user;
+    public async updateOne(searchData: GetUserDTO, updateData: UpdateUserDTO): Promise<void> {
+        await this._userModel.updateOne(searchData, updateData);
     }
 }

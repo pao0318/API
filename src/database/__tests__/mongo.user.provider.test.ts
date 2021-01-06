@@ -96,7 +96,7 @@ describe('Mongo user provider', () => {
         });
 
         it('Should delete user from the database', async () => {
-            await userProvider.deleteOne(user._id);
+            await userProvider.deleteOne({ _id: user._id });
 
             const foundUser = await userProvider.findOne({ _id: user.id });
 
@@ -104,30 +104,20 @@ describe('Mongo user provider', () => {
         });
     });
 
-    describe('Find user by id and update method', () => {
+    describe('Update one method', () => {
         const userData = TestUtils.generateFakeUserData();
         let user: IUser;
 
-        describe('When user does not exist', () => {
-            it('Should return null', async () => {
-                const randomId = Types.ObjectId.createFromTime(Date.now()).toHexString();
-
-                const foundUser = await userProvider.findByIdAndUpdate(randomId, {});
-
-                expect(foundUser).toBeNull();
-            });
+        beforeAll(async () => {
+            user = await userProvider.create(TestUtils.generateFakeUserData());
         });
-        
-        describe('When user exists', () => {
-            beforeAll(async () => {
-                user = await userProvider.create(TestUtils.generateFakeUserData());
-            });
 
-            it('Should return updated user', async () => {
-                const foundUser = await userProvider.findByIdAndUpdate(user.id, userData);
-    
-                expect(foundUser).toMatchObject(userData);
-            });
+        it('Should update user in database', async () => {
+            await userProvider.updateOne({ _id: user._id }, userData);
+            
+            const foundUser = await userProvider.findOne({ _id: user._id });
+
+            expect(foundUser).toMatchObject(userData);
         });
     });
 });

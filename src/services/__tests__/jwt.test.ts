@@ -1,9 +1,9 @@
-import Token from '../../common/constants/token';
 import { JwtService } from '../jwt/jwt.service';
 import faker from 'faker';
 import { verify, sign } from 'jsonwebtoken';
 import config from '../../config';
 import { UnauthorizedException } from '../../common/exceptions/unauthorized.exception';
+import { Constants } from '../../common/constants';
 
 describe('JWT service', () => {
     const jwtService = new JwtService();
@@ -11,7 +11,7 @@ describe('JWT service', () => {
     describe('Generate token method', () => {
         describe('Access token', () => {
             const payload = { id: faker.random.uuid(), email: faker.internet.email() };
-            const token = jwtService.generateToken(Token.ACCESS, payload);
+            const token = jwtService.generateToken(Constants.TOKEN.ACCESS, payload);
 
             it('Should be defined string', () => {
                 expect(token).toBeDefined();
@@ -37,7 +37,7 @@ describe('JWT service', () => {
                 const token = faker.random.alphaNumeric(10);
     
                 it('Should throw UNAUTHORIZED_EXCEPTION', () => {
-                    expect(jwtService.verifyTokenAndGetPayload.bind(jwtService, Token.ACCESS, token)).toThrowError(UnauthorizedException);
+                    expect(jwtService.verifyTokenAndGetPayload.bind(jwtService, Constants.TOKEN.ACCESS, token)).toThrowError(UnauthorizedException);
                 });
             });
 
@@ -45,16 +45,16 @@ describe('JWT service', () => {
                 const token = sign({ id: faker.random.uuid(), email: faker.internet.email() }, config.AUTH.ACCESS_TOKEN_SECRET, { expiresIn: '0.01s'});
 
                 it('Should throw UNAUTHORIZED_EXCEPTION', () => {
-                    expect(jwtService.verifyTokenAndGetPayload.bind(jwtService, Token.ACCESS, token)).toThrowError(UnauthorizedException);
+                    expect(jwtService.verifyTokenAndGetPayload.bind(jwtService, Constants.TOKEN.ACCESS, token)).toThrowError(UnauthorizedException);
                 });
             });
 
             describe('When token is valid', () => {
                 const payload = { id: faker.random.uuid(), email: faker.internet.email() };
-                const token = jwtService.generateToken(Token.ACCESS, payload);
+                const token = jwtService.generateToken(Constants.TOKEN.ACCESS, payload);
 
                 it('Should return correct payload', () => {
-                    const actualPayload = jwtService.verifyTokenAndGetPayload(Token.ACCESS, token);
+                    const actualPayload = jwtService.verifyTokenAndGetPayload(Constants.TOKEN.ACCESS, token);
                     expect(actualPayload).toMatchObject(payload);
                 });
             });

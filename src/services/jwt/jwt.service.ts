@@ -1,4 +1,4 @@
-import Token from '../../common/constants/token';
+import { Token } from '../../common/constants/token';
 import { TokenPayload } from '../../types';
 import { IAccessTokenPayload } from './interfaces/IAccessTokenPayload';
 import { sign, verify } from 'jsonwebtoken';

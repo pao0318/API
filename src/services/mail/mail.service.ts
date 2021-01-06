@@ -1,11 +1,15 @@
+import { inject, injectable } from 'inversify';
 import { Transporter, createTransport } from 'nodemailer';
+import InjectionType from '../../common/constants/injection-type';
 import { logger } from '../../common/utils/logger';
 import config from '../../config';
+import { IMailProvider } from './interfaces/IMailProvider';
 
+@injectable()
 export class MailService {
     private readonly _transporter: Transporter;
 
-    constructor() {
+    constructor(@inject(InjectionType.MAIL_PROVIDER) private readonly _mailProvider: IMailProvider) {
         this._transporter = this._createTransporter();
         this._verifyTransporter();
     }
@@ -20,16 +24,7 @@ export class MailService {
     }
 
     private _createTransporter(): Transporter {
-        return createTransport({
-            service: 'Gmail',
-            auth: {
-                type: 'OAuth2',
-                user: config.MAIL.USER,
-                refreshToken: config.MAIL.REFRESH_TOKEN,
-                clientId: config.MAIL.CLIENT_ID,
-                clientSecret: config.MAIL.CLIENT_SECRET,
-            }
-        });
+        return createTransport(this._mailProvider.getConfig());
     };
 
     private _verifyTransporter(): void {

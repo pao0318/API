@@ -4,10 +4,11 @@ enum InjectionType {
     AUTH_SERVICE = 'AuthService',
 
     USER_REPOSITORY = 'UserRepository',
+    MONGO_USER_MODEL = 'MongoUserModel',
     USER_SEEDER = 'UserSeeder',
-    USER_PROVIDER = 'UserProvider',
 
-    MONGO_USER_MODEL = 'MongoUserModel'
+    MAIL_SERVICE = 'MailService',
+    MAIL_PROVIDER = 'MailProvider'
 }
 
 export default InjectionType;

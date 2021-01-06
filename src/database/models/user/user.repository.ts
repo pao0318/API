@@ -3,7 +3,6 @@ import { GetUserDTO } from './dto/get.dto';
 import { UpdateUserDTO } from './dto/update.dto';
 import { IUser } from './interfaces/IUser';
 import { injectable, inject } from 'inversify';
-import 'reflect-metadata';
 import InjectionType from '../../../common/constants/injection-type';
 import { IUserProvider } from './interfaces/IUserProvider';
 

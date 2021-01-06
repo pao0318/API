@@ -1,11 +1,11 @@
-export default {
-    Auth: {
+export const Endpoint = {
+    AUTH: {
         REGISTER: '/auth/register',
         LOGIN: '/auth/login',
         LOGIN_GOOGLE: '/auth/login-google',
         LOGIN_FACEBOOK: '/auth/login-facebook'
     },
-    Account: {
+    ACCOUNT: {
         CHANGE_PASSWORD: '/account/change-password',
         CONFIRM_EMAIL: '/account/confirm-email',
         RESET_PASSWORD: '/account/reset-password',

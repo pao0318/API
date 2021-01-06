@@ -1,4 +1,4 @@
-enum Dependency {
+export enum Dependency {
     AUTH_CONTROLLER = 'AuthController',
     AUTH_ROUTER = 'AuthRouter',
     AUTH_SERVICE = 'AuthService',
@@ -10,5 +10,3 @@ enum Dependency {
     MAIL_SERVICE = 'MailService',
     MAIL_PROVIDER = 'MailProvider'
 }
-
-export default Dependency;

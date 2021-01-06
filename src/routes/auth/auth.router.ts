@@ -8,6 +8,6 @@ export class AuthRouter extends Router {
     constructor(@inject(Constants.DEPENDENCY.AUTH_CONTROLLER) private readonly _authController: AuthController) {
         super();
 
-        this._router.get(Constants.ENDPOINT.Auth.REGISTER, this._authController.register);
+        this._router.get(Constants.ENDPOINT.AUTH.REGISTER, this._authController.register);
     }
 }

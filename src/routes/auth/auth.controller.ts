@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
@@ -11,7 +11,7 @@ export class AuthController {
         this.register = this.register.bind(this);
     }
 
-    public async register(req: Request, res: Response): Promise<void> {
+    public async register(req: Request): Promise<void> {
         this._authService.register(req.body as RegisterRequestDTO);
     }
 }

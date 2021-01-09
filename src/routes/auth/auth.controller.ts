@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
 import { Constants } from '../../common/constants';
+import { RegisterRequestDTO } from './dto/register.dto';
 
 @injectable()
 export class AuthController {
@@ -11,6 +12,6 @@ export class AuthController {
     }
 
     public async register(req: Request, res: Response): Promise<void> {
-        this._authService.register(res);
+        this._authService.register(req.body as RegisterRequestDTO);
     }
 }

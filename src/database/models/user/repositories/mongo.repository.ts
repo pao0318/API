@@ -18,8 +18,18 @@ export class MongoUserRepository implements IUserRepository {
         return users;
     }
 
-    public async get(data: GetUserDTO = {}): Promise<IUser | null> {
-        const user = this._userModel.findOne(data);
+    public async getById(id: string): Promise<IUser | null> {
+        const user = await this._userModel.findById(id);
+        return user;
+    }
+
+    public async getByEmail(email: string): Promise<IUser | null> {
+        const user = await this._userModel.findOne({ email });
+        return user;
+    }
+
+    public async getByUsername(username: string): Promise<IUser | null> {
+        const user = await this._userModel.findOne({ username });
         return user;
     }
 

@@ -36,7 +36,7 @@ export class UserSeeder {
     private _generateFakeData(): void {
         this._fakeUserData = {
             email: faker.internet.email(),
-            name: faker.random.alphaNumeric(5),
+            username: faker.random.alphaNumeric(5),
             password: faker.random.alphaNumeric(5)
         };
     }

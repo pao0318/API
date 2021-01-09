@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Transporter, createTransport } from 'nodemailer';
 import { Constants } from '../../common/constants';
-import { logger } from '../../common/utils/logger';
+import { Logger } from '../../common/utils/logger';
 import config from '../../config';
 import { IMailProvider } from './interfaces/IMailProvider';
 
@@ -29,9 +29,7 @@ export class MailService {
 
     private _verifyTransporter(): void {
         this._transporter.verify((error) => {
-            if(error) {
-                logger.red(error.message);
-            }
+            if(error) Logger.log(error.message, Constants.COLOR.RED);
         });
     }
 }

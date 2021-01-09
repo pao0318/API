@@ -4,7 +4,7 @@ import { IConfirmationCode } from './IConfirmationCode';
 export interface IUser {
     readonly id: string;
     readonly email: string;
-    readonly name: string;
+    readonly username: string;
     readonly password: string;
     readonly joinedAt: number;
     readonly isConfirmed: boolean;

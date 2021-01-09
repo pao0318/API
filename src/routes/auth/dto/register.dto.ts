@@ -1,5 +1,5 @@
 export class RegisterRequestDTO implements Readonly<RegisterRequestDTO> {
     email!: string;
-    name!: string;
+    username!: string;
     password!: string;
 }

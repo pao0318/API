@@ -1,8 +1,8 @@
-import { TestUtils } from '../../common/utils/test-utils';
+import { TestUtils } from '../../../../../common/utils/test-utils';
 import faker from 'faker';
-import { IUser } from '../models/user/interfaces/IUser';
-import { MongoUserRepository } from '../models/user/repositories/mongo.repository';
-import { MongoUser } from '../models/user/schemas/user.schema';
+import { IUser } from '../../interfaces/IUser';
+import { MongoUserRepository } from '../mongo.repository';
+import { MongoUser } from '../../schemas/user.schema';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();
@@ -16,6 +16,8 @@ describe('Mongo user repository', () => {
     const userRepository = new MongoUserRepository(MongoUser);
 
     describe('Get many method', () => {
+        const userData = TestUtils.generateFakeUserData();
+
         describe('When users do not exist', () => {
             it('Should return empty array', async () => {
                 const users = await userRepository.getMany();
@@ -25,38 +27,59 @@ describe('Mongo user repository', () => {
 
         describe('When users exist but arguments do not match any', () => {
             beforeAll(async () => {
-                await userRepository.create(TestUtils.generateFakeUserData());
+                await userRepository.create(userData);
             });
 
             it('Should return empty array', async () => {
-                const users = await userRepository.getMany({ email: faker.internet.email() });
+                const users = await userRepository.getMany({ isConfirmed: true });
                 expect(users).toHaveLength(0);
             });
         });
 
         describe('When more than one user exists and provided arguments matches a record', () => {
-            const userData = TestUtils.generateFakeUserData();
+            let users: IUser[];
             
             beforeAll(async () => {
-                await userRepository.create(userData);
+                users = await userRepository.getMany({ isConfirmed: false });
             });
 
             it('Should return one record', async () => {
-                const users = await userRepository.getMany({ email: userData.email });
                 expect(users).toHaveLength(1);
             });
 
             it('Should return user that matches provided data', async () => {
-                const users = await userRepository.getMany({ email: userData.email });
                 expect(users[0]).toMatchObject(userData);
             });
         });
     });
 
-    describe('Get method', () => {
+    describe('Get by id method', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
-                const user = await userRepository.get({ email: faker.internet.email() });
+                const user = await userRepository.getById(faker.random.uuid());
+                expect(user).toBeNull();
+            });
+        });
+
+        describe('When user exists', () => {
+            const userData = TestUtils.generateFakeUserData();
+            let user: IUser;
+
+            beforeAll(async () => {
+                user = await userRepository.create(userData);
+            });
+
+            it('Should return user that matches provided data', async () => {
+                const foundUser = await userRepository.getById(user.id);
+                expect(foundUser).toMatchObject(userData);
+            });
+        });
+    });
+
+    describe('Get by email method', () => {
+        describe('When user does not exist', () => {
+            it('Should return null', async () => {
+                const user = await userRepository.getByEmail(faker.internet.email());
                 expect(user).toBeNull();
             });
         });
@@ -69,7 +92,29 @@ describe('Mongo user repository', () => {
             });
 
             it('Should return user that matches provided data', async () => {
-                const user = await userRepository.get({ email: userData.email });
+                const user = await userRepository.getByEmail(userData.email);
+                expect(user).toMatchObject(userData);
+            });
+        });
+    });
+
+    describe('Get by username method', () => {
+        describe('When user does not exist', () => {
+            it('Should return null', async () => {
+                const user = await userRepository.getByUsername(faker.internet.userName());
+                expect(user).toBeNull();
+            });
+        });
+
+        describe('When user exists', () => {
+            const userData = TestUtils.generateFakeUserData();
+
+            beforeAll(async () => {
+                await userRepository.create(userData);
+            });
+
+            it('Should return user that matches provided data', async () => {
+                const user = await userRepository.getByUsername(userData.username);
                 expect(user).toMatchObject(userData);
             });
         });
@@ -97,7 +142,7 @@ describe('Mongo user repository', () => {
         it('Should delete user from the database', async () => {
             await userRepository.deleteById(user.id);
 
-            const foundUser = await userRepository.get({ _id: user.id });
+            const foundUser = await userRepository.getById(user.id);
 
             expect(foundUser).toBeNull();
         });
@@ -114,7 +159,7 @@ describe('Mongo user repository', () => {
         it('Should update user in database', async () => {
             await userRepository.updateById(user.id, userData);
             
-            const foundUser = await userRepository.get({ _id: user.id });
+            const foundUser = await userRepository.getById(user.id);
 
             expect(foundUser).toMatchObject(userData);
         });

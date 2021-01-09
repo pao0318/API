@@ -1,7 +1,7 @@
 import faker from 'faker';
 import { RegisterRequestDTO } from '../../../routes/auth/dto/register.dto';
 import { hashString } from '../../../common/helpers/hash-string';
-import { logger } from '../../../common/utils/logger';
+import { Logger } from '../../../common/utils/logger';
 import { sleep } from '../../../common/helpers/sleep';
 import { Database } from '../../../common/utils/database';
 import config from '../../../config';
@@ -36,7 +36,7 @@ export class UserSeeder {
     private _generateFakeData(): void {
         this._fakeUserData = {
             email: faker.internet.email(),
-            name: faker.random.alphaNumeric(5),
+            username: faker.random.alphaNumeric(5),
             password: faker.random.alphaNumeric(5)
         };
     }
@@ -50,15 +50,15 @@ export class UserSeeder {
         try {
             await this._userRepository.create(this._fakeUserDataWithHashedPassword);
         } catch(error) {
-            logger.red(error.message);
+            Logger.log(error.message, Constants.COLOR.RED);
         }
     }
 
     private async _printUserCredentialsAfterSleep(): Promise<void> {
-        logger.green('User generated successfully');
+        Logger.log('User generated successfully', Constants.COLOR.GREEN);
         await sleep(1500);
 
-        console.log(this._fakeUserData);
+        Logger.log(this._fakeUserData);
         process.exit(0);
     }
 }

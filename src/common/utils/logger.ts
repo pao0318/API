@@ -1,29 +1,29 @@
-import { red, green, cyan } from 'chalk';
+import { red, green } from 'chalk';
 import config from '../../config';
 import { Constants } from '../constants';
+import { Color } from '../constants/color';
 
-class Logger {
-    public green(text: string): void {
+export class Logger {
+    public static log(text: string | object, color: Color = Color.WHITE): void {
         if(this._inTestingEnvironment()) return;
-
-        console.log(green(text));
+        this._printTextBasedOnColor(text, color);
     }
 
-    public red(text: string): void {
-        if(this._inTestingEnvironment()) return;
-        
-        console.log(red(text));
-    }
-
-    public cyan(text: string): void {
-        if(this._inTestingEnvironment()) return;
-
-        console.log(cyan(text));
-    }
-
-    private _inTestingEnvironment(): boolean {
+    private static _inTestingEnvironment(): boolean {
         return config.APP.MODE === Constants.APP_MODE.TEST;
     }
-}
 
-export const logger = new Logger();
+    private static _printTextBasedOnColor(text: string | object, color: Color): void {
+        switch(color) {
+            case Color.WHITE:
+                console.log(text);
+                break;
+            case Color.RED:
+                console.log(red(text));
+                break;
+            case Color.GREEN:
+                console.log(green(text));
+                break;
+        }
+    }
+}

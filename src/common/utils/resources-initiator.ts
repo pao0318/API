@@ -6,8 +6,8 @@ import { logger } from './logger';
 import routers from '../../routes';
 import cors from 'cors';
 
-export class ExtensionInitiator {
-    public static async initiate(app: Application): Promise<void> {
+export class ResourcesInitiator {
+    public static async init(app: Application): Promise<void> {
         await ConfigValidator.validate(config);
         
         this._initiateExceptionListeners();

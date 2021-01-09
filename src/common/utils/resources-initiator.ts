@@ -6,18 +6,18 @@ import { Logger } from './logger';
 import routers from '../../routes';
 import cors from 'cors';
 import { Constants } from '../constants';
+import { catchExceptions } from '../middlewares/catch-exceptions.middleware';
 
 export class ResourcesInitiator {
     public static async init(app: Application): Promise<void> {
         await ConfigValidator.validate(config);
-
         this._initiateExceptionListeners();
         
         app.use(cors({ credentials: true, origin: true }));
-
         await this._initiateProviders();
 
         this._renderRoutes(app);
+        app.use(catchExceptions);
     }
 
     private static _initiateExceptionListeners(): void {

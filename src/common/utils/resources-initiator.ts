@@ -2,9 +2,10 @@ import { Application } from 'express';
 import config from '../../config';
 import { ConfigValidator } from './config-validator';
 import { Database } from './database';
-import { logger } from './logger';
+import { Logger } from './logger';
 import routers from '../../routes';
 import cors from 'cors';
+import { Constants } from '../constants';
 
 export class ResourcesInitiator {
     public static async init(app: Application): Promise<void> {
@@ -21,12 +22,12 @@ export class ResourcesInitiator {
 
     private static _initiateExceptionListeners(): void {
         process.on('uncaughtException', (error) => {
-            logger.red(error.message);
+            Logger.log(`UNCAUGHT_EXCEPTION: ${error.message}`, Constants.COLOR.RED);
             process.exit(1);
         });
 
         process.on('unhandledRejection', (error) => {
-            logger.red(error as string);
+            Logger.log(`UNHANDLED_REJECTION: ${error}`, Constants.COLOR.RED);
         });
     }
 

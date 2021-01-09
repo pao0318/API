@@ -4,7 +4,7 @@ import { Constants } from '../constants';
 import { Color } from '../constants/color';
 
 export class Logger {
-    public static log(text: string, color: Color = Color.WHITE): void {
+    public static log(text: any, color: Color = Color.WHITE): void {
         if(this._inTestingEnvironment()) return;
         this._printTextBasedOnColor(text, color);
     }
@@ -13,7 +13,7 @@ export class Logger {
         return config.APP.MODE === Constants.APP_MODE.TEST;
     }
 
-    private static _printTextBasedOnColor(text: string, color: Color): void {
+    private static _printTextBasedOnColor(text: any, color: Color): void {
         switch(color) {
             case Color.WHITE:
                 console.log(text);

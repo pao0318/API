@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateUserDTO } from '../dto/create.dto';
 import { GetUserDTO } from '../dto/get.dto';
 import { UpdateUserDTO } from '../dto/update.dto';
@@ -19,6 +19,8 @@ export class MongoUserRepository implements IUserRepository {
     }
 
     public async getById(id: string): Promise<IUser | null> {
+        if(!Types.ObjectId.isValid(id)) return null;
+
         const user = await this._userModel.findById(id);
         return user;
     }

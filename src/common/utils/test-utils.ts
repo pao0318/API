@@ -16,7 +16,7 @@ export class TestUtils {
     public static generateFakeUserData(): CreateUserDTO {
         return {
             email: faker.internet.email(),
-            name: faker.internet.userName(),
+            username: faker.internet.userName(),
             password: faker.internet.password()
         }
     }

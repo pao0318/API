@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import { injectable, inject } from 'inversify';
 import { Constants } from '../../common/constants';
 import { DuplicateEmailException } from '../../common/exceptions/duplicate-email.exception';
@@ -12,11 +11,11 @@ export class AuthService {
     constructor(@inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
 
     public async register(input: RegisterRequestDTO): Promise<void> {
-        const user = await this._userRepository.get({ email: input.email });
-        if(user) throw new DuplicateEmailException;
+        const emailAlreadyExists = await this._userRepository.getByEmail(input.email)
+        if(emailAlreadyExists) throw new DuplicateEmailException;
 
-        const user2 = await this._userRepository.get({ username: input.username });
-        if(user2) throw new DuplicateUsernameException;
+        const usernameAlreadyExists = await this._userRepository.getByUsername(input.username);
+        if(usernameAlreadyExists) throw new DuplicateUsernameException;
 
         const hashedPassword = await hashString(input.password);
         await this._userRepository.create({ ...input, password: hashedPassword });

@@ -9,10 +9,10 @@ import cors from 'cors';
 export class ResourcesInitiator {
     public static async init(app: Application): Promise<void> {
         await ConfigValidator.validate(config);
-        
+
         this._initiateExceptionListeners();
         
-        this._initiateMiddlewares(app);
+        app.use(cors({ credentials: true, origin: true }));
 
         await this._initiateProviders();
 
@@ -28,10 +28,6 @@ export class ResourcesInitiator {
         process.on('unhandledRejection', (error) => {
             logger.red(error as string);
         });
-    }
-
-    private static _initiateMiddlewares(app: Application): void {
-        app.use(cors({ credentials: true, origin: true }));
     }
 
     private static async _initiateProviders(): Promise<void> {

@@ -1,10 +1,10 @@
-import { CreateUserDTO } from '../dto/create.dto';
-import { GetUserDTO } from '../dto/get.dto';
-import { UpdateUserDTO } from '../dto/update.dto';
 import { User } from '../user';
+import { ICreateUserDTO } from './ICreateUserDto';
+import { IGetUserDTO } from './IGetUserDto';
+import { IUpdateUserDTO } from './IUpdateUserDto';
 
 export interface IUserRepository {
-    getMany(data: GetUserDTO ): Promise<User[]>;
+    getMany(data: IGetUserDTO): Promise<User[]>;
 
     getById(id: string): Promise<User | null>;
 
@@ -12,9 +12,9 @@ export interface IUserRepository {
 
     getByUsername(username: string): Promise<User| null>;
 
-    create(data: CreateUserDTO): Promise<User>;
+    create(data: ICreateUserDTO): Promise<User>;
 
     deleteById(id: string): Promise<void>;
 
-    updateById(id: string, data: UpdateUserDTO): Promise<void>;
+    updateById(id: string, data: IUpdateUserDTO): Promise<void>;
 }

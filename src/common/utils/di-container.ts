@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { IMongoUser } from '../../database/models/user/interfaces/IMongoUser';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
 import { MongoUserRepository } from '../../database/models/user/repositories/mongo.repository';
-import { MongoUser } from '../../database/models/user/schemas/user.schema';
+import { MongoUser } from '../../database/models/user/schemes/user.schema';
 import { UserSeeder } from '../../database/seeders/user/user.seeder';
 import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';

@@ -3,41 +3,49 @@ import { Model, Types } from 'mongoose';
 import { CreateUserDTO } from '../dto/create.dto';
 import { GetUserDTO } from '../dto/get.dto';
 import { UpdateUserDTO } from '../dto/update.dto';
-import { IUser } from '../interfaces/IUser';
 import { IUserRepository } from '../interfaces/IUserRepository';
-import 'reflect-metadata';
 import { IMongoUser } from '../interfaces/IMongoUser';
 import { Constants } from '../../../../common/constants';
+import { User } from '../user';
+import 'reflect-metadata';
 
 @injectable()
 export class MongoUserRepository implements IUserRepository {
     constructor(@inject(Constants.DEPENDENCY.MONGO_USER_MODEL) private readonly _userModel: Model<IMongoUser>) {}
     
-    public async getMany(data: GetUserDTO = {}): Promise<IUser[]> {
-        const users = this._userModel.find(data);
-        return users;
+    public async getMany(data: GetUserDTO = {}): Promise<User[]> {
+        const users = await this._userModel.find(data);
+        return users.map((user) => new User(user));
     }
 
-    public async getById(id: string): Promise<IUser | null> {
+    public async getById(id: string): Promise<User | null> {
         if(!Types.ObjectId.isValid(id)) return null;
+        const user = await this._userModel.findById(id);;
 
-        const user = await this._userModel.findById(id);
-        return user;
+        if(!user) return null;
+
+        return new User(user);
     }
 
-    public async getByEmail(email: string): Promise<IUser | null> {
+    public async getByEmail(email: string): Promise<User | null> {
         const user = await this._userModel.findOne({ email });
-        return user;
+
+        if(!user) return null;
+        
+        return new User(user);
     }
 
-    public async getByUsername(username: string): Promise<IUser | null> {
+    public async getByUsername(username: string): Promise<User | null> {
         const user = await this._userModel.findOne({ username });
-        return user;
+
+        if(!user) return null;
+
+        return new User(user);
     }
 
-    public async create(data: CreateUserDTO): Promise<IUser> {
-        const user = new this._userModel(data);
-        return user.save();
+    public async create(data: CreateUserDTO): Promise<User> {
+        const user = await new this._userModel(data).save();
+        return new User(user);
     }
 
     public async deleteById(id: string): Promise<void> {

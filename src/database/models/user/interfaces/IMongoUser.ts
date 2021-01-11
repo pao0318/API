@@ -1,6 +1,6 @@
-import { IUser } from './IUser';
 import { Document } from 'mongoose';
+import { IUser } from './IUser';
 
 export interface IMongoUser extends Document, IUser {
-    id: string;
+    readonly id: string;
 }

@@ -6,6 +6,8 @@ import { Dependency } from './dependency';
 import { Endpoint } from './endpoint';
 import { Exception } from './exception';
 import { StatusCode } from './status-code';
+import { Task } from './task';
+import { Time } from './time';
 import { Token } from './token';
 
 export const Constants = {
@@ -17,5 +19,7 @@ export const Constants = {
     ENDPOINT: Endpoint,
     EXCEPTION: Exception,
     STATUS_CODE: StatusCode,
+    TASK: Task,
+    TIME: Time,
     TOKEN: Token
 } as const;

@@ -1,3 +1,5 @@
 export interface ITasksProvider {
-    addTask(name: string, time: string, handler: () => Promise<void> | void): Promise<void>;
+    start(): Promise<void>;
+    
+    addTask(name: string, time: number, handler: () => Promise<void> | void): Promise<void>;
 }

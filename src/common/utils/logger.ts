@@ -1,4 +1,4 @@
-import { red, green } from 'chalk';
+import { red, green, blue } from 'chalk';
 import config from '../../config';
 import { Constants } from '../constants';
 import { Color } from '../constants/color';
@@ -24,6 +24,8 @@ export class Logger {
             case Color.GREEN:
                 console.log(green(text));
                 break;
+            case Color.BLUE:
+                console.log(blue(text));
         }
     }
 }

@@ -1,19 +1,19 @@
+import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { Model, Types } from 'mongoose';
-import { CreateUserDTO } from '../dto/create.dto';
-import { GetUserDTO } from '../dto/get.dto';
-import { UpdateUserDTO } from '../dto/update.dto';
-import { IUserRepository } from '../interfaces/IUserRepository';
-import { IMongoUser } from '../interfaces/IMongoUser';
 import { Constants } from '../../../../common/constants';
 import { User } from '../user';
-import 'reflect-metadata';
+import { IGetUserDTO } from '../interfaces/IGetUserDto';
+import { ICreateUserDTO } from '../interfaces/ICreateUserDto';
+import { IUpdateUserDTO } from '../interfaces/IUpdateUserDto';
+import { IUserRepository } from '../interfaces/IUserRepository';
+import { IMongoUser } from '../interfaces/IMongoUser';
 
 @injectable()
 export class MongoUserRepository implements IUserRepository {
     constructor(@inject(Constants.DEPENDENCY.MONGO_USER_MODEL) private readonly _userModel: Model<IMongoUser>) {}
     
-    public async getMany(data: GetUserDTO = {}): Promise<User[]> {
+    public async getMany(data: IGetUserDTO = {}): Promise<User[]> {
         const users = await this._userModel.find(data);
         return users.map((user) => new User(user));
     }
@@ -43,7 +43,7 @@ export class MongoUserRepository implements IUserRepository {
         return new User(user);
     }
 
-    public async create(data: CreateUserDTO): Promise<User> {
+    public async create(data: ICreateUserDTO): Promise<User> {
         const user = await new this._userModel(data).save();
         return new User(user);
     }
@@ -52,7 +52,7 @@ export class MongoUserRepository implements IUserRepository {
         await this._userModel.deleteOne({ _id: id });
     }
 
-    public async updateById(id: string, data: UpdateUserDTO): Promise<void> {
+    public async updateById(id: string, data: IUpdateUserDTO): Promise<void> {
         await this._userModel.updateOne({ _id: id }, data);
     }
 }

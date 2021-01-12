@@ -1,3 +1,3 @@
 export interface IGetUserDTO {
-    isConfirmed: boolean;
+    isConfirmed?: boolean;
 }

@@ -1,4 +1,4 @@
-import { AccountType } from '../../../../common/constants/account-type';
+import { AccountType } from '../../../common/constants/account-type';
 import { IConfirmationCode } from './IConfirmationCode';
 
 export interface IUser {
@@ -9,6 +9,6 @@ export interface IUser {
     readonly joinedAt: number;
     readonly isConfirmed: boolean;
     readonly avatar: string;
-    readonly ACCOUNT_TYPE: AccountType;
+    readonly accountType: AccountType;
     readonly confirmationCode: IConfirmationCode;
 }

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import globalConfig from '../../config';
-import { ConfigValidator } from '../utils/config-validator';
+import globalConfig from '../../../config';
+import { ConfigValidator } from '../config-validator';
 import faker from 'faker';
-import { Constants } from '../constants';
+import { Constants } from '../../constants';
 
 describe('Config validator - validate method', () => {
     const config = {

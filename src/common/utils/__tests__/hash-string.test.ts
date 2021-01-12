@@ -1,4 +1,4 @@
-import { hashString } from '../helpers/hash-string';
+import { hashString } from '../../helpers/hash-string';
 import faker from 'faker';
 import bcrypt from 'bcrypt';
 

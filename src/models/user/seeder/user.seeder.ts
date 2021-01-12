@@ -1,19 +1,19 @@
+import 'reflect-metadata';
 import faker from 'faker';
-import { RegisterRequestDTO } from '../../../routes/auth/dto/register.dto';
 import { hashString } from '../../../common/helpers/hash-string';
 import { Logger } from '../../../common/utils/logger';
 import { sleep } from '../../../common/helpers/sleep';
 import { Database } from '../../../common/utils/database';
 import config from '../../../config';
 import { inject, injectable } from 'inversify';
-import 'reflect-metadata';
-import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
+import { IUserRepository } from '../interfaces/IUserRepository';
 import { Constants } from '../../../common/constants';
+import { IRegisterRequestDTO } from '../../../routes/auth/interfaces/IRegisterRequestDTO';
 
 @injectable()
 export class UserSeeder {
-    private _fakeUserData!: RegisterRequestDTO;
-    private _fakeUserDataWithHashedPassword!: RegisterRequestDTO;
+    private _fakeUserData!: IRegisterRequestDTO;
+    private _fakeUserDataWithHashedPassword!: IRegisterRequestDTO;
 
     constructor(@inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
 

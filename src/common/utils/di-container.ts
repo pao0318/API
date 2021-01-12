@@ -1,10 +1,10 @@
 import { Container } from 'inversify';
 import { Model } from 'mongoose';
-import { IMongoUser } from '../../database/models/user/interfaces/IMongoUser';
-import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
-import { MongoUserRepository } from '../../database/models/user/repositories/mongo.repository';
-import { MongoUser } from '../../database/models/user/schemas/user.schema';
-import { UserSeeder } from '../../database/seeders/user/user.seeder';
+import { IMongoUser } from '../../models/user/interfaces/IMongoUser';
+import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
+import { MongoUserRepository } from '../../models/user/repositories/mongo.repository';
+import { MongoUser } from '../../models/user/schemes/mongo.schema';
+import { UserSeeder } from '../../models/user/seeder/user.seeder';
 import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';

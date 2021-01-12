@@ -1,8 +1,8 @@
 import config from '../../config';
 import { Database } from './database';
 import mongoose from 'mongoose';
-import { CreateUserDTO } from '../../database/models/user/dto/create.dto';
 import faker from 'faker';
+import { ICreateUserDTO } from '../../models/user/interfaces/ICreateUserDto';
 
 export class TestUtils {
     public static async connectToDatabase(): Promise<void> {
@@ -13,7 +13,7 @@ export class TestUtils {
         await mongoose.connection.db.dropDatabase();
     }
 
-    public static generateFakeUserData(): CreateUserDTO {
+    public static generateFakeUserData(): ICreateUserDTO {
         return {
             email: faker.internet.email(),
             username: faker.internet.userName(),

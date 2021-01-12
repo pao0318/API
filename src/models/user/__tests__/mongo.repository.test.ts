@@ -1,8 +1,8 @@
-import { TestUtils } from '../../../../../common/utils/test-utils';
+import { TestUtils } from '../../../common/utils/test-utils';
 import faker from 'faker';
-import { IUser } from '../../interfaces/IUser';
-import { MongoUserRepository } from '../mongo.repository';
-import { MongoUser } from '../../schemas/user.schema';
+import { IUser } from '../interfaces/IUser';
+import { MongoUserRepository } from '../repositories/mongo.repository';
+import { MongoUser } from '../schemes/mongo.schema';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();

@@ -5,10 +5,15 @@ export class AgendaProvider implements ITasksProvider {
     private readonly _agenda: Agenda;
 
     constructor(databaseUrl: string) {
-        this._agenda = new Agenda({ db: { address: databaseUrl }});
+        this._agenda = new Agenda({ db: { address: databaseUrl, collection: 'tasks' }});
+    }
+
+    public async start(): Promise<void> {
+        await this._agenda.start();
     }
 
     public async addTask(name: string, time: string, handler: () => Promise<void> | void): Promise<void> {
         this._agenda.define(name, handler);
+        this._agenda.every(time, name);
     }
 }

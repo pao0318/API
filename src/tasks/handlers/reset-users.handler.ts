@@ -6,7 +6,9 @@ import { MongoUser } from '../../models/user/schemes/mongo.schema';
 import { User } from '../../models/user/user';
 
 export class ResetUsersHandler {
-    constructor(private readonly _userRepository: IUserRepository = new MongoUserRepository(MongoUser)) {}
+    constructor(private readonly _userRepository: IUserRepository = new MongoUserRepository(MongoUser)) {
+        this.init = this.init.bind(this);
+    }
 
     public async init(): Promise<void> {
         const users = await this._userRepository.getMany({ isConfirmed: false });

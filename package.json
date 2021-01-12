@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc --allowUmdGlobalAccess --allowUnreachableCode --isolatedModules --preserveSymlinks",
+    "build": "tsc",
     "start:dev": "cross-env APP_MODE=development concurrently \"tsc -w\" \"nodemon dist/index.js\"",
     "start:prod": "cross-env APP_MODE=production node dist/index.js",
     "start:db": "bash ./src/scripts/start-db.sh",

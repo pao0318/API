@@ -1,5 +1,5 @@
-import { Constants } from '../../../common/constants';
-import { AccountType } from '../../../common/constants/account-type';
+import { Constants } from '../../common/constants';
+import { AccountType } from '../../common/constants/account-type';
 import { IConfirmationCode } from './interfaces/IConfirmationCode';
 import { IUser } from './interfaces/IUser';
 

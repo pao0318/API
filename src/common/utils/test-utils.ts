@@ -2,7 +2,7 @@ import config from '../../config';
 import { Database } from './database';
 import mongoose from 'mongoose';
 import faker from 'faker';
-import { ICreateUserDTO } from '../../database/models/user/interfaces/ICreateUserDto';
+import { ICreateUserDTO } from '../../models/user/interfaces/ICreateUserDto';
 
 export class TestUtils {
     public static async connectToDatabase(): Promise<void> {

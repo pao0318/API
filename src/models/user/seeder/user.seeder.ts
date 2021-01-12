@@ -7,7 +7,7 @@ import { Database } from '../../../common/utils/database';
 import config from '../../../config';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
+import { IUserRepository } from '../interfaces/IUserRepository';
 import { Constants } from '../../../common/constants';
 
 @injectable()

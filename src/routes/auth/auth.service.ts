@@ -3,7 +3,8 @@ import { Constants } from '../../common/constants';
 import { DuplicateEmailException } from '../../common/exceptions/duplicate-email.exception';
 import { DuplicateUsernameException } from '../../common/exceptions/duplicate-username.exception';
 import { hashString } from '../../common/helpers/hash-string';
-import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
+import { UserFactory } from '../../models/user/factories/user.factory';
+import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
 import { RegisterRequestDTO } from './dto/register.dto';
 
 @injectable()
@@ -18,6 +19,6 @@ export class AuthService {
         if(usernameAlreadyExists) throw new DuplicateUsernameException;
 
         const hashedPassword = await hashString(input.password);
-        await this._userRepository.create({ ...input, password: hashedPassword });
+        await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
     }
 }

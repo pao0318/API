@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { Model, Types } from 'mongoose';
-import { Constants } from '../../../../common/constants';
+import { Constants } from '../../../common/constants';
 import { User } from '../user';
 import { IGetUserDTO } from '../interfaces/IGetUserDto';
 import { ICreateUserDTO } from '../interfaces/ICreateUserDto';

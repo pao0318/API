@@ -1,4 +1,4 @@
-import { Constants } from '../../../../common/constants';
+import { Constants } from '../../../common/constants';
 import { ICreateUserDTO } from '../interfaces/ICreateUserDto';
 
 export class UserFactory {

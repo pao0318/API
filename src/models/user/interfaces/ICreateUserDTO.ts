@@ -1,4 +1,4 @@
-import { AccountType } from '../../../../common/constants/account-type';
+import { AccountType } from '../../../common/constants/account-type';
 
 export interface ICreateUserDTO {
     email: string;

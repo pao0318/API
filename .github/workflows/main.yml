@@ -23,12 +23,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-    
-    - name: Show files
-      run: cd src/models/user/interfaces && cat ./ICreateUserDTO.ts
-
-    - name: Show files
-      run: cd src/models/user/repositories && cat ./mongo.repository.ts
       
     - name: Build application
       run: npm run build

@@ -8,9 +8,8 @@ import { UserSeeder } from '../../models/user/seeder/user.seeder';
 import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
-import { IMailProvider } from '../../services/email/interfaces/IMailProvider';
-import { MailService } from '../../services/email/mail.service';
-import { GmailProvider } from '../../services/email/providers/gmail.provider';
+import { IEmailService } from '../../services/email/interfaces/IEmailService';
+import { NodemailerEmailService } from '../../services/email/nodemailer.service';
 import { Constants } from '../constants';
 
 const container = new Container();
@@ -23,7 +22,6 @@ container.bind<IUserRepository>(Constants.DEPENDENCY.USER_REPOSITORY).to(MongoUs
 container.bind<Model<IMongoUser>>(Constants.DEPENDENCY.MONGO_USER_MODEL).toConstantValue(MongoUser);
 container.bind<UserSeeder>(Constants.DEPENDENCY.USER_SEEDER).to(UserSeeder);
 
-container.bind<MailService>(Constants.DEPENDENCY.MAIL_SERVICE).to(MailService);
-container.bind<IMailProvider>(Constants.DEPENDENCY.MAIL_PROVIDER).to(GmailProvider);
+container.bind<IEmailService>(Constants.DEPENDENCY.EMAIL_SERVICE).to(NodemailerEmailService);
 
 export { container };

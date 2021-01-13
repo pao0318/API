@@ -7,6 +7,5 @@ export enum Dependency {
     MONGO_USER_MODEL = 'MongoUserModel',
     USER_SEEDER = 'UserSeeder',
 
-    MAIL_SERVICE = 'MailService',
-    MAIL_PROVIDER = 'MailProvider'
+    EMAIL_SERVICE = 'EmailService'
 }

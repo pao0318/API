@@ -8,9 +8,9 @@ import { UserSeeder } from '../../models/user/seeder/user.seeder';
 import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
-import { IMailProvider } from '../../services/mail/interfaces/IMailProvider';
-import { MailService } from '../../services/mail/mail.service';
-import { GmailProvider } from '../../services/mail/providers/gmail.provider';
+import { IMailProvider } from '../../services/email/interfaces/IMailProvider';
+import { MailService } from '../../services/email/mail.service';
+import { GmailProvider } from '../../services/email/providers/gmail.provider';
 import { Constants } from '../constants';
 
 const container = new Container();

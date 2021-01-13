@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { injectable, inject } from 'inversify';
 import { Constants } from '../../common/constants';
@@ -11,7 +11,12 @@ export class AuthController {
         this.register = this.register.bind(this);
     }
 
-    public async register(req: Request): Promise<void> {
-        this._authService.register(req.body as IRegisterRequestDTO);
+    public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            await this._authService.register(req.body as IRegisterRequestDTO);
+            res.status(Constants.STATUS_CODE.CREATED).end();
+        } catch(error) {
+            next(error);
+        }
     }
 }

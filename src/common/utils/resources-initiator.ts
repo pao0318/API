@@ -1,4 +1,4 @@
-import { Application } from 'express';
+import { Application, json } from 'express';
 import config from '../../config';
 import { ConfigValidator } from './config-validator';
 import { Database } from './database';
@@ -14,7 +14,7 @@ export class ResourcesInitiator {
         await ConfigValidator.validate(config);
         this._initiateExceptionListeners();
         
-        app.use(cors({ credentials: true, origin: true }));
+        this._initiateMiddlewares(app);
         await this._initiateProviders();
 
         this._renderRoutes(app);
@@ -30,6 +30,11 @@ export class ResourcesInitiator {
         process.on('unhandledRejection', (error) => {
             Logger.log(`UNHANDLED_REJECTION: ${error}`, Constants.COLOR.RED);
         });
+    }
+
+    private static _initiateMiddlewares(app: Application): void {
+        app.use(cors({ credentials: true, origin: true }));
+        app.use(json());
     }
 
     private static async _initiateProviders(): Promise<void> {

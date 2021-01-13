@@ -3,16 +3,16 @@ import { Constants } from '../../common/constants';
 import { DuplicateEmailException } from '../../common/exceptions/duplicate-email.exception';
 import { DuplicateUsernameException } from '../../common/exceptions/duplicate-username.exception';
 import { hashString } from '../../common/helpers/hash-string';
+import { EventEmitter } from '../../events';
 import { UserFactory } from '../../models/user/factories/user.factory';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
-import { IEmailService } from '../../services/email/interfaces/IEmailService';
 import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 
 @injectable()
 export class AuthService {
     constructor(
         @inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
-        @inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService
+        @inject(Constants.DEPENDENCY.EVENT_EMITTER) private readonly _eventEmitter: EventEmitter
         ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {
@@ -25,10 +25,7 @@ export class AuthService {
         const hashedPassword = await hashString(input.password);
         await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
 
-        await this._emailService.sendMail({
-            to: input.email,
-            subject: 'Confirmation mail',
-            body: 'a'
-        });
+
+        this._eventEmitter.emit(Constants.EVENT.SEND_CONFIRMATION_MAIL, {});
     }
 }

@@ -5,11 +5,15 @@ import { DuplicateUsernameException } from '../../common/exceptions/duplicate-us
 import { hashString } from '../../common/helpers/hash-string';
 import { UserFactory } from '../../models/user/factories/user.factory';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
+import { IEmailService } from '../../services/email/interfaces/IEmailService';
 import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 
 @injectable()
 export class AuthService {
-    constructor(@inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
+    constructor(
+        @inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
+        @inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService
+        ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {
         const emailAlreadyExists = await this._userRepository.getByEmail(input.email)
@@ -20,5 +24,11 @@ export class AuthService {
 
         const hashedPassword = await hashString(input.password);
         await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
+
+        await this._emailService.sendMail({
+            to: input.email,
+            subject: 'Confirmation mail',
+            body: 'a'
+        });
     }
 }

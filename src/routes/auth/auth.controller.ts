@@ -11,6 +11,7 @@ export class AuthController {
     constructor(@inject(Constants.DEPENDENCY.AUTH_SERVICE) private readonly _authService: AuthService) {
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -29,5 +30,10 @@ export class AuthController {
         } catch(error) {
             next(error);
         }
+    }
+
+    public logout(req: Request, res: Response): void {
+        this._authService.logout(res);
+        res.status(Constants.STATUS_CODE.NO_CONTENT).end();
     }
 }

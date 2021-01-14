@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Token } from '../../common/constants/token';
 import { TokenPayload } from '../../types';
 import { IAccessTokenPayload } from './interfaces/IAccessTokenPayload';

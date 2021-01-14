@@ -35,7 +35,7 @@ export class AuthService {
         this._eventEmitter.sendConfirmationMail(Constants.MAIL.ACCOUNT_CONFIRMATION, { id: user.id, email: user.email });
     }
 
-    public async login(input: ILoginRequestDTO, response: Response): Promise<void> {
+    public async login(input: ILoginRequestDTO, res: Response): Promise<void> {
         const user = await this._userRepository.getByEmail(input.email);
         if(!user || user.isSocialMediaAccount()) throw new InvalidCredentialsException();
 
@@ -45,6 +45,10 @@ export class AuthService {
         if(!user.isConfirmed) throw new UnconfirmedAccountException();
 
         const accessToken = this._jwtService.generateToken(Constants.TOKEN.ACCESS, { id: user.id, email: user.email, username: user.username });
-        response.cookie('authorization', accessToken);
+        res.cookie('authorization', accessToken, { httpOnly: true });
+    }
+
+    public logout(res: Response): void {
+        res.cookie('authorization', '', { httpOnly: true });
     }
 }

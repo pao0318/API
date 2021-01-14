@@ -13,5 +13,6 @@ export class AuthRouter extends Router {
 
         this._router.post(Constants.ENDPOINT.AUTH.REGISTER, validateBody(RegisterValidationSchema), this._authController.register);
         this._router.post(Constants.ENDPOINT.AUTH.LOGIN, validateBody(LoginValidationSchema), this._authController.login);
+        this._router.post(Constants.ENDPOINT.AUTH.LOGOUT, this._authController.logout);
     }
 }

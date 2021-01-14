@@ -1,17 +1,17 @@
 import 'reflect-metadata';
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 import { Model, Types } from 'mongoose';
-import { Constants } from '../../../common/constants';
 import { User } from '../user';
 import { IGetUserDTO } from '../interfaces/IGetUserDto';
 import { ICreateUserDTO } from '../interfaces/ICreateUserDto';
 import { IUpdateUserDTO } from '../interfaces/IUpdateUserDto';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { IMongoUser } from '../interfaces/IMongoUser';
+import { MongoUser } from '../schemes/mongo.schema';
 
 @injectable()
 export class MongoUserRepository implements IUserRepository {
-    constructor(@inject(Constants.DEPENDENCY.MONGO_USER_MODEL) private readonly _userModel: Model<IMongoUser>) {}
+    constructor(private readonly _userModel: Model<IMongoUser> = MongoUser) {}
     
     public async getMany(data: IGetUserDTO = {}): Promise<User[]> {
         const users = await this._userModel.find(data);

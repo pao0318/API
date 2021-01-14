@@ -5,7 +5,9 @@ import { sign, verify } from 'jsonwebtoken';
 import { ITokenProperties } from './interfaces/ITokenProperties';
 import config from '../../config';
 import { UnauthorizedException } from '../../common/exceptions/unauthorized.exception';
+import { injectable } from 'inversify';
 
+@injectable()
 export class JwtService {
     public generateToken(type: Token.ACCESS, payload: IAccessTokenPayload): string
     public generateToken(type: Token, payload: TokenPayload): string {

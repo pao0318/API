@@ -8,6 +8,7 @@ import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
 import { IEmailService } from '../../services/email/interfaces/IEmailService';
 import { NodemailerEmailService } from '../../services/email/nodemailer.service';
+import { JwtService } from '../../services/jwt/jwt.service';
 import { Constants } from '../constants';
 
 const container = new Container({ skipBaseClassChecks: true });
@@ -21,5 +22,6 @@ container.bind<UserSeeder>(Constants.DEPENDENCY.USER_SEEDER).to(UserSeeder);
 
 container.bind<IEmailService>(Constants.DEPENDENCY.EMAIL_SERVICE).to(NodemailerEmailService);
 container.bind<EventEmitter>(Constants.DEPENDENCY.EVENT_EMITTER).to(EventEmitter).inSingletonScope();
+container.bind<JwtService>(Constants.DEPENDENCY.JWT_SERVICE).to(JwtService);
 
 export { container };

@@ -9,12 +9,12 @@ import { ISendConfirmationMailEventPayload } from '../interfaces/ISendConfirmati
 export class SendConfirmationMailHandler {
     constructor(private readonly _userRepository: IUserRepository, private readonly _emailService: IEmailService) {}
 
-    public async init(payload: ISendConfirmationMailEventPayload): Promise<void> {
+    public async init(mail: Mail, payload: ISendConfirmationMailEventPayload): Promise<void> {
         const confirmationCode = generateConfirmationCode();
 
         await this._userRepository.updateById(payload.id, { confirmationCode });
 
-        await this._emailService.sendMail(MailGenerator.generate(payload.type, {}));
+        await this._emailService.sendMail(MailGenerator.generate(mail, payload));
 
         Logger.log('Confirmation code has been sent successfully');
     }

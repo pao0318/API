@@ -25,6 +25,6 @@ export class AuthService {
         const hashedPassword = await hashString(input.password);
         const user = await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
 
-        this._eventEmitter.emitEvent(Constants.EVENT.SEND_CONFIRMATION_MAIL, { id: user.id, email: user.email, type: Constants.MAIL.ACCOUNT_CONFIRMATION });
+        this._eventEmitter.sendConfirmationMail(Constants.MAIL.ACCOUNT_CONFIRMATION, { id: user.id, email: user.email });
     }
 }

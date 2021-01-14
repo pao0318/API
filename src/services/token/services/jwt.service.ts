@@ -7,7 +7,7 @@ import { IToken } from '../interfaces/IToken';
 import { ITokenPayload } from '../interfaces/ITokenPayload';
 
 @injectable()
-export class JwtService implements ITokenService {
+export class JwtTokenService implements ITokenService {
     private readonly _verifyAsync = promisify<string, string, object | undefined>(jwt.verify);
 
     public async generate(token: IToken): Promise<string> {

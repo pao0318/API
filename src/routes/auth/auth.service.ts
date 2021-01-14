@@ -10,7 +10,8 @@ import { hashString } from '../../common/helpers/hash-string';
 import { EventEmitter } from '../../events';
 import { UserFactory } from '../../models/user/factories/user.factory';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
-import { JwtService } from '../../services/token/jwt.service';
+import { ITokenService } from '../../services/token/interfaces/ITokenService';
+import { AccessToken } from '../../services/token/tokens/access-token';
 import { ILoginRequestDTO } from './interfaces/ILoginRequestDTO';
 import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 
@@ -19,7 +20,7 @@ export class AuthService {
     constructor(
         @inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
         @inject(Constants.DEPENDENCY.EVENT_EMITTER) private readonly _eventEmitter: EventEmitter,
-        @inject(Constants.DEPENDENCY.JWT_SERVICE) private readonly _jwtService: JwtService
+        @inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService
         ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {
@@ -44,8 +45,8 @@ export class AuthService {
 
         if(!user.isConfirmed) throw new UnconfirmedAccountException();
 
-        const accessToken = this._jwtService.generateToken(Constants.TOKEN.ACCESS, { id: user.id, email: user.email, username: user.username });
-        res.cookie('authorization', accessToken, { httpOnly: true });
+        const token = this._tokenService.generate(new AccessToken({ id: user.id, email: user.email, username: user.username }));
+        res.cookie('authorization', token, { httpOnly: true });
     }
 
     public logout(res: Response): void {

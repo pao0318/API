@@ -3,7 +3,8 @@ export const Endpoint = {
         REGISTER: '/auth/register',
         LOGIN: '/auth/login',
         LOGIN_GOOGLE: '/auth/login-google',
-        LOGIN_FACEBOOK: '/auth/login-facebook'
+        LOGIN_FACEBOOK: '/auth/login-facebook',
+        LOGOUT: '/auth/logout'
     },
     ACCOUNT: {
         CHANGE_PASSWORD: '/account/change-password',

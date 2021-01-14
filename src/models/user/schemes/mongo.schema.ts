@@ -27,7 +27,7 @@ const MongoUserSchema: Schema = new Schema({
         type: String,
         default: 'default.jpeg'
     },
-    ACCOUNT_TYPE: {
+    accountType: {
         type: String,
         enum: [Constants.ACCOUNT_TYPE.REGULAR, Constants.ACCOUNT_TYPE.GOOGLE, Constants.ACCOUNT_TYPE.FACEBOOK],
         default: Constants.ACCOUNT_TYPE.REGULAR

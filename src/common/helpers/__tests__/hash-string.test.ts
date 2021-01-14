@@ -3,13 +3,6 @@ import faker from 'faker';
 import bcrypt from 'bcrypt';
 
 describe('Hash string function', () => {
-    describe('When string has no characters', () => {
-        it('Should throw an error', async () => {
-            const string = '';
-            await expect(hashString(string)).rejects.toThrow('String should be at least 1 characters long');
-        });
-    });
-
     describe('When string has more than 0 characters', () => {
         const string = faker.random.alphaNumeric(5);
         let hashedString: string;

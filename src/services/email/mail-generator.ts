@@ -1,6 +1,6 @@
 import { Constants } from '../../common/constants';
 import { Mail } from '../../common/constants/mail';
-import { FileUtils } from '../../common/utils/file-utils';
+import readFile from '../../common/helpers/read-file';
 import { IAccountConfirmationMailInput } from './interfaces/IAccountConfirmationMailInput';
 import { IMail } from './interfaces/IMail';
 
@@ -14,10 +14,13 @@ export class MailGenerator {
     }
 
     private static async _generateAccountConfirmationMail(input: IAccountConfirmationMailInput): Promise<IMail> {
+        const template = await readFile('./src/assets/templates/account-confirmation-mail.html');
+        const body = '';
+
         return {
             to: input.email,
             subject: 'Confirm your address email',
-            body: await FileUtils.readFile('./src/assets/templates/account-confirmation-mail.html')
+            body: body
         };
     }
 }

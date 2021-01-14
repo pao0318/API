@@ -23,9 +23,8 @@ export class AuthService {
         if(usernameAlreadyExists) throw new DuplicateUsernameException;
 
         const hashedPassword = await hashString(input.password);
-        await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
+        const user = await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
 
-
-        this._eventEmitter.emit(Constants.EVENT.SEND_CONFIRMATION_MAIL, {});
+        this._eventEmitter.emitEvent(Constants.EVENT.SEND_CONFIRMATION_MAIL, { id: user.id, email: user.email, type: Constants.MAIL.ACCOUNT_CONFIRMATION });
     }
 }

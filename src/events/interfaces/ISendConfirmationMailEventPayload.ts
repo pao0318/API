@@ -1,4 +1,3 @@
-export interface ISendConfirmationMailEventPayload {
-    id: string;
-    email: string;
-}
+import { IAccountConfirmationMailPayload } from './IAccountConfirmationMailPayload';
+
+export interface ISendConfirmationMailEventPayload extends IAccountConfirmationMailPayload {}

@@ -6,6 +6,7 @@ import { Dependency } from './dependency';
 import { Endpoint } from './endpoint';
 import { Event } from './event';
 import { Exception } from './exception';
+import { Mail } from './mail';
 import { StatusCode } from './status-code';
 import { Task } from './task';
 import { Time } from './time';
@@ -20,6 +21,7 @@ export const Constants = {
     ENDPOINT: Endpoint,
     EVENT: Event,
     EXCEPTION: Exception,
+    MAIL: Mail,
     STATUS_CODE: StatusCode,
     TASK: Task,
     TIME: Time,

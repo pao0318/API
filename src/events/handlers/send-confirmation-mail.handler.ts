@@ -1,7 +1,9 @@
+import { Mail } from '../../common/constants/mail';
 import { generateConfirmationCode } from '../../common/helpers/generate-confirmation-code';
 import { Logger } from '../../common/utils/logger';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
 import { IEmailService } from '../../services/email/interfaces/IEmailService';
+import { MailGenerator } from '../../services/email/mail-generator';
 import { ISendConfirmationMailEventPayload } from '../interfaces/ISendConfirmationMailEventPayload';
 
 export class SendConfirmationMailHandler {
@@ -12,13 +14,7 @@ export class SendConfirmationMailHandler {
 
         await this._userRepository.updateById(payload.id, { confirmationCode });
 
-        //TODO: Split it into account confirmation and password confirmation
-        //TODO: Create mail factory
-        await this._emailService.sendMail({
-            to: payload.email,
-            subject: 'Confirmation mail',
-            body: `Code: 123456`
-        });
+        await this._emailService.sendMail(MailGenerator.generate(payload.type, {}));
 
         Logger.log('Confirmation code has been sent successfully');
     }

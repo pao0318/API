@@ -14,7 +14,7 @@ export class SendConfirmationMailHandler {
 
         await this._userRepository.updateById(payload.id, { confirmationCode });
 
-        await this._emailService.sendMail(MailGenerator.generate(mail, payload));
+        await this._emailService.sendMail(await MailGenerator.generate(mail, payload));
 
         Logger.log('Confirmation code has been sent successfully');
     }

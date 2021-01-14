@@ -45,6 +45,10 @@ export class AuthService {
         if(!user.isConfirmed) throw new UnconfirmedAccountException();
 
         const accessToken = this._jwtService.generateToken(Constants.TOKEN.ACCESS, { id: user.id, email: user.email, username: user.username });
-        response.cookie('authorization', accessToken);
+        response.cookie('authorization', accessToken, { httpOnly: true });
+    }
+
+    public logout(response: Response): void {
+        response.cookie('authorization', '', { httpOnly: true });
     }
 }

@@ -4,6 +4,7 @@ import { AuthController } from './auth.controller';
 import { injectable, inject } from 'inversify';
 import { validateBody } from '../../common/middlewares/validate-body.middleware';
 import { RegisterValidationSchema } from './schemes/register.schema';
+import { LoginValidationSchema } from './schemes/login.schema';
 
 @injectable()
 export class AuthRouter extends Router {
@@ -11,5 +12,6 @@ export class AuthRouter extends Router {
         super();
 
         this._router.post(Constants.ENDPOINT.AUTH.REGISTER, validateBody(RegisterValidationSchema), this._authController.register);
+        this._router.post(Constants.ENDPOINT.AUTH.LOGIN, validateBody(LoginValidationSchema), this._authController.login);
     }
 }

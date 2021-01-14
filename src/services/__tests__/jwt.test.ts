@@ -10,7 +10,7 @@ describe('JWT service', () => {
 
     describe('Generate token method', () => {
         describe('Access token', () => {
-            const payload = { id: faker.random.uuid(), email: faker.internet.email() };
+            const payload = { id: faker.random.uuid(), email: faker.internet.email(), username: faker.internet.userName() };
             const token = jwtService.generateToken(Constants.TOKEN.ACCESS, payload);
 
             it('Should be defined string', () => {
@@ -50,7 +50,7 @@ describe('JWT service', () => {
             });
 
             describe('When token is valid', () => {
-                const payload = { id: faker.random.uuid(), email: faker.internet.email() };
+                const payload = { id: faker.random.uuid(), email: faker.internet.email(), username: faker.internet.userName() };
                 const token = jwtService.generateToken(Constants.TOKEN.ACCESS, payload);
 
                 it('Should return correct payload', () => {

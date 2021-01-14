@@ -34,5 +34,6 @@ export class AuthController {
 
     public logout(req: Request, res: Response): void {
         this._authService.logout(res);
+        res.status(Constants.STATUS_CODE.NO_CONTENT).end();
     }
 }

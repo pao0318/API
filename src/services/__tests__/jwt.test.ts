@@ -1,4 +1,4 @@
-import { JwtService } from '../jwt/jwt.service';
+import { JwtService } from '../token/jwt.service';
 import faker from 'faker';
 import { verify, sign } from 'jsonwebtoken';
 import config from '../../config';

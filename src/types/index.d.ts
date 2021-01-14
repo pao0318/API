@@ -1,9 +1,7 @@
-import { IAccessTokenPayload } from '../services/jwt/interfaces/IAccessTokenPayload';
+import { IAccessTokenPayload } from '../services/token/interfaces/IAccessTokenPayload';
 
 declare module 'express' {
     export interface Request {
         user?: IAccessTokenPayload
     }
 }
-
-export type TokenPayload = IAccessTokenPayload;

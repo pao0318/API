@@ -10,7 +10,6 @@ import { Mail } from './mail';
 import { StatusCode } from './status-code';
 import { Task } from './task';
 import { Time } from './time';
-import { Token } from './token';
 
 export const Constants = {
     ACCOUNT_TYPE: AccountType,
@@ -25,5 +24,4 @@ export const Constants = {
     STATUS_CODE: StatusCode,
     TASK: Task,
     TIME: Time,
-    TOKEN: Token
 } as const;

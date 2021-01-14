@@ -10,7 +10,7 @@ import { hashString } from '../../common/helpers/hash-string';
 import { EventEmitter } from '../../events';
 import { UserFactory } from '../../models/user/factories/user.factory';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
-import { JwtService } from '../../services/jwt/jwt.service';
+import { JwtService } from '../../services/token/jwt.service';
 import { ILoginRequestDTO } from './interfaces/ILoginRequestDTO';
 import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 

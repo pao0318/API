@@ -8,7 +8,7 @@ import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
 import { IEmailService } from '../../services/email/interfaces/IEmailService';
 import { NodemailerEmailService } from '../../services/email/nodemailer.service';
-import { JwtService } from '../../services/jwt/jwt.service';
+import { JwtService } from '../../services/token/jwt.service';
 import { Constants } from '../constants';
 
 const container = new Container({ skipBaseClassChecks: true });

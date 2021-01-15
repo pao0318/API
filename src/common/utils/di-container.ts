@@ -7,7 +7,8 @@ import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
 import { IEmailService } from '../../services/email/interfaces/IEmailService';
 import { NodemailerEmailService } from '../../services/email/services/nodemailer.service';
-import { EventService } from '../../services/event/event.service';
+import { IEventService } from '../../services/event/interfaces/IEventService';
+import { NodeEventsService } from '../../services/event/services/node-events.service';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { JwtTokenService } from '../../services/token/services/jwt.service';
 import { Constants } from '../constants';
@@ -22,7 +23,7 @@ container.bind<IUserRepository>(Constants.DEPENDENCY.USER_REPOSITORY).to(MongoUs
 container.bind<UserSeeder>(Constants.DEPENDENCY.USER_SEEDER).to(UserSeeder);
 
 container.bind<IEmailService>(Constants.DEPENDENCY.EMAIL_SERVICE).to(NodemailerEmailService);
-container.bind<EventService>(Constants.DEPENDENCY.EVENT_SERVICE).to(EventService).inSingletonScope();
+container.bind<IEventService>(Constants.DEPENDENCY.EVENT_SERVICE).to(NodeEventsService).inSingletonScope();
 container.bind<ITokenService>(Constants.DEPENDENCY.TOKEN_SERVICE).to(JwtTokenService);
 
 export { container };

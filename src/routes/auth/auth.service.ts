@@ -10,8 +10,8 @@ import { hashString } from '../../common/helpers/hash-string';
 import { UserFactory } from '../../models/user/factories/user.factory';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
-import { EventService } from '../../services/event/event.service';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
+import { IEventService } from '../../services/event/interfaces/IEventService';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
 import { ILoginRequestDTO } from './interfaces/ILoginRequestDTO';
@@ -21,7 +21,7 @@ import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 export class AuthService {
     constructor(
         @inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
-        @inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: EventService,
+        @inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
         @inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService
         ) {}
 

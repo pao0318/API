@@ -1,13 +1,14 @@
 import { inject, injectable } from 'inversify';
 import { EventEmitter } from 'events';
-import { Constants } from '../../common/constants';
-import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
-import { IEmailService } from '../email/interfaces/IEmailService';
-import { SendConfirmationMailHandler } from './handlers/send-confirmation-mail-handler';
-import { IEvent } from './interfaces/IEvent';
+import { Constants } from '../../../common/constants';
+import { IUserRepository } from '../../../models/user/interfaces/IUserRepository';
+import { IEmailService } from '../../email/interfaces/IEmailService';
+import { SendConfirmationMailHandler } from '../handlers/send-confirmation-mail-handler';
+import { IEvent } from '../interfaces/IEvent';
+import { IEventService } from '../interfaces/IEventService';
 
 @injectable()
-export class EventService extends EventEmitter {
+export class NodeEventsService extends EventEmitter implements IEventService {
     constructor(
         @inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
         @inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService

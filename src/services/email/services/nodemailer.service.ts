@@ -1,10 +1,10 @@
 import { injectable } from 'inversify';
 import { createTransport, Transporter } from 'nodemailer';
-import { Constants } from '../../common/constants';
-import { Logger } from '../../common/utils/logger';
-import config from '../../config';
-import { IEmailService } from './interfaces/IEmailService';
-import { IMail } from './interfaces/IMail';
+import { Constants } from '../../../common/constants';
+import { Logger } from '../../../common/utils/logger';
+import config from '../../../config';
+import { IEmailService } from '../interfaces/IEmailService';
+import { Mail } from '../mails/mail';
 
 @injectable()
 export class NodemailerEmailService implements IEmailService {
@@ -15,12 +15,12 @@ export class NodemailerEmailService implements IEmailService {
         this._verifyTransporter();
     }
 
-    public async sendMail(mail: IMail): Promise<void> {
+    public async sendMail(mail: Mail): Promise<void> {
         await this._transporter.sendMail({
             from: config.MAIL.USER,
             to: mail.to,
             subject: mail.subject,
-            html: mail.body
+            html: await mail.getBody()
         });
     }
 

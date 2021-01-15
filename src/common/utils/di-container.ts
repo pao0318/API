@@ -7,7 +7,7 @@ import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
 import { IEmailService } from '../../services/email/interfaces/IEmailService';
-import { NodemailerEmailService } from '../../services/email/nodemailer.service';
+import { NodemailerEmailService } from '../../services/email/services/nodemailer.service';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { JwtTokenService } from '../../services/token/services/jwt.service';
 import { Constants } from '../constants';

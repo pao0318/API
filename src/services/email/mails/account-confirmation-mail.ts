@@ -2,7 +2,7 @@ import { IAccountConfirmationMailContext } from '../interfaces/IAccountConfirmat
 import { Mail } from './mail';
 
 export class AccountConfirmationMail extends Mail {
-    protected readonly _subject: string = 'Confirm your account';
+    public readonly subject: string = 'Confirm your account';
     protected readonly _templateName: string = 'account-confirmation-mail.html';
 
     constructor(to: string, context: IAccountConfirmationMailContext) {

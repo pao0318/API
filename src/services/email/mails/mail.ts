@@ -2,7 +2,7 @@ import readFile from '../../../common/helpers/read-file';
 import { IMailContext } from '../interfaces/IMailContext';
 
 export abstract class Mail {
-    protected abstract readonly _subject: string;
+    public abstract readonly subject: string;
     protected abstract readonly _templateName: string;
 
     constructor(public readonly to: string, private readonly _context: IMailContext) {}

@@ -2,7 +2,7 @@ import { Constants } from '../../common/constants';
 import { Mail } from '../../common/constants/mail';
 import applyContext from '../../common/helpers/apply-context';
 import readFile from '../../common/helpers/read-file';
-import { IAccountConfirmationMailInput } from './interfaces/IAccountConfirmationMailInput';
+import { IAccountConfirmationMailInput } from './interfaces/IAccountConfirmationMailContext';
 import { IMail } from './interfaces/IMail';
 
 export class MailGenerator {

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import { injectable } from 'inversify';
 import jwt from 'jsonwebtoken';
+import { injectable } from 'inversify';
 import { promisify } from 'util';
 import { ITokenService } from '../interfaces/ITokenService';
 import { IToken } from '../interfaces/IToken';

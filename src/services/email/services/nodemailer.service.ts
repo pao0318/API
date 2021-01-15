@@ -1,6 +1,5 @@
 import { injectable } from 'inversify';
 import { createTransport, Transporter } from 'nodemailer';
-import { Constants } from '../../../common/constants';
 import { Logger } from '../../../common/utils/logger';
 import config from '../../../config';
 import { IEmailService } from '../interfaces/IEmailService';

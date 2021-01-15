@@ -2,7 +2,7 @@ import { TestUtils } from '../../../common/utils/test-utils';
 import faker from 'faker';
 import { IUser } from '../interfaces/IUser';
 import { MongoUserRepository } from '../repositories/mongo.repository';
-import { MongoUser } from '../schemes/mongo.schema';
+import { MongoUser } from '../schemas/mongo.schema';
 
 beforeAll(async () => {
     await TestUtils.connectToDatabase();

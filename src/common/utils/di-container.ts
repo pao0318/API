@@ -2,6 +2,9 @@ import { Container } from 'inversify';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
 import { MongoUserRepository } from '../../models/user/repositories/mongo.repository';
 import { UserSeeder } from '../../models/user/seeder/user.seeder';
+import { AccountController } from '../../routes/account/account.controller';
+import { AccountRouter } from '../../routes/account/account.router';
+import { AccountService } from '../../routes/account/account.service';
 import { AuthController } from '../../routes/auth/auth.controller';
 import { AuthRouter } from '../../routes/auth/auth.router';
 import { AuthService } from '../../routes/auth/auth.service';
@@ -14,6 +17,10 @@ import { JwtTokenService } from '../../services/token/services/jwt.service';
 import { Constants } from '../constants';
 
 const container = new Container({ skipBaseClassChecks: true });
+
+container.bind<AccountController>(Constants.DEPENDENCY.ACCOUNT_CONTROLLER).to(AccountController);
+container.bind<AccountRouter>(Constants.DEPENDENCY.ACCOUNT_ROUTER).to(AccountRouter);
+container.bind<AccountService>(Constants.DEPENDENCY.ACCOUNT_SERVICE).to(AccountService);
 
 container.bind<AuthController>(Constants.DEPENDENCY.AUTH_CONTROLLER).to(AuthController);
 container.bind<AuthRouter>(Constants.DEPENDENCY.AUTH_ROUTER).to(AuthRouter);

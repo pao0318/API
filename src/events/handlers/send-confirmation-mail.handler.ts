@@ -2,7 +2,7 @@ import { generateConfirmationCode } from '../../common/helpers/generate-confirma
 import { Logger } from '../../common/utils/logger';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
 import { IEmailService } from '../../services/email/interfaces/IEmailService';
-import { ISendConfirmationMailEventPayload } from '../interfaces/ISendConfirmationMailEventPayload';
+import { ISendConfirmationMailEventPayload } from '../../services/event/interfaces/ISendConfirmationMailEventPayload';
 
 export class SendConfirmationMailHandler {
     constructor(private readonly _userRepository: IUserRepository, private readonly _emailService: IEmailService) {}

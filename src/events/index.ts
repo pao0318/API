@@ -5,7 +5,7 @@ import { Constants } from '../common/constants';
 import { SendConfirmationMailHandler } from './handlers/send-confirmation-mail.handler';
 import { IUserRepository } from '../models/user/interfaces/IUserRepository';
 import { IEmailService } from '../services/email/interfaces/IEmailService';
-import { IAccountConfirmationMailPayload } from './interfaces/IAccountConfirmationMailPayload';
+import { IAccountConfirmationMailPayload } from '../services/event/interfaces/IAccountConfirmationMailPayload';
 import { Mail } from '../services/email/mails/mail';
 
 @injectable()

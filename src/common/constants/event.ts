@@ -1,3 +1,3 @@
 export enum Event {
-    SEND_CONFIRMATION_MAIL = 'send_confirmation_mail'
+    SEND_CONFIRMATION_MAIL = 'SEND_CONFIRMATION_MAIL'
 }

@@ -38,7 +38,7 @@ export class ConfigValidator {
     }
     
     private static _printErrorMessageAndExit(message: string): void {
-        Logger.log(`ENVIRONMENTAL_VARIABLE_ERROR: ${message}`);
+        Logger.error(`Environmental variable error - ${message}`);
         process.exit(1);
     }
 }

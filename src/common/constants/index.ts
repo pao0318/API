@@ -1,6 +1,5 @@
 import { AccountType } from './account-type';
 import { AppMode } from './app-mode';
-import { Color } from './color';
 import { DefaultException } from './default-exception';
 import { Dependency } from './dependency';
 import { Endpoint } from './endpoint';
@@ -13,7 +12,6 @@ import { Time } from './time';
 export const Constants = {
     ACCOUNT_TYPE: AccountType,
     APP_MODE: AppMode,
-    COLOR: Color,
     DEFAULT_EXCEPTION: DefaultException,
     DEPENDENCY: Dependency,
     ENDPOINT: Endpoint,

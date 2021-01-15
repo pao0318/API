@@ -1,5 +1,4 @@
 import { connect as connectDatabase } from 'mongoose';
-import { Constants } from '../constants';
 import { Logger } from './logger';
 
 export class Database {
@@ -21,9 +20,9 @@ export class Database {
                 dbName: this._name
             });
 
-            Logger.log(`Connected to the database [${this._name}]`);
+            Logger.info(`Connected to the database [${this._name}]`);
         } catch(error) {
-            Logger.log(`DATABASE_CONNECTION_ERROR - [${this._name}]: ${error.message}`, Constants.COLOR.RED);
+            Logger.error(`Database connection error - [${this._name}]: ${error.message}`);
         }
     }
 }

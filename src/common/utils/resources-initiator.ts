@@ -2,33 +2,38 @@ import { Application, json } from 'express';
 import config from '../../config';
 import { ConfigValidator } from './config-validator';
 import { Database } from './database';
-import { Logger } from './logger';
 import routers from '../../routes';
 import cors from 'cors';
-import { Constants } from '../constants';
 import { catchExceptions } from '../middlewares/catch-exceptions.middleware';
 import defaultRouter from '../../routes/default';
+import { Logger } from './logger';
+import { TasksManager } from '../../tasks';
 
 export class ResourcesInitiator {
     public static async init(app: Application): Promise<void> {
         await ConfigValidator.validate(config);
+
         this._initiateExceptionListeners();
         
         this._initiateMiddlewares(app);
+
+        await new TasksManager().init();
+
         await this._initiateProviders();
 
         this._renderRoutes(app);
+
         app.use(catchExceptions);
     }
 
     private static _initiateExceptionListeners(): void {
         process.on('uncaughtException', (error) => {
-            Logger.log(`UNCAUGHT_EXCEPTION: ${error.message}`, Constants.COLOR.RED);
+            Logger.error(`Uncaught Exception - ${error.message}`);
             process.exit(1);
         });
 
         process.on('unhandledRejection', (error) => {
-            Logger.log(`UNHANDLED_REJECTION: ${error}`, Constants.COLOR.RED);
+            Logger.error(`Unhandled Rejection - ${error}`);
         });
     }
 

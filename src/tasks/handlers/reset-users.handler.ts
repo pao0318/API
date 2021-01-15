@@ -7,10 +7,10 @@ import { User } from '../../models/user/user';
 
 export class ResetUsersHandler {
     constructor(private readonly _userRepository: IUserRepository = new MongoUserRepository(MongoUser)) {
-        this.init = this.init.bind(this);
+        this.handle = this.handle.bind(this);
     }
 
-    public async init(): Promise<void> {
+    public async handle(): Promise<void> {
         const users = await this._userRepository.getMany({ isConfirmed: false });
 
         await this._deleteUsers(users);

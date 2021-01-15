@@ -7,9 +7,11 @@ import { InvalidCredentialsException } from '../../common/exceptions/invalid-cre
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { compareStringToHash } from '../../common/helpers/compare-string-to-hash';
 import { hashString } from '../../common/helpers/hash-string';
-import { EventEmitter } from '../../events';
 import { UserFactory } from '../../models/user/factories/user.factory';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
+import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
+import { EventService } from '../../services/event/event.service';
+import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
 import { ILoginRequestDTO } from './interfaces/ILoginRequestDTO';
@@ -19,7 +21,7 @@ import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 export class AuthService {
     constructor(
         @inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
-        @inject(Constants.DEPENDENCY.EVENT_EMITTER) private readonly _eventEmitter: EventEmitter,
+        @inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: EventService,
         @inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService
         ) {}
 
@@ -33,7 +35,10 @@ export class AuthService {
         const hashedPassword = await hashString(input.password);
         const user = await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
 
-        this._eventEmitter.sendConfirmationMail(Constants.MAIL.ACCOUNT_CONFIRMATION, { id: user.id, email: user.email });
+        this._eventService.handle(new SendConfirmationMailEvent({
+            id: user.id,
+            mail: new AccountConfirmationMail(user.email, { code: '' })
+        }));
     }
 
     public async login(input: ILoginRequestDTO, res: Response): Promise<void> {

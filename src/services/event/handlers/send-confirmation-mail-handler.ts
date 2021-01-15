@@ -12,7 +12,7 @@ export class SendConfirmationMailHandler {
 
         await this._userRepository.updateById(payload.id, { confirmationCode });
 
-        await this._emailService.sendMail(payload.mail);
+        await this._emailService.sendMail(payload.mail.withDifferentContext({ code: confirmationCode.code }));
 
         Logger.log('Confirmation code has been sent successfully');
     }

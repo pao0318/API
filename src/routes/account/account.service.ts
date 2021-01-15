@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Constants } from '../../common/constants';
+import { AlreadyConfirmedAccountException } from '../../common/exceptions/already-confirmed-account.exception';
 import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
@@ -15,5 +16,9 @@ export class AccountService {
         if(!user) throw new EmailNotFoundException();
 
         if(user.isSocialMediaAccount()) throw new InvalidAccountTypeException();
+
+        if(user.isConfirmed) throw new AlreadyConfirmedAccountException();
+
+        if(input.code !== user.confirmationCode.code)
     }
 }

@@ -3,8 +3,6 @@ import { NextFunction, Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { injectable, inject } from 'inversify';
 import { Constants } from '../../common/constants';
-import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
-import { ILoginRequestDTO } from './interfaces/ILoginRequestDTO';
 
 @injectable()
 export class AuthController {
@@ -16,7 +14,7 @@ export class AuthController {
 
     public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            await this._authService.register(req.body as IRegisterRequestDTO);
+            await this._authService.register(req.body);
             res.status(Constants.STATUS_CODE.CREATED).end();
         } catch(error) {
             next(error);
@@ -25,7 +23,7 @@ export class AuthController {
 
     public async login(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            await this._authService.login(req.body as ILoginRequestDTO, res);
+            await this._authService.login(req.body, res);
             res.status(Constants.STATUS_CODE.OK).end();
         } catch(error) {
             next(error);

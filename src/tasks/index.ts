@@ -8,7 +8,7 @@ export class TasksManager {
     constructor(private readonly _tasksProvider: ITasksProvider = new AgendaProvider(config.DATABASE.URL)) {}
 
     public async init(): Promise<void> {
-        this._tasksProvider.addTask(Constants.TASK.RESET_USERS, Constants.TIME.HOURS_24, new ResetUsersHandler().init);
+        this._tasksProvider.addTask(Constants.TASK.RESET_USERS, Constants.TIME.HOURS_24, new ResetUsersHandler().handle);
 
         await this._tasksProvider.start();
     }

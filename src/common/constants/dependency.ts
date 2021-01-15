@@ -7,6 +7,6 @@ export enum Dependency {
     USER_SEEDER = 'UserSeeder',
 
     EMAIL_SERVICE = 'EmailService',
-    EVENT_EMITTER = 'EventEmitter',
+    EVENT_SERVICE = 'EventService',
     TOKEN_SERVICE = 'TokenService'
 }

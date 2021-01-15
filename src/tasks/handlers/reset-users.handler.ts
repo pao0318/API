@@ -15,7 +15,7 @@ export class ResetUsersHandler {
 
         await this._deleteUsers(users);
 
-        Logger.log('Unconfirmed users have been removed from the database', Constants.COLOR.BLUE);
+        Logger.info('Unconfirmed users have been removed from the database');
     }
 
     private async _deleteUsers(users: User[]): Promise<void> {

@@ -8,7 +8,7 @@ export function catchExceptions(exception: Error, req: Request, res: Response, n
     let status = Constants.DEFAULT_EXCEPTION.STATUS;
     let message = Constants.DEFAULT_EXCEPTION.MESSAGE;
 
-    Logger.log(exception.message, Constants.COLOR.RED);
+    Logger.error(exception.message);
 
     if(exception instanceof BaseException) {
         id = exception.id;

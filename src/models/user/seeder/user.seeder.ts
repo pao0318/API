@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import faker from 'faker';
-import { hashString } from '../../../common/helpers/hash-string';
-import { Logger } from '../../../common/utils/logger';
+import { hashString } from '../../../common/helpers/hash-string';2
 import { sleep } from '../../../common/helpers/sleep';
 import { Database } from '../../../common/utils/database';
 import config from '../../../config';
@@ -9,6 +8,7 @@ import { inject, injectable } from 'inversify';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { Constants } from '../../../common/constants';
 import { IRegisterRequestDTO } from '../../../routes/auth/interfaces/IRegisterRequestDTO';
+import { Logger } from '../../../common/utils/logger';
 
 @injectable()
 export class UserSeeder {
@@ -50,15 +50,15 @@ export class UserSeeder {
         try {
             await this._userRepository.create(this._fakeUserDataWithHashedPassword);
         } catch(error) {
-            Logger.log(error.message, Constants.COLOR.RED);
+            console.log(error);
         }
     }
 
     private async _printUserCredentialsAfterSleep(): Promise<void> {
-        Logger.log('User generated successfully', Constants.COLOR.GREEN);
+        console.log('User generated successfully!');
         await sleep(1500);
 
-        Logger.log(this._fakeUserData);
+        console.log(this._fakeUserData);
         process.exit(0);
     }
 }

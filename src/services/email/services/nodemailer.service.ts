@@ -39,7 +39,7 @@ export class NodemailerEmailService implements IEmailService {
 
     private _verifyTransporter(): void {
         this._transporter.verify((error) => {
-            if(error) Logger.log(error.message, Constants.COLOR.RED);
+            if(error) Logger.error(error.message);
         });
     }
 }

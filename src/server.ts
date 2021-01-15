@@ -1,7 +1,6 @@
 import express, { Application } from 'express';
 import { ResourcesInitiator } from './common/utils/resources-initiator';
 import { Logger } from './common/utils/logger';
-import { TasksManager } from './tasks';
 
 export class Server {
     private readonly _port: number;
@@ -14,9 +13,6 @@ export class Server {
 
     public async start(): Promise<void> {
         await ResourcesInitiator.init(this._app);
-
-        await new TasksManager().init();
-
-        this._app.listen(this._port, () => Logger.log(`Server is running on port ${this._port}`));
+        this._app.listen(this._port, () => Logger.info(`Server is running on port ${this._port}`));
     }
 }

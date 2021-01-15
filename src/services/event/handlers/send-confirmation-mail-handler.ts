@@ -14,6 +14,6 @@ export class SendConfirmationMailHandler {
 
         await this._emailService.sendMail(payload.mail.withDifferentContext({ code: confirmationCode.code }));
 
-        Logger.log('Confirmation code has been sent successfully');
+        Logger.info('Confirmation code has been sent successfully');
     }
 }

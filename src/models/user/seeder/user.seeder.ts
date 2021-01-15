@@ -8,7 +8,6 @@ import { inject, injectable } from 'inversify';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { Constants } from '../../../common/constants';
 import { IRegisterRequestDTO } from '../../../routes/auth/interfaces/IRegisterRequestDTO';
-import { Logger } from '../../../common/utils/logger';
 
 @injectable()
 export class UserSeeder {

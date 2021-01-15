@@ -23,4 +23,8 @@ export class User implements IUser {
     public isSocialMediaAccount(): boolean {
         return this.accountType !== Constants.ACCOUNT_TYPE.REGULAR;
     }
+
+    public hasExpiredConfirmationCode(): boolean {
+        return Date.now() > this.confirmationCode.expiresAt;
+    }
 }

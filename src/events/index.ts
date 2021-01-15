@@ -5,8 +5,8 @@ import { Constants } from '../common/constants';
 import { SendConfirmationMailHandler } from './handlers/send-confirmation-mail.handler';
 import { IUserRepository } from '../models/user/interfaces/IUserRepository';
 import { IEmailService } from '../services/email/interfaces/IEmailService';
-import { Mail } from '../common/constants/mail';
 import { IAccountConfirmationMailPayload } from './interfaces/IAccountConfirmationMailPayload';
+import { Mail } from '../services/email/mails/mail';
 
 @injectable()
 export class EventEmitter extends NodeEventEmitter {
@@ -18,9 +18,8 @@ export class EventEmitter extends NodeEventEmitter {
         this._initEvents();
     }
 
-    public sendConfirmationMail(mail: Mail.ACCOUNT_CONFIRMATION, payload: IAccountConfirmationMailPayload): void
-    public sendConfirmationMail(mail: Mail, payload: object): void {
-        this.emit(Constants.EVENT.SEND_CONFIRMATION_MAIL, mail, payload);
+    public sendConfirmationMail(mail: Mail): void {
+        this.emit(Constants.EVENT.SEND_CONFIRMATION_MAIL, mail);
     }
 
     private _initEvents(): void {

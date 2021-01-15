@@ -1,5 +1,5 @@
-import { IMail } from './IMail';
+import { Mail } from '../mails/mail';
 
 export interface IEmailService {
-    sendMail(mail: IMail): Promise<void>;
+    sendMail(mail: Mail): Promise<void>;
 }

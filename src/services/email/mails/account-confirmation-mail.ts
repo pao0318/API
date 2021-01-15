@@ -1,11 +1,11 @@
-import { IMail } from '../interfaces/IMail';
+import { IAccountConfirmationMailContext } from '../interfaces/IAccountConfirmationMailContext';
+import { Mail } from './mail';
 
-export class AccountConfirmationMail implements IMail {
-    private readonly to: string;
-    private readonly subject: string = '';
-    private readonly template: string = 'account-confirmation-mail.html';
+export class AccountConfirmationMail extends Mail {
+    protected readonly _subject: string = 'Confirm your account';
+    protected readonly _templateName: string = 'account-confirmation-mail.html';
 
-    getBody(): string {
-        throw new Error('Method not implemented.');
+    constructor(to: string, context: IAccountConfirmationMailContext) {
+        super(to, context);
     }
 }

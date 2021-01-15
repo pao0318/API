@@ -2,7 +2,7 @@ import { Constants } from '../../common/constants';
 import { Logger } from '../../common/utils/logger';
 import { IUserRepository } from '../../models/user/interfaces/IUserRepository';
 import { MongoUserRepository } from '../../models/user/repositories/mongo.repository';
-import { MongoUser } from '../../models/user/schemes/mongo.schema';
+import { MongoUser } from '../../models/user/schemas/mongo.schema';
 import { User } from '../../models/user/user';
 
 export class ResetUsersHandler {

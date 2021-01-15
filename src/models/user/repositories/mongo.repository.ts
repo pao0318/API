@@ -7,7 +7,7 @@ import { ICreateUserDTO } from '../interfaces/ICreateUserDto';
 import { IUpdateUserDTO } from '../interfaces/IUpdateUserDto';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { IMongoUser } from '../interfaces/IMongoUser';
-import { MongoUser } from '../schemes/mongo.schema';
+import { MongoUser } from '../schemas/mongo.schema';
 
 @injectable()
 export class MongoUserRepository implements IUserRepository {

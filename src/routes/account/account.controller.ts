@@ -5,7 +5,9 @@ import { AccountService } from './account.service';
 
 @injectable()
 export class AccountController {
-    constructor(@inject(Constants.DEPENDENCY.ACCOUNT_SERVICE) private readonly _accountService: AccountService) {}
+    constructor(@inject(Constants.DEPENDENCY.ACCOUNT_SERVICE) private readonly _accountService: AccountService) {
+        this.confirmEmail = this.confirmEmail.bind(this);
+    }
 
     public async confirmEmail(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {

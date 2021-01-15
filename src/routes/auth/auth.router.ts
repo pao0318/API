@@ -3,8 +3,8 @@ import { Router } from '../../common/utils/router';
 import { AuthController } from './auth.controller';
 import { injectable, inject } from 'inversify';
 import { validateBody } from '../../common/middlewares/validate-body.middleware';
-import { RegisterValidationSchema } from './schemas/register.schema';
-import { LoginValidationSchema } from './schemas/login.schema';
+import { RegisterValidationSchema } from './schemes/register.schema';
+import { LoginValidationSchema } from './schemes/login.schema';
 
 @injectable()
 export class AuthRouter extends Router {

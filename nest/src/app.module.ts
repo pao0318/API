@@ -17,7 +17,7 @@ import config from './config';
 
         EmailModule,
         // EventModule,
-        // TokenModule,
+        TokenModule,
 
         TasksModule
     ],

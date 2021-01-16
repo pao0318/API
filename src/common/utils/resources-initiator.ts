@@ -2,12 +2,12 @@ import { Application, json } from 'express';
 import config from '../../config';
 import { ConfigValidator } from './config-validator';
 import { Database } from './database';
+import routers from '../../routes';
 import cors from 'cors';
 import { catchExceptions } from '../middlewares/catch-exceptions.middleware';
 import defaultRouter from '../../routes/default';
 import { Logger } from './logger';
 import { TasksManager } from '../../tasks';
-import routers from '../../routes';
 
 export class ResourcesInitiator {
     public static async init(app: Application): Promise<void> {

@@ -12,5 +12,5 @@ export enum Dependency {
 
     EMAIL_SERVICE = 'EmailService',
     EVENT_SERVICE = 'EventService',
-    TOKEN_SERVICE = 'TokenService',
+    TOKEN_SERVICE = 'TokenService'
 }

@@ -1,7 +1,7 @@
 import { Logger } from './logger';
 import { INestApplication } from '@nestjs/common';
 import { ExceptionMiddleware } from '../middlewares/exception.middleware';
-import cookieParser from 'cookie-parser';
+import * as cookieParser from 'cookie-parser';
 
 export class ResourcesInitiator {
     public static async init(app: INestApplication): Promise<void> {

@@ -1,5 +1,5 @@
 export enum Dependency {
-    USER_REPOSITORY = 'UserRepository',
+    USER_REPOSITORY = 'MongoUserRepository',
 
     EMAIL_SERVICE = 'EmailService',
     EVENT_SERVICE = 'EventService',

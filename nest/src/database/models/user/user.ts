@@ -20,11 +20,15 @@ export class User implements IUser {
         return new User(data.id, data.email, data.username, data.password, data.joinedAt, data.isConfirmed, data.avatar, data.accountType, data.confirmationCode);
     }
 
-    public isSocialMediaAccount(): boolean {
+    public hasSocialMediaAccount(): boolean {
         return this.accountType !== Constants.ACCOUNT_TYPE.REGULAR;
     }
 
     public hasExpiredConfirmationCode(): boolean {
         return Date.now() > this.confirmationCode.expiresAt;
+    }
+
+    public hasAccountLongerThanTwoHours(): boolean {
+        return Date.now() - this.joinedAt > Constants.TIME.HOURS_2;
     }
 }

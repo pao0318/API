@@ -15,7 +15,7 @@ import config from './config';
 
         UserRepositoryModule,
 
-        // EmailModule,
+        EmailModule,
         // EventModule,
         // TokenModule,
 

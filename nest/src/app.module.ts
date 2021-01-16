@@ -7,13 +7,17 @@ import { EventModule } from './services/event/event.module';
 import { TokenModule } from './services/token/token.module';
 import { TasksModule } from './tasks/tasks.module';
 import config from './config';
+import { UserSeederModule } from './database/models/user/seeder/user.seeder.module';
+import { CommandModule } from 'nestjs-command';
 
 @Module({
     imports: [
-        MongooseModule.forRoot(config.DATABASE.URL, { dbName: config.DATABASE.NAME, useFindAndModify: false }),
+        MongooseModule.forRoot(config.DATABASE.URL, { dbName: config.DATABASE.NAME }),
         ScheduleModule.forRoot(),
+        CommandModule,
 
         UserRepositoryModule,
+        UserSeederModule,
 
         EmailModule,
         EventModule,

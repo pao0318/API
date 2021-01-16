@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { EventEmitter } from 'events';
 import { Constants } from '../../../common/constants';
 import { IUserRepository } from '../../../database/models/user/interfaces/IUserRepository';
@@ -8,11 +8,15 @@ import { IEvent } from '../interfaces/IEvent';
 import { IEventService } from '../interfaces/IEventService';
 
 @Injectable()
-export class NodeEventsService extends EventEmitter implements IEventService {
-    constructor(private readonly _userRepository: IUserRepository, private readonly _emailService: IEmailService) {
+export class GenericEventService extends EventEmitter implements IEventService {
+    constructor(
+        @Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
+        @Inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService
+    ) {
         super();
         this._initEvents();
     }
+
 
     public handle(event: IEvent): void {
         this.emit(event.name, event.payload);

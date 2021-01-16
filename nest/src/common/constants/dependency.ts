@@ -2,6 +2,6 @@ export enum Dependency {
     USER_REPOSITORY = 'MongoUserRepository',
 
     EMAIL_SERVICE = 'NodemailerEmailService',
-    EVENT_SERVICE = 'EventService',
+    EVENT_SERVICE = 'GenericEventService',
     TOKEN_SERVICE = 'JwtTokenService',
 }

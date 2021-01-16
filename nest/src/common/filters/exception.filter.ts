@@ -1,11 +1,11 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from "@nestjs/common";
+import { ArgumentsHost, Catch, ExceptionFilter as Filter, HttpException } from "@nestjs/common";
 import { Response } from 'express';
 import { Constants } from "../constants";
 import { BaseException } from "../exceptions/base.exception";
 import { Logger } from '../utils/logger';
 
 @Catch()
-export class ExceptionMiddleware implements ExceptionFilter {
+export class ExceptionFilter implements Filter {
     private _id: number = Constants.DEFAULT_EXCEPTION.ID;
     private _status: number = Constants.DEFAULT_EXCEPTION.STATUS;
     private _message: string = Constants.DEFAULT_EXCEPTION.MESSAGE;

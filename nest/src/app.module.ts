@@ -9,21 +9,24 @@ import { TasksModule } from './tasks/tasks.module';
 import config from './config';
 import { UserSeederModule } from './database/models/user/seeder/user.seeder.module';
 import { CommandModule } from 'nestjs-command';
+import { AuthModule } from './routes/auth/auth.module';
 
 @Module({
     imports: [
         MongooseModule.forRoot(config.DATABASE.URL, { dbName: config.DATABASE.NAME }),
         ScheduleModule.forRoot(),
-        CommandModule,
 
-        UserRepositoryModule,
-        UserSeederModule,
+        AuthModule,
 
         EmailModule,
         EventModule,
         TokenModule,
 
-        TasksModule
+        UserRepositoryModule,
+        UserSeederModule,
+
+        CommandModule,
+        TasksModule,
     ],
 })
 

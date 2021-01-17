@@ -1,5 +1,5 @@
 import { object, string, number } from 'joi';
-import globalConfig from '../../config';
+import globalConfig from '../../../../src/config';
 import { Constants } from '../constants';
 import { Logger } from './logger';
 

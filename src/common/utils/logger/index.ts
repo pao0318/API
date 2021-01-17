@@ -1,4 +1,4 @@
-import config from '../../../config';
+import config from '../../../../../src/config';
 import { Constants } from '../../constants';
 import { ILogger } from './interfaces/ILogger';
 import { ConsoleLogger } from './loggers/console-logger';

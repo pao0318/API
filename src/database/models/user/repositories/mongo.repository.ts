@@ -11,7 +11,7 @@ export class MongoUserRepository implements IUserRepository {
     
     public async getMany(data: Partial<User>): Promise<User[]> {
         const users = await this._userModel.find(data);
-        return users.map((user) => User.from(user));
+        return users.map((user) => User.fromEntity(user));
     }
 
     public async getById(id: string): Promise<User | null> {
@@ -20,7 +20,7 @@ export class MongoUserRepository implements IUserRepository {
 
         if(!user) return null;
 
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
     public async getByEmail(email: string): Promise<User | null> {
@@ -28,7 +28,7 @@ export class MongoUserRepository implements IUserRepository {
 
         if(!user) return null;
         
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
     public async getByUsername(username: string): Promise<User | null> {
@@ -36,12 +36,12 @@ export class MongoUserRepository implements IUserRepository {
 
         if(!user) return null;
 
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
     public async create(data: Partial<User>): Promise<User> {
         const user = await new this._userModel(data).save();
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
     public async deleteById(id: string): Promise<void> {

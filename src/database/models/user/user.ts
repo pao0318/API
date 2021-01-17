@@ -1,6 +1,6 @@
 import { Constants } from '../../../common/constants';
 import { AccountType } from '../../../common/constants/account-type';
-import { IConfirmationCode } from './interfaces/IConfirmationCode';
+import { ConfirmationCode } from './objects/confirmation-code';
 
 export class User {
     public readonly id: string;
@@ -11,7 +11,7 @@ export class User {
     public readonly isConfirmed: boolean;
     public readonly avatar: string;
     public readonly accountType: AccountType;
-    public readonly confirmationCode: IConfirmationCode;
+    public readonly confirmationCode: ConfirmationCode;
 
     private constructor(data: Partial<User>) {
         this.id = data.id;
@@ -25,8 +25,18 @@ export class User {
         this.confirmationCode = data.confirmationCode;
     }
 
-    public static from(data: Partial<User>): User {
-        return new User(data);
+    public static fromEntity(data: Partial<User>): User {
+        return new User({
+            id: data.id,
+            email: data.email,
+            username: data.username,
+            password: data.password,
+            joinedAt: data.joinedAt,
+            isConfirmed: data.isConfirmed,
+            avatar: data.avatar,
+            accountType: data.accountType,
+            confirmationCode: new ConfirmationCode(data.confirmationCode.code, data.confirmationCode.expiresAt)
+        });
     }
 
     public static asRegularAccount(data: Partial<User>): User {
@@ -58,7 +68,7 @@ export class User {
     }
 
     public hasExpiredConfirmationCode(): boolean {
-        return Date.now() > this.confirmationCode.expiresAt;
+        return this.confirmationCode.isExpired();
     }
 
     public hasAccountLongerThanTwoHours(): boolean {

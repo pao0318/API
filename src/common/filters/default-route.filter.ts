@@ -1,8 +1,8 @@
-import { ArgumentsHost, Catch, ExceptionFilter, NotFoundException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, NotFoundException } from '@nestjs/common';
 
 @Catch(NotFoundException)
 export class DefaultRouteFilter implements ExceptionFilter {
-    public catch(_, host: ArgumentsHost) {
+    public catch(exception: HttpException, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
 

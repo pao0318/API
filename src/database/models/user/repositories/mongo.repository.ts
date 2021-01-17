@@ -5,12 +5,12 @@ import { IGetUserDTO } from '../interfaces/IGetUserDto';
 import { ICreateUserDTO } from '../interfaces/ICreateUserDto';
 import { IUpdateUserDTO } from '../interfaces/IUpdateUserDto';
 import { IUserRepository } from '../interfaces/IUserRepository';
-import { IMongoUser } from '../interfaces/IMongoUser';
+import { IUserDocument } from '../interfaces/IUserDocument';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MongoUserRepository implements IUserRepository {
-    constructor(@InjectModel('User') private readonly _userModel: Model<IMongoUser>) {}
+    constructor(@InjectModel('User') private readonly _userModel: Model<IUserDocument>) {}
     
     public async getMany(data: IGetUserDTO = {}): Promise<User[]> {
         const users = await this._userModel.find(data);

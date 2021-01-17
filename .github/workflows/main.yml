@@ -1,0 +1,38 @@
+name: Main
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    env:
+      APP_PORT: ${{ secrets.APP_PORT }}
+      AUTH_ACCESS_TOKEN_SECRET: ${{ secrets.AUTH_ACCESS_TOKEN_SECRET }}
+      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_TEST_URL: ${{ secrets.DATABASE_TEST_URL }}
+      MAIL_CLIENT_ID: ${{ secrets.MAIL_CLIENT_ID }}
+      MAIL_CLIENT_SECRET: ${{ secrets.MAIL_CLIENT_SECRET }}
+      MAIL_REFRESH_TOKEN: ${{ secrets.MAIL_REFRESH_TOKEN }}
+      MAIL_USER: ${{ secrets.MAIL_USER }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install yarn
+      run: sudo npm install -g yarn
+
+    - name: Install dependencies
+      run: yarn install
+      
+    - name: Build application
+      run: yarn build
+
+    - name: Run unit tests
+      run: yarn test:unit
+
+    - name: Check for lint errors
+      run: yarn lint

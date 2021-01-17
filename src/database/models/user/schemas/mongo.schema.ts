@@ -1,7 +1,8 @@
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { Constants } from '../../../../common/constants';
+import { IUserDocument } from '../interfaces/IUserDocument';
 
-export const MongoUserSchema: Schema = new Schema({
+export const MongoUserSchema = new Schema({
     email: {
         type: String,
         required: true
@@ -42,3 +43,5 @@ export const MongoUserSchema: Schema = new Schema({
         }
     }
 });
+
+export const MongoUserModel = model<IUserDocument>('User', MongoUserSchema);

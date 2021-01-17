@@ -1,8 +1,8 @@
-import config from '../../../../src/config';
 import { Database } from './database';
-import mongoose from 'mongoose';
-import faker from 'faker';
-import { ICreateUserDTO } from '../../../../src/models/user/interfaces/ICreateUserDto';
+import { connection } from 'mongoose';
+import { internet } from 'faker';
+import { User } from '../../database/models/user/user';
+import config from '../../config';
 
 export class TestUtils {
     public static async connectToDatabase(): Promise<void> {
@@ -10,14 +10,14 @@ export class TestUtils {
     }
 
     public static async dropDatabase(): Promise<void> {
-        await mongoose.connection.db.dropDatabase();
+        await connection.db.dropDatabase();
     }
 
-    public static generateFakeUserData(): ICreateUserDTO {
+    public static generateFakeUserData(): Partial<User> {
         return {
-            email: faker.internet.email(),
-            username: faker.internet.userName(),
-            password: faker.internet.password()
+            email: internet.email(),
+            username: internet.userName(),
+            password: internet.password()
         }
     }
 }

@@ -14,7 +14,8 @@
     "start:dev": "cross-env APP_MODE=development nodemon --config nodemon.json",
     "start:prod": "cross-env APP_MODE=production node dist/main",
     "seed:user": "nestjs-command seed:user",
-    "test": "cross-env APP_MODE=testing jest",
+    "test": "yarn test:unit",
+    "test:unit": "cross-env APP_MODE=testing jest --testTimeout=25000 --detectOpenHandles --forceExit __tests__/",
     "lint": "eslint src"
   },
   "dependencies": {

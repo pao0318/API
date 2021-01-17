@@ -1,16 +1,16 @@
 import { Command } from 'nestjs-command';
 import { Inject, Injectable } from '@nestjs/common';
 import { random, internet } from 'faker';
-import { ICreateUserDTO } from '../interfaces/ICreateUserDto';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { Constants } from '../../../../common/constants';
 import { hashString } from '../../../../common/helpers/hash-string';
 import { sleep } from '../../../../common/helpers/sleep';
+import { User } from '../user';
 
 @Injectable()
 export class UserSeeder {
-    private _fakeUserData: ICreateUserDTO;
-    private _fakeUserDataWithHashedPassword: ICreateUserDTO;
+    private _fakeUserData: Partial<User>
+    private _fakeUserDataWithHashedPassword: Partial<User>
 
     constructor(@Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
 

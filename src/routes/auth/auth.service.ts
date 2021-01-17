@@ -7,8 +7,8 @@ import { InvalidCredentialsException } from '../../common/exceptions/invalid-cre
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { compareStringToHash } from '../../common/helpers/compare-string-to-hash';
 import { hashString } from '../../common/helpers/hash-string';
-import { UserFactory } from '../../database/models/user/factories/user.factory';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
+import { User } from '../../database/models/user/user';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
@@ -33,7 +33,7 @@ export class AuthService {
         if(usernameAlreadyExists) throw new DuplicateUsernameException;
 
         const hashedPassword = await hashString(input.password);
-        const user = await this._userRepository.create(UserFactory.createRegularAccount({ ...input, password: hashedPassword }));
+        const user = await this._userRepository.create(User.asRegularAccount({ ...input, password: hashedPassword }));
 
         this._eventService.handle(new SendConfirmationMailEvent({
             id: user.id,

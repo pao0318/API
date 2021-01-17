@@ -1,20 +1,17 @@
 import { Model, Types } from 'mongoose';
 import { User } from '../user';
 import { InjectModel } from "@nestjs/mongoose";
-import { IGetUserDTO } from '../interfaces/IGetUserDto';
-import { ICreateUserDTO } from '../interfaces/ICreateUserDto';
-import { IUpdateUserDTO } from '../interfaces/IUpdateUserDto';
 import { IUserRepository } from '../interfaces/IUserRepository';
-import { IMongoUser } from '../interfaces/IMongoUser';
+import { IUserDocument } from '../interfaces/IUserDocument';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MongoUserRepository implements IUserRepository {
-    constructor(@InjectModel('User') private readonly _userModel: Model<IMongoUser>) {}
+    constructor(@InjectModel('User') private readonly _userModel: Model<IUserDocument>) {}
     
-    public async getMany(data: IGetUserDTO = {}): Promise<User[]> {
+    public async getMany(data: Partial<User>): Promise<User[]> {
         const users = await this._userModel.find(data);
-        return users.map((user) => User.from(user));
+        return users.map((user) => User.fromEntity(user));
     }
 
     public async getById(id: string): Promise<User | null> {
@@ -23,7 +20,7 @@ export class MongoUserRepository implements IUserRepository {
 
         if(!user) return null;
 
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
     public async getByEmail(email: string): Promise<User | null> {
@@ -31,7 +28,7 @@ export class MongoUserRepository implements IUserRepository {
 
         if(!user) return null;
         
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
     public async getByUsername(username: string): Promise<User | null> {
@@ -39,19 +36,19 @@ export class MongoUserRepository implements IUserRepository {
 
         if(!user) return null;
 
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
-    public async create(data: ICreateUserDTO): Promise<User> {
+    public async create(data: Partial<User>): Promise<User> {
         const user = await new this._userModel(data).save();
-        return User.from(user);
+        return User.fromEntity(user);
     }
 
     public async deleteById(id: string): Promise<void> {
         await this._userModel.deleteOne({ _id: id });
     }
 
-    public async updateById(id: string, data: IUpdateUserDTO): Promise<void> {
+    public async updateById(id: string, data: Partial<User>): Promise<void> {
         await this._userModel.updateOne({ _id: id }, data);
     }
 }

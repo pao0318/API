@@ -6,6 +6,7 @@ import { ExpiredConfirmationCodeException } from '../../common/exceptions/expire
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
 import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
+import { ConfirmationCode } from '../../database/models/user/objects/confirmation-code';
 import { IConfirmEmailRequestDTO } from './interfaces/IConfirmEmailRequestDTO';
 
 @Injectable()
@@ -25,6 +26,6 @@ export class AccountService {
 
         if(user.hasExpiredConfirmationCode()) throw new ExpiredConfirmationCodeException();
 
-        await this._userRepository.updateById(user.id, { confirmationCode: { code: '' , expiresAt: Date.now() }, isConfirmed: true });
+        await this._userRepository.updateById(user.id, { confirmationCode: ConfirmationCode.generateEmpty(), isConfirmed: true });
     }
 }

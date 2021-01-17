@@ -1,6 +1,6 @@
 import { generateConfirmationCode } from '../../../common/helpers/generate-confirmation-code';
 import { Logger } from '../../../common/utils/logger';
-import { IUserRepository } from '../../../models/user/interfaces/IUserRepository';
+import { IUserRepository } from '../../../database/models/user/interfaces/IUserRepository';
 import { IEmailService } from '../../email/interfaces/IEmailService';
 import { ISendConfirmationMailPayload } from '../interfaces/ISendConfirmationMailPayload';
 

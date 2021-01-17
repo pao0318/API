@@ -1,7 +1,7 @@
 import { object, string, number } from 'joi';
-import globalConfig from '../../config';
 import { Constants } from '../constants';
 import { Logger } from './logger';
+import globalConfig from '../../config';
 
 export class ConfigValidator {
     public static async validate(config: typeof globalConfig): Promise<void> {

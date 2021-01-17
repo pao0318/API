@@ -1,5 +1,5 @@
 // @ts-nocheck
-import globalConfig from '../../../config';
+import globalConfig from '../../../../../src/config';
 import { ConfigValidator } from '../config-validator';
 import faker from 'faker';
 import { Constants } from '../../constants';

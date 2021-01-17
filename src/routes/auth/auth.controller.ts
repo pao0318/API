@@ -1,37 +1,32 @@
-import 'reflect-metadata';
-import { NextFunction, Request, Response } from 'express';
-import { AuthService } from './auth.service';
-import { injectable, inject } from 'inversify';
+import { Body, Controller, HttpCode, Post, Res } from '@nestjs/common';
+import { ValidationPipe } from "../../common/pipes/validation.pipe";
 import { Constants } from '../../common/constants';
+import { AuthService } from './auth.service';
+import { RegisterValidationSchema } from './schemas/register.schema';
+import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
+import { LoginValidationSchema } from './schemas/login.schema';
+import { ILoginRequestDTO } from './interfaces/ILoginRequestDTO';
+import { Response } from 'express';
 
-@injectable()
+@Controller('/')
 export class AuthController {
-    constructor(@inject(Constants.DEPENDENCY.AUTH_SERVICE) private readonly _authService: AuthService) {
-        this.register = this.register.bind(this);
-        this.login = this.login.bind(this);
-        this.logout = this.logout.bind(this);
+    constructor(private readonly _authService: AuthService) {}
+
+    @Post(Constants.ENDPOINT.AUTH.REGISTER)
+    @HttpCode(Constants.STATUS_CODE.CREATED)
+    public async register(@Body(new ValidationPipe(RegisterValidationSchema)) body: IRegisterRequestDTO): Promise<void> {
+        await this._authService.register(body);
+    }
+    
+    @Post(Constants.ENDPOINT.AUTH.LOGIN)
+    @HttpCode(Constants.STATUS_CODE.OK)
+    public async login(@Res({ passthrough: true }) response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: ILoginRequestDTO): Promise<void> {
+        await this._authService.login(body, response);
     }
 
-    public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            await this._authService.register(req.body);
-            res.status(Constants.STATUS_CODE.CREATED).end();
-        } catch(error) {
-            next(error);
-        }
-    }
-
-    public async login(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            await this._authService.login(req.body, res);
-            res.status(Constants.STATUS_CODE.OK).end();
-        } catch(error) {
-            next(error);
-        }
-    }
-
-    public logout(req: Request, res: Response): void {
-        this._authService.logout(res);
-        res.status(Constants.STATUS_CODE.NO_CONTENT).end();
+    @Post(Constants.ENDPOINT.AUTH.LOGOUT)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    public logout(@Res({ passthrough: true }) response: Response): void {
+        this._authService.logout(response);
     }
 }

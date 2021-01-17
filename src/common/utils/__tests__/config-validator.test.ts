@@ -1,7 +1,6 @@
-// @ts-nocheck
-import globalConfig from '../../../../../src/config';
+import globalConfig from '../../../config';
 import { ConfigValidator } from '../config-validator';
-import faker from 'faker';
+import { random, internet } from 'faker';
 import { Constants } from '../../constants';
 
 describe('Config validator - validate method', () => {
@@ -12,7 +11,7 @@ describe('Config validator - validate method', () => {
             PORT: 4000
         },
         AUTH: {
-            ACCESS_TOKEN_SECRET: faker.random.alphaNumeric(48)
+            ACCESS_TOKEN_SECRET: random.alphaNumeric(48)
         },
         DATABASE: {
             NAME: "main",
@@ -20,16 +19,17 @@ describe('Config validator - validate method', () => {
             TEST_URL: 'mongodb://'
         },
         MAIL: {
-            CLIENT_ID: faker.random.alphaNumeric(10),
-            CLIENT_SECRET: faker.random.alphaNumeric(10),
-            REFRESH_TOKEN: faker.random.alphaNumeric(10),
-            USER: faker.internet.email()
+            CLIENT_ID: random.alphaNumeric(10),
+            CLIENT_SECRET: random.alphaNumeric(10),
+            REFRESH_TOKEN: random.alphaNumeric(10),
+            USER: internet.email()
         }
-    } as typeof globalConfig;
+    }
     
     describe('When APP.MODE is invalid', () => {
         beforeAll(() => {
-            config.APP.MODE = faker.random.word();
+            //@ts-expect-error
+            config.APP.MODE = random.word();
         });
         
         it('Should call process.exit with code 1', async () => {
@@ -44,7 +44,8 @@ describe('Config validator - validate method', () => {
 
     describe('When APP.PREFIX is invalid', () => {
         beforeAll(() => {
-            config.APP.PREFIX = faker.random.number()
+            //@ts-expect-error
+            config.APP.PREFIX = random.number()
         });
         
         it('Should call process.exit with code 1', async () => {
@@ -74,7 +75,7 @@ describe('Config validator - validate method', () => {
 
     describe('When AUTH.ACCESS_TOKEN_SECRET is invalid', () => {
         beforeAll(() => {
-            config.AUTH.ACCESS_TOKEN_SECRET = faker.random.alphaNumeric(16);
+            config.AUTH.ACCESS_TOKEN_SECRET = random.alphaNumeric(16);
         });
         
         it('Should call process.exit with code 1', async () => {
@@ -82,7 +83,7 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.AUTH.ACCESS_TOKEN_SECRET = faker.random.alphaNumeric(48);
+            config.AUTH.ACCESS_TOKEN_SECRET = random.alphaNumeric(48);
             jest.clearAllMocks();
         });
     });
@@ -142,7 +143,7 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.MAIL.CLIENT_ID = faker.random.alphaNumeric(10);
+            config.MAIL.CLIENT_ID = random.alphaNumeric(10);
             jest.clearAllMocks();
         });
     });
@@ -157,7 +158,7 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.MAIL.CLIENT_SECRET = faker.random.alphaNumeric(10);
+            config.MAIL.CLIENT_SECRET = random.alphaNumeric(10);
             jest.clearAllMocks();
         });
     });
@@ -172,14 +173,14 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.MAIL.REFRESH_TOKEN = faker.random.alphaNumeric(10);
+            config.MAIL.REFRESH_TOKEN = random.alphaNumeric(10);
             jest.clearAllMocks();
         });
     });
 
     describe('When MAIL.USER is invalid', () => {
         beforeAll(() => {
-            config.MAIL.USER = faker.random.alphaNumeric(10);
+            config.MAIL.USER = random.alphaNumeric(10);
         });
         
         it('Should call process.exit with code 1', async () => {
@@ -187,7 +188,7 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.MAIL.USER = faker.internet.email();
+            config.MAIL.USER = internet.email();
             jest.clearAllMocks();
         });
     });

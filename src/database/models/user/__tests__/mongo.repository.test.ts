@@ -3,6 +3,12 @@
 // import { IUser } from '../interfaces/IUser';
 // import { MongoUserRepository } from '../repositories/mongo.repository';
 
+describe('test', () => {
+    it('Should pass', () => {
+        expect(true).toEqual(true);
+    });
+});
+
 // beforeAll(async () => {
 //     await TestUtils.connectToDatabase();
 // });

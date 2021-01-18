@@ -12,6 +12,7 @@ import { SendConfirmationMailEvent } from '../../services/event/events/send-conf
 import { IEventService } from '../../services/event/interfaces/IEventService';
 import { IConfirmEmailRequestDTO } from './interfaces/IConfirmEmailRequestDTO';
 import { ISendAccountConfirmationMailRequestDTO } from './interfaces/ISendAccountConfirmationMailRequestDTO';
+import { ISendResetPasswordConfirmationMailRequestDTO } from './interfaces/ISendResetPasswordConfirmationMailRequestDTO';
 
 @Injectable()
 export class AccountService {
@@ -49,5 +50,13 @@ export class AccountService {
             id: user.id,
             mail: new AccountConfirmationMail(user.email, {})
         }))
+    }
+
+    public async sendResetPasswordConfirmationMail(input: ISendResetPasswordConfirmationMailRequestDTO): Promise<void> {
+        const user = await this._userRepository.getByEmail(input.email);
+
+        if(!user) throw new EmailNotFoundException();
+
+        if(user.hasSocialMediaAccount()) throw new InvalidAccountTypeException();
     }
 }

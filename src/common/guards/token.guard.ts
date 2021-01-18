@@ -7,7 +7,7 @@ import { Constants } from '../constants';
 import { UserNotFoundException } from '../exceptions/user-not-found-exception';
 
 @Injectable()
-export class JwtGuard implements CanActivate {
+export class TokenGuard implements CanActivate {
     constructor(
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
         @Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository

@@ -37,7 +37,7 @@ export class AuthService {
 
         this._eventService.handle(new SendConfirmationMailEvent({
             id: user.id,
-            mail: new AccountConfirmationMail(user.email, { code: '' })
+            mail: new AccountConfirmationMail(user.email, {})
         }));
     }
 

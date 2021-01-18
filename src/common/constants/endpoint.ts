@@ -7,8 +7,8 @@ export const Endpoint = {
         LOGOUT: '/auth/logout'
     },
     ACCOUNT: {
-        CHANGE_PASSWORD: '/account/change-password',
         CONFIRM_EMAIL: '/account/confirm-email',
+        CHANGE_PASSWORD: '/account/change-password',
         RESET_PASSWORD: '/account/reset-password',
         SEND_ACCOUNT_CONFIRMATION_MAIL: '/account/send-account-confirmation-mail',
         SEND_RESET_PASSWORD_CONFIRMATION_MAIL: '/account/send-reset-password-confirmation-mail'

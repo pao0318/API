@@ -8,6 +8,8 @@ import { SendAccountConfirmationMailValidationSchema } from './schemas/send-acco
 import { ISendAccountConfirmationMailRequestDTO } from './interfaces/ISendAccountConfirmationMailRequestDTO';
 import { SendResetPasswordConfirmationMailValidationSchema } from './schemas/send-reset-password-confirmation-mail.schema';
 import { ISendResetPasswordConfirmationMailRequestDTO } from './interfaces/ISendResetPasswordConfirmationMailRequestDTO';
+import { ResetPasswordValidationSchema } from './schemas/reset-password.schema';
+import { IResetPasswordRequestDTO } from './interfaces/IResetPasswordRequestDTO';
 
 @Controller('/')
 export class AccountController {
@@ -29,5 +31,11 @@ export class AccountController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public async sendResetPasswordConfirmationMail(@Body(new ValidationPipe(SendResetPasswordConfirmationMailValidationSchema)) body: ISendResetPasswordConfirmationMailRequestDTO): Promise<void> {
         await this._accountService.sendResetPasswordConfirmationMail(body);
+    }
+
+    @Post(Constants.ENDPOINT.ACCOUNT.RESET_PASSWORD)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    public async resetPassword(@Body(new ValidationPipe(ResetPasswordValidationSchema)) body: IResetPasswordRequestDTO): Promise<void> {
+        await this._accountService.resetPassword(body);
     }
 }

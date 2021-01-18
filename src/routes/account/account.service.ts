@@ -6,6 +6,7 @@ import { ExpiredConfirmationCodeException } from '../../common/exceptions/expire
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
 import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
+import { hashString } from '../../common/helpers/hash-string';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
 import { ConfirmationCode } from '../../database/models/user/objects/confirmation-code';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
@@ -13,6 +14,7 @@ import { ResetPasswordConfirmationMail } from '../../services/email/mails/reset-
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
 import { IConfirmEmailRequestDTO } from './interfaces/IConfirmEmailRequestDTO';
+import { IResetPasswordRequestDTO } from './interfaces/IResetPasswordRequestDTO';
 import { ISendAccountConfirmationMailRequestDTO } from './interfaces/ISendAccountConfirmationMailRequestDTO';
 import { ISendResetPasswordConfirmationMailRequestDTO } from './interfaces/ISendResetPasswordConfirmationMailRequestDTO';
 
@@ -67,5 +69,21 @@ export class AccountService {
             id: user.id,
             mail: new ResetPasswordConfirmationMail(user.email, {})
         }))
+    }
+
+    public async resetPassword(input: IResetPasswordRequestDTO): Promise<void> {
+        const user = await this._userRepository.getByEmail(input.email);
+
+        if(!user) throw new EmailNotFoundException();
+
+        if(user.hasSocialMediaAccount()) throw new InvalidAccountTypeException();
+
+        if(!user.isConfirmed) throw new UnconfirmedAccountException();
+
+        if(input.code !== user.confirmationCode.code) throw new InvalidConfirmationCodeException();
+
+        if(user.hasExpiredConfirmationCode()) throw new ExpiredConfirmationCodeException();
+
+        await this._userRepository.updateById(user.id, { confirmationCode: ConfirmationCode.generateEmpty(), password: await hashString(input.password) });
     }
 }

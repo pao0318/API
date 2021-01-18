@@ -1,9 +1,10 @@
-import { CanActivate, ExecutionContext, Inject, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
 import { IAccessTokenPayload } from '../../services/token/interfaces/IAccessTokenPayload';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
 import { Constants } from '../constants';
+import { UserNotFoundException } from '../exceptions/user-not-found-exception';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -27,12 +28,16 @@ export class JwtGuard implements CanActivate {
     }
 
     private async _getPayloadFromToken(token: string): Promise<IAccessTokenPayload> {
-        const payload = await this._tokenService.verify(AccessToken, token);
-        return payload;
+        try {
+            const payload = await this._tokenService.verify(AccessToken, token);
+            return payload;
+        } catch(error) {
+            throw new UnauthorizedException();
+        }
     }
 
     private async _checkIfUsersExistsInDatabase(id: string): Promise<void> {
-        const user = await this._userRepository.get({ _id: id, isConfirmed: true });
+        const user = await this._userRepository.getById(id);
         if(!user) throw new UserNotFoundException();
     }
 

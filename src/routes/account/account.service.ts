@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
-import { AlreadyConfirmedAccountException } from '../../common/exceptions/already-confirmed-account.exception';
 import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
 import { ExpiredConfirmationCodeException } from '../../common/exceptions/expired-confirmation-code.exception';
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
@@ -42,13 +41,11 @@ export class AccountService {
     }
 
     public async sendAccountConfirmationMail(input: ISendAccountConfirmationMailRequestDTO): Promise<void> {
-        const user = await this._userRepository.getByEmail(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(input.email);
 
-        if(!user) throw new EmailNotFoundException();
+        this._validationService.throwIfUserHasSocialMediaAccount(user);
 
-        if(user.hasSocialMediaAccount()) throw new InvalidAccountTypeException();
-
-        if(user.isConfirmed) throw new AlreadyConfirmedAccountException();
+        this._validationService.throwIfAccountIsAlreadyConfirmed(user);
 
         this._eventService.handle(new SendConfirmationMailEvent({
             id: user.id,

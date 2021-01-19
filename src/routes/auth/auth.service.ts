@@ -22,7 +22,8 @@ export class AuthService {
     constructor(
         @Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
         @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
-        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService
+        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
+        
         ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {

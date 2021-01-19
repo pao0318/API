@@ -1,4 +1,6 @@
-import 'dotenv/config'
+import { config } from 'dotenv';
+
+config();
 
 export default {
     CLIENT_ID: process.env.MAIL_CLIENT_ID!,

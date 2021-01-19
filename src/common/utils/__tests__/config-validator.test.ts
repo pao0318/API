@@ -13,6 +13,11 @@ describe('Config validator - validate method', () => {
         AUTH: {
             ACCESS_TOKEN_SECRET: random.alphaNumeric(48)
         },
+        CLOUDINARY: {
+            CLOUD_NAME: random.alphaNumeric(10),
+            API_KEY: random.alphaNumeric(10),
+            API_SECRET: random.alphaNumeric(10)
+        },
         DATABASE: {
             NAME: "main",
             URL: 'mongodb://',
@@ -75,7 +80,7 @@ describe('Config validator - validate method', () => {
 
     describe('When AUTH.ACCESS_TOKEN_SECRET is invalid', () => {
         beforeAll(() => {
-            config.AUTH.ACCESS_TOKEN_SECRET = random.alphaNumeric(16);
+            config.AUTH.ACCESS_TOKEN_SECRET = random.alphaNumeric(8);
         });
         
         it('Should call process.exit with code 1', async () => {
@@ -83,7 +88,52 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.AUTH.ACCESS_TOKEN_SECRET = random.alphaNumeric(48);
+            config.AUTH.ACCESS_TOKEN_SECRET = random.alphaNumeric(64);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When CLOUDINARY.CLOUD_NAME is invalid', () => {
+        beforeAll(() => {
+            config.CLOUDINARY.CLOUD_NAME = '';
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.CLOUDINARY.CLOUD_NAME = random.alphaNumeric(10);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When CLOUDINARY.API_KEY is invalid', () => {
+        beforeAll(() => {
+            config.CLOUDINARY.API_KEY = '';
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.CLOUDINARY.API_KEY = random.alphaNumeric(10);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When CLOUDINARY.API_SECRET is invalid', () => {
+        beforeAll(() => {
+            config.CLOUDINARY.API_SECRET = '';
+        });
+        
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.CLOUDINARY.API_SECRET = random.alphaNumeric(10);
             jest.clearAllMocks();
         });
     });

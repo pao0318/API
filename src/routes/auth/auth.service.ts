@@ -1,14 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { Constants } from '../../common/constants';
-import { DuplicateEmailException } from '../../common/exceptions/duplicate-email.exception';
-import { DuplicateUsernameException } from '../../common/exceptions/duplicate-username.exception';
-import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
-import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
-import { compareStringToHash } from '../../common/helpers/compare-string-to-hash';
 import { hashString } from '../../common/helpers/hash-string';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
 import { User } from '../../database/models/user/user';
+import { ActionService } from '../../services/action/action.service';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
@@ -23,15 +19,13 @@ export class AuthService {
         @Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
         @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
-        
+        @Inject(Constants.DEPENDENCY.ACTION_SERVICE) private readonly _actionService: ActionService
         ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {
-        const emailAlreadyExists = await this._userRepository.getByEmail(input.email)
-        if(emailAlreadyExists) throw new DuplicateEmailException;
+        await this._actionService.throwIfEmailAlreadyExists(input.email);
 
-        const usernameAlreadyExists = await this._userRepository.getByUsername(input.username);
-        if(usernameAlreadyExists) throw new DuplicateUsernameException;
+        await this._actionService.throwIfUsernameAlreadyExists(input.username);
 
         const hashedPassword = await hashString(input.password);
         const user = await this._userRepository.create(User.asRegularAccount({ ...input, password: hashedPassword }));
@@ -43,13 +37,13 @@ export class AuthService {
     }
 
     public async login(input: ILoginRequestDTO, res: Response): Promise<void> {
-        const user = await this._userRepository.getByEmail(input.email);
-        if(!user || user.hasSocialMediaAccount()) throw new InvalidCredentialsException();
+        const user = await this._actionService.getUserByEmailOrThrow(input.email);
+        
+        this._actionService.throwIfUserHasSocialMediaAccount(user);
 
-        const isPasswordValid = await compareStringToHash(input.password, user.password);
-        if(!isPasswordValid) throw new InvalidCredentialsException();
+        await this._actionService.throwIfPasswordIsInvalid(user, input.password);
 
-        if(!user.isConfirmed) throw new UnconfirmedAccountException();
+        this._actionService.throwIfAccountIsNotConfirmed(user);
 
         const token = await this._tokenService.generate(new AccessToken({ id: user.id, email: user.email, username: user.username }));
         res.cookie('authorization', token, { httpOnly: true });

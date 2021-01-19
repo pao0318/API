@@ -1,10 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
-import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
-import { ExpiredConfirmationCodeException } from '../../common/exceptions/expired-confirmation-code.exception';
-import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
-import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
-import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { hashString } from '../../common/helpers/hash-string';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
 import { ConfirmationCode } from '../../database/models/user/objects/confirmation-code';
@@ -25,20 +20,6 @@ export class AccountService {
         @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService
     ) {}
-
-    public async confirmEmail(input: IConfirmEmailRequestDTO): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
-
-        this._validationService.throwIfUserHasSocialMediaAccount(user);
-
-        this._validationService.throwIfAccountIsAlreadyConfirmed(user);
-
-        this._validationService.throwIfConfirmationCodeIsInvalid(user, input.code);
-
-        this._validationService.throwIfConfirmationCodeIsExpired(user);
-
-        await this._userRepository.updateById(user.id, { confirmationCode: ConfirmationCode.generateEmpty(), isConfirmed: true });
-    }
 
     public async sendAccountConfirmationMail(input: ISendAccountConfirmationMailRequestDTO): Promise<void> {
         const user = await this._validationService.getUserByEmailOrThrow(input.email);
@@ -66,18 +47,30 @@ export class AccountService {
         }))
     }
 
+    public async confirmEmail(input: IConfirmEmailRequestDTO): Promise<void> {
+        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+
+        this._validationService.throwIfUserHasSocialMediaAccount(user);
+
+        this._validationService.throwIfAccountIsAlreadyConfirmed(user);
+
+        this._validationService.throwIfConfirmationCodeIsInvalid(user, input.code);
+
+        this._validationService.throwIfConfirmationCodeIsExpired(user);
+
+        await this._userRepository.updateById(user.id, { confirmationCode: ConfirmationCode.generateEmpty(), isConfirmed: true });
+    }
+
     public async resetPassword(input: IResetPasswordRequestDTO): Promise<void> {
-        const user = await this._userRepository.getByEmail(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(input.email);
 
-        if(!user) throw new EmailNotFoundException();
+        this._validationService.throwIfUserHasSocialMediaAccount(user);
 
-        if(user.hasSocialMediaAccount()) throw new InvalidAccountTypeException();
+        this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        if(!user.isConfirmed) throw new UnconfirmedAccountException();
+        this._validationService.throwIfConfirmationCodeIsInvalid(user, input.code);
 
-        if(input.code !== user.confirmationCode.code) throw new InvalidConfirmationCodeException();
-
-        if(user.hasExpiredConfirmationCode()) throw new ExpiredConfirmationCodeException();
+        this._validationService.throwIfConfirmationCodeIsExpired(user);
 
         await this._userRepository.updateById(user.id, { confirmationCode: ConfirmationCode.generateEmpty(), password: await hashString(input.password) });
     }

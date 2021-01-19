@@ -15,12 +15,6 @@ import { IResetPasswordRequestDTO } from './interfaces/IResetPasswordRequestDTO'
 export class AccountController {
     constructor(private readonly _accountService: AccountService) {}
     
-    @Post(Constants.ENDPOINT.ACCOUNT.CONFIRM_EMAIL)
-    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    public async confirmEmail(@Body(new ValidationPipe(ConfirmEmailValidationSchema)) body: IConfirmEmailRequestDTO): Promise<void> {
-        await this._accountService.confirmEmail(body);
-    }
-
     @Post(Constants.ENDPOINT.ACCOUNT.SEND_ACCOUNT_CONFIRMATION_MAIL)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public async sendAccountConfirmationMail(@Body(new ValidationPipe(SendAccountConfirmationMailValidationSchema)) body: ISendAccountConfirmationMailRequestDTO): Promise<void> {
@@ -31,6 +25,12 @@ export class AccountController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public async sendResetPasswordConfirmationMail(@Body(new ValidationPipe(SendResetPasswordConfirmationMailValidationSchema)) body: ISendResetPasswordConfirmationMailRequestDTO): Promise<void> {
         await this._accountService.sendResetPasswordConfirmationMail(body);
+    }
+
+    @Post(Constants.ENDPOINT.ACCOUNT.CONFIRM_EMAIL)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    public async confirmEmail(@Body(new ValidationPipe(ConfirmEmailValidationSchema)) body: IConfirmEmailRequestDTO): Promise<void> {
+        await this._accountService.confirmEmail(body);
     }
 
     @Post(Constants.ENDPOINT.ACCOUNT.RESET_PASSWORD)

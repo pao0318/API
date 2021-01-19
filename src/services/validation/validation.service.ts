@@ -11,7 +11,7 @@ import { IUserRepository } from '../../database/models/user/interfaces/IUserRepo
 import { User } from '../../database/models/user/user';
 
 @Injectable()
-export class ActionService {
+export class ValidationService {
     constructor(@Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
 
     public async getUserByEmailOrThrow(email: string, exception: BaseException = new InvalidCredentialsException): Promise<User> {

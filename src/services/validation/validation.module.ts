@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { UserRepositoryModule } from '../../database/models/user/user.repository.module';
-import { ActionService } from './action.service';
+import { ValidationService } from './validation.service';
 
 @Module({
     imports: [UserRepositoryModule],
-    providers: [ActionService],
-    exports: [ActionService]
+    providers: [ValidationService],
+    exports: [ValidationService]
 })
 
-export class ActionModule {}
+export class ValidationModule {}

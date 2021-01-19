@@ -54,13 +54,11 @@ export class AccountService {
     }
 
     public async sendResetPasswordConfirmationMail(input: ISendResetPasswordConfirmationMailRequestDTO): Promise<void> {
-        const user = await this._userRepository.getByEmail(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(input.email);
 
-        if(!user) throw new EmailNotFoundException();
+        this._validationService.throwIfUserHasSocialMediaAccount(user);
 
-        if(user.hasSocialMediaAccount()) throw new InvalidAccountTypeException();
-
-        if(!user.isConfirmed) throw new UnconfirmedAccountException();
+        this._validationService.throwIfAccountIsNotConfirmed(user);
 
         this._eventService.handle(new SendConfirmationMailEvent({
             id: user.id,

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { Constants } from '../../common/constants';
+import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { hashString } from '../../common/helpers/hash-string';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
 import { User } from '../../database/models/user/user';
@@ -37,7 +38,7 @@ export class AuthService {
     }
 
     public async login(input: ILoginRequestDTO, res: Response): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(input.email, new InvalidCredentialsException);
         
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 

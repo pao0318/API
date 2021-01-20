@@ -10,6 +10,7 @@ import { InvalidAccountTypeException } from '../../common/exceptions/invalid-acc
 import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
+import { UserNotFoundException } from '../../common/exceptions/user-not-found-exception';
 import { compareStringToHash } from '../../common/helpers/compare-string-to-hash';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
 import { User } from '../../database/models/user/user';
@@ -20,6 +21,14 @@ export class ValidationService {
 
     public async getUserByEmailOrThrow(email: string, exception: BaseException = new EmailNotFoundException): Promise<User> {
         const user = await this._userRepository.getByEmail(email);
+
+        if(!user) throw exception;
+
+        return user;
+    }
+
+    public async getUserByIdOrThrow(id: string, exception: BaseException = new UserNotFoundException): Promise<User> {
+        const user = await this._userRepository.getById(id);
 
         if(!user) throw exception;
 

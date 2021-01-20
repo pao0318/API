@@ -21,7 +21,12 @@ export class ConfigValidator {
                 PORT: number().min(1).max(65353)
             },
             AUTH: {
-                ACCESS_TOKEN_SECRET: string().min(32)
+                ACCESS_TOKEN_SECRET: string().min(16)
+            },
+            CLOUDINARY: {
+                CLOUD_NAME: string().required(),
+                API_KEY: string().required(),
+                API_SECRET: string().required()
             },
             DATABASE: {
                 NAME: string(),

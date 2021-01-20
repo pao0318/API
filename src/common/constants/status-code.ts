@@ -7,5 +7,6 @@ export enum StatusCode {
     FORBIDDEN = 403,
     NOT_FOUND = 404,
     CONFLICT = 409,
+    UNSUPPORTED_MEDIA_TYPE = 415,
     INTERNAL_SERVER_ERROR = 500
 }

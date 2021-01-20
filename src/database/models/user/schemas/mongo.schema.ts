@@ -25,7 +25,7 @@ export const MongoUserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: 'default.jpeg'
+        default: Constants.IMAGE.AVATAR.DEFAULT
     },
     accountType: {
         type: String,

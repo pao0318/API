@@ -74,4 +74,8 @@ export class User {
     public hasAccountLongerThanTwoHours(): boolean {
         return Date.now() - this.joinedAt > Constants.TIME.HOURS_2;
     }
+
+    public hasDefaultAvatar(): boolean {
+        return this.avatar === Constants.IMAGE.AVATAR.DEFAULT;
+    }
 }

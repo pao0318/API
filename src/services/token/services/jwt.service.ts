@@ -3,7 +3,9 @@ import { promisify } from 'util';
 import { ITokenService } from '../interfaces/ITokenService';
 import { ITokenPayload } from '../interfaces/ITokenPayload';
 import { Token } from '../tokens/token';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class JwtTokenService implements ITokenService {
     private readonly _verifyAsync = promisify<string, string, object | undefined>(verify);
 

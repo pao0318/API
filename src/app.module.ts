@@ -1,16 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserRepositoryModule } from './database/models/user/user.repository.module';
-import { EmailModule } from './services/email/email.module';
-import { EventModule } from './services/event/event.module';
-import { TokenModule } from './services/token/token.module';
 import { TasksModule } from './tasks/tasks.module';
 import config from './config';
 import { UserSeederModule } from './database/models/user/seeder/user.seeder.module';
 import { CommandModule } from 'nestjs-command';
 import { AuthModule } from './routes/auth/auth.module';
 import { AccountModule } from './routes/account/account.module';
+import { UserModule } from './routes/user/user.module';
 
 @Module({
     imports: [
@@ -19,12 +16,8 @@ import { AccountModule } from './routes/account/account.module';
 
         AccountModule,
         AuthModule,
+        UserModule,
 
-        EmailModule,
-        EventModule,
-        TokenModule,
-
-        UserRepositoryModule,
         UserSeederModule,
 
         CommandModule,

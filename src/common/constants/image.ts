@@ -3,6 +3,6 @@ export const Image = {
         WIDHT: 256,
         HEIGHT: 256,
         FOLDER: 'avatars',
-        DEFAULT: 'default.jpeg'
+        DEFAULT: 'default.jpg'
     }
 } as const;

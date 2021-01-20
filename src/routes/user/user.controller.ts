@@ -12,7 +12,7 @@ export class UserController {
 
     @Put(Constants.ENDPOINT.USER.AVATAR)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    @UseInterceptors(FileInterceptor('avatar'))
+    @UseInterceptors(FileInterceptor('file'))
     @UseGuards(TokenGuard)
     public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
         await this._userService.updateAvatar(request, image);

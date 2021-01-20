@@ -19,6 +19,11 @@ export class FileService {
         return image.originalname;
     }
 
+    public async removeImage(filename: string): Promise<void> {
+        const filenameWithoutExtension = filename.slice(0, -4);
+        await this._cloudProvider.removeFile(filenameWithoutExtension);
+    }
+
     private async _prepareImage(image: IFile, width: number, height: number): Promise<void> {
         await this._resizeImage(image, width, height);
 

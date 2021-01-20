@@ -16,7 +16,8 @@ export class MongoUserRepository implements IUserRepository {
 
     public async getById(id: string): Promise<User | null> {
         if(!Types.ObjectId.isValid(id)) return null;
-        const user = await this._userModel.findById(id);;
+        
+        const user = await this._userModel.findById(id);
 
         if(!user) return null;
 

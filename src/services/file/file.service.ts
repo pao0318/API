@@ -12,15 +12,19 @@ export class FileService {
     public async uploadAvatar(image: IFile): Promise<string> {
         this._validateImageFormat(image);
 
-        await this._resizeImage(image, 256, 256);
+        await this._prepareImage(image, Constants.IMAGE.AVATAR.WIDHT, Constants.IMAGE.AVATAR.HEIGHT);
+
+        await this._cloudProvider.uploadImage(image, Constants.IMAGE.AVATAR.FOLDER);
+
+        return image.originalname;
+    }
+
+    private async _prepareImage(image: IFile, width: number, height: number): Promise<void> {
+        await this._resizeImage(image, width, height);
 
         await this._changeImageFormatToJPEG(image);
 
         this._renameImage(image);
-
-        await this._cloudProvider.uploadImage(image, 'avatars');
-
-        return image.originalname;
     }
 
     private _validateImageFormat(image: IFile): void {

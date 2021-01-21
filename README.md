@@ -1,10 +1,9 @@
 ## Technologies used
-* Node & Express
+* Node.js
+* Nest.js
 * Typescript
 * MongoDB
 * Docker
-* Jest
-* Bash
 * JWT
 * Websockets
 

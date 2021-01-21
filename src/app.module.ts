@@ -8,6 +8,7 @@ import { AuthModule } from './routes/auth/auth.module';
 import { AccountModule } from './routes/account/account.module';
 import { UserModule } from './routes/user/user.module';
 import config from './config';
+import { BookSeederModule } from './database/models/book/seeder/seeder.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import config from './config';
         AuthModule,
         UserModule,
 
+        BookSeederModule,
         UserSeederModule,
 
         CommandModule,

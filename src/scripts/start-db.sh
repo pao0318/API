@@ -14,7 +14,4 @@ echo "Removing old container [$CONTAINER] and starting new fresh instance of [$C
   -d mongo:4.0 \
   mongod --port 27018 --bind_ip_all
 
-
-echo "Waiting for [$CONTAINER] to start...";
-SLEEP 5;
 echo -e "${GREEN_COLOR}[$CONTAINER] has started successfully!${NO_COLOR}";

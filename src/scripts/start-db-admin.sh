@@ -13,6 +13,4 @@ echo "Removing old container [$CONTAINER] and starting new fresh instance of [$C
   -p 1234:1234 \
   -d mrvautin/adminmongo
 
-echo "Waiting for [$CONTAINER] to start...";
-SLEEP 5;
 echo -e "${GREEN_COLOR}[$CONTAINER] has started successfully!${NO_COLOR}";

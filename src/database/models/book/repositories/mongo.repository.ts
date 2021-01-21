@@ -1,4 +1,4 @@
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from "@nestjs/mongoose";
 import { Injectable } from '@nestjs/common';
 import { IBookRepository } from '../interfaces/IBookRepository';
@@ -11,6 +11,6 @@ export class MongoBookRepository implements IBookRepository {
     
     public async create(data: Partial<Book>): Promise<Book> {
         const book = await new this._bookModel(data).save();
-        return Book
+        return Book.from(book);
     }
 }

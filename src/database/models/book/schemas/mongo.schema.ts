@@ -30,7 +30,7 @@ export const MongoBookSchema = new Schema({
     },
     picture: {
         type: String,
-        required: true
+        default: Constants.IMAGE.BOOK_COVER.DEFAULT
     },
     addedAt: {
         type: Number,

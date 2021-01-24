@@ -1,13 +1,13 @@
 import { object, string, number } from 'joi';
+import { Config } from '../config';
 import { Constants } from '../constants';
 import { Logger } from './logger';
-import globalConfig from '../../config';
 
 export class ConfigValidator {
-    public static async validate(config: typeof globalConfig): Promise<void> {
+    public static async validate(config: typeof Config): Promise<void> {
         try {
-            const validationSchema = this._getValidationSchema();
-            await validationSchema.validateAsync(config);
+            const schema = this._getValidationSchema();
+            await schema.validateAsync(config);
         } catch(error) {
             this._printErrorMessageAndExit(error.message);
         }

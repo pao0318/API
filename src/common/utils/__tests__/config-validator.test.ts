@@ -1,7 +1,7 @@
-import globalConfig from '../../../config';
 import { ConfigValidator } from '../config-validator';
 import { random, internet } from 'faker';
 import { Constants } from '../../constants';
+import { Config } from '../../config';
 
 describe('Config validator - validate method', () => {
     const config = {
@@ -250,7 +250,7 @@ describe('Config validator - validate method', () => {
     });
 }); 
 
-async function checkConfig(config: typeof globalConfig, isCalled: boolean = true): Promise<void> {
+async function checkConfig(config: typeof Config, isCalled: boolean = true): Promise<void> {
     const mockedExit = jest.spyOn(process, 'exit').mockImplementation(number => number as never);
 
     await ConfigValidator.validate(config);

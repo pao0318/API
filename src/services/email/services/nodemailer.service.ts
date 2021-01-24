@@ -1,6 +1,6 @@
 import { createTransport, Transporter } from 'nodemailer';
+import { Config } from '../../../common/config';
 import { Logger } from '../../../common/utils/logger';
-import config from '../../../config';
 import { IEmailService } from '../interfaces/IEmailService';
 import { Mail } from '../mails/mail';
 
@@ -14,7 +14,7 @@ export class NodemailerEmailService implements IEmailService {
 
     public async sendMail(mail: Mail): Promise<void> {
         await this._transporter.sendMail({
-            from: config.MAIL.USER,
+            from: Config.MAIL.USER,
             to: mail.to,
             subject: mail.subject,
             html: await mail.getBody()
@@ -26,10 +26,10 @@ export class NodemailerEmailService implements IEmailService {
             service: 'Gmail',
             auth: {
                 type: 'OAuth2',
-                user: config.MAIL.USER,
-                refreshToken: config.MAIL.REFRESH_TOKEN,
-                clientId: config.MAIL.CLIENT_ID,
-                clientSecret: config.MAIL.CLIENT_SECRET,
+                user: Config.MAIL.USER,
+                refreshToken: Config.MAIL.REFRESH_TOKEN,
+                clientId: Config.MAIL.CLIENT_ID,
+                clientSecret: Config.MAIL.CLIENT_SECRET,
             }
         })
     }

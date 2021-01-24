@@ -4,7 +4,7 @@ import { Logger } from './logger';
 import { INestApplication } from '@nestjs/common';
 import { ExceptionFilter } from '../filters/exception.filter';
 import { DefaultRouteFilter } from '../filters/default-route.filter';
-import config from '../../config';
+import { Config } from '../config';
 
 export class ResourcesInitiator {
     public static async init(app: INestApplication): Promise<void> {
@@ -14,7 +14,7 @@ export class ResourcesInitiator {
         
         app.use(cookieParser());
 
-        this._configureCloudinary();
+        this._ConfigureCloudinary();
     }
 
     private static _initiateExceptionListeners(): void {
@@ -33,11 +33,11 @@ export class ResourcesInitiator {
         app.useGlobalFilters(new DefaultRouteFilter());
     }
 
-    private static _configureCloudinary(): void {
+    private static _ConfigureCloudinary(): void {
         cloudinary.v2.config({
-            cloud_name: config.CLOUDINARY.CLOUD_NAME,
-            api_key: config.CLOUDINARY.API_KEY,
-            api_secret: config.CLOUDINARY.API_SECRET
+            cloud_name: Config.CLOUDINARY.CLOUD_NAME,
+            api_key: Config.CLOUDINARY.API_KEY,
+            api_secret: Config.CLOUDINARY.API_SECRET
         });
     }
 }

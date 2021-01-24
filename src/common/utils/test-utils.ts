@@ -2,11 +2,11 @@ import { Database } from './database';
 import { connection } from 'mongoose';
 import { internet } from 'faker';
 import { User } from '../../database/models/user/user';
-import config from '../../config';
+import { Config } from '../config';
 
 export class TestUtils {
     public static async connectToDatabase(): Promise<void> {
-        await new Database(config.DATABASE.TEST_URL).connect();
+        await new Database(Config.DATABASE.TEST_URL).connect();
     }
 
     public static async dropDatabase(): Promise<void> {

@@ -6,8 +6,8 @@ import globalConfig from '../../config';
 export class ConfigValidator {
     public static async validate(config: typeof globalConfig): Promise<void> {
         try {
-            const validationSchema = this._getValidationSchema();
-            await validationSchema.validateAsync(config);
+            const schema = this._getValidationSchema();
+            await schema.validateAsync(config);
         } catch(error) {
             this._printErrorMessageAndExit(error.message);
         }

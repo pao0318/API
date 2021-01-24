@@ -42,11 +42,11 @@ cd Book-App-Backend/
 ```
 
 ```
-npm install
+yarn install
 ```
 
 ```
-npm run start:dev
+yarn start:dev
 ```
 
 ## Contributing

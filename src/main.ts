@@ -12,7 +12,7 @@ async function bootstrap() {
   app.setGlobalPrefix(Config.APP.PREFIX);
 
   ResourcesInitiator.init(app);
-  
+
   await app.listen(Config.APP.PORT);
 }
 

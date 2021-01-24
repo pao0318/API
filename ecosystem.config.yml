@@ -1,0 +1,11 @@
+apps:
+  - script: ./dist/main.js
+    name: 'book-app-api'
+    instances: 4
+    exec_mode: cluster
+    env:
+      NODE_ENV: development
+      APP_MODE: development
+    env_production:
+      NODE_ENV: production
+      APP_MODE: production

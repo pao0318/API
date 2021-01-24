@@ -7,12 +7,12 @@ import { CommandModule } from 'nestjs-command';
 import { AuthModule } from './routes/auth/auth.module';
 import { AccountModule } from './routes/account/account.module';
 import { UserModule } from './routes/user/user.module';
-import config from './config';
 import { BookSeederModule } from './database/models/book/seeder/seeder.module';
+import { Config } from './common/config';
 
 @Module({
     imports: [
-        MongooseModule.forRoot(config.DATABASE.URL, { dbName: config.DATABASE.NAME }),
+        MongooseModule.forRoot(Config.DATABASE.URL, { dbName: Config.DATABASE.NAME }),
         ScheduleModule.forRoot(),
 
         AccountModule,

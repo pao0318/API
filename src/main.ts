@@ -1,19 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { Config } from './common/config';
 import { ConfigValidator } from './common/utils/config-validator';
 import { ResourcesInitiator } from './common/utils/resources-initiator';
-import config from './config';
 
 async function bootstrap() {
-  await ConfigValidator.validate(config);
+  await ConfigValidator.validate(Config);
 
   const app = await NestFactory.create(AppModule, { cors: true });
   
-  app.setGlobalPrefix(config.APP.PREFIX);
+  app.setGlobalPrefix(Config.APP.PREFIX);
 
   ResourcesInitiator.init(app);
   
-  await app.listen(config.APP.PORT);
+  await app.listen(Config.APP.PORT);
 }
 
 bootstrap();

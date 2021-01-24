@@ -2,7 +2,7 @@
 
 set -e
 
-CONTAINER="database-admin";
+CONTAINER="mongo-admin";
 GREEN_COLOR='\033[1;32m'
 NO_COLOR='\033[0m'
 

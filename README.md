@@ -3,8 +3,7 @@
 * Nest.js
 * Typescript
 * MongoDB
-* Docker
-* JWT
+* Redis
 * Websockets
 
 ## Running on docker
@@ -13,7 +12,7 @@
 
 ****
 ```
-git clone https://github.com/Book-App-Team/Book-App-Backend.git
+git clone https://github.com/ProjectEaster/API.git
 ```
 
 ```
@@ -34,7 +33,7 @@ docker-compose up
 ****
 
 ```
-git clone https://github.com/Book-App-Team/Book-App-Backend.git
+git clone https://github.com/ProjectEaster/API.git
 ```
 
 ```
@@ -50,7 +49,7 @@ yarn start:dev
 ```
 
 ## Contributing
-1. Fork it (https://github.com/Book-App-Team/Book-App-Backend/fork)
+1. Fork it (https://github.com/ProjectEaster/API/fork)
 1. Create your feature branch (git checkout -b feature/fooBar)
 1. Commit your changes (git commit -am 'Add some fooBar')
 1. Push to the branch (git push origin feature/fooBar)

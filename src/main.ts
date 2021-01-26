@@ -5,15 +5,15 @@ import { ConfigValidator } from './common/utils/config-validator';
 import { ResourcesInitiator } from './common/utils/resources-initiator';
 
 async function bootstrap() {
-  await ConfigValidator.validate(Config);
+    await ConfigValidator.validate(Config);
 
-  const app = await NestFactory.create(AppModule, { cors: true });
+    const app = await NestFactory.create(AppModule, { cors: true });
   
-  app.setGlobalPrefix(Config.APP.PREFIX);
+    app.setGlobalPrefix(Config.APP.PREFIX);
 
-  ResourcesInitiator.init(app);
+    ResourcesInitiator.init(app);
 
-  await app.listen(Config.APP.PORT);
+    await app.listen(Config.APP.PORT);
 }
 
 bootstrap();

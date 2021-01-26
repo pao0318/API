@@ -39,7 +39,7 @@ describe('MongoUserRepository', () => {
 
         describe('When more than one user exists and provided arguments matches a record', () => {
             let users: User[];
-            
+
             beforeAll(async () => {
                 users = await userRepository.getMany({ isConfirmed: false });
             });
@@ -159,7 +159,7 @@ describe('MongoUserRepository', () => {
 
         it('Should update user in database', async () => {
             await userRepository.updateById(user.id, userData);
-            
+
             const foundUser = await userRepository.getById(user.id);
 
             expect(foundUser).toMatchObject(userData);

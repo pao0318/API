@@ -18,7 +18,7 @@
     "test": "yarn test:unit",
     "test:unit": "cross-env APP_MODE=testing jest --testTimeout=25000 --detectOpenHandles --forceExit __tests__/",
     "lint": "eslint src",
-    "format": "prettier --write 'src/*.ts'"
+    "format": "prettier --write 'src/**/*.ts'"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
@@ -66,7 +66,9 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-sonarjs": "^0.5.0",
+    "husky": "^4.3.8",
     "jest": "26.4.2",
+    "lint-staged": "^10.5.3",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "supertest": "^4.0.2",
@@ -89,5 +91,13 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": ["prettier --write"]
   }
 }

@@ -1,4 +1,4 @@
-import { Constants } from "../constants";
+import { Constants } from '../constants';
 
 export abstract class BaseException extends Error {
     public abstract readonly id: number = Constants.DEFAULT_EXCEPTION.ID;

@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { UserRepositoryModule } from '../../database/models/user/user.repository.module';
@@ -9,7 +9,6 @@ import { ValidationModule } from '../../services/validation/validation.module';
     imports: [UserRepositoryModule, EventModule, ValidationModule],
     providers: [AccountService],
     controllers: [AccountController],
-    exports: [AccountService]
+    exports: [AccountService],
 })
-
 export class AccountModule {}

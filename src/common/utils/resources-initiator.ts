@@ -11,7 +11,7 @@ export class ResourcesInitiator {
         this._initiateExceptionListeners();
 
         this._initiateGlobalFilters(app);
-        
+
         app.use(cookieParser());
 
         this._ConfigureCloudinary();
@@ -37,7 +37,7 @@ export class ResourcesInitiator {
         cloudinary.v2.config({
             cloud_name: Config.CLOUDINARY.CLOUD_NAME,
             api_key: Config.CLOUDINARY.API_KEY,
-            api_secret: Config.CLOUDINARY.API_SECRET
+            api_secret: Config.CLOUDINARY.API_SECRET,
         });
     }
 }

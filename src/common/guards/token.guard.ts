@@ -1,4 +1,10 @@
-import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+    CanActivate,
+    ExecutionContext,
+    Inject,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { IAccessTokenPayload } from '../../services/token/interfaces/IAccessTokenPayload';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
@@ -9,7 +15,8 @@ import { Constants } from '../constants';
 export class TokenGuard implements CanActivate {
     constructor(
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
+        private readonly _validationService: ValidationService,
     ) {}
 
     public async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -29,12 +36,15 @@ export class TokenGuard implements CanActivate {
     private async _getPayloadFromToken(token: string): Promise<IAccessTokenPayload> {
         try {
             return await this._tokenService.verify(AccessToken, token);
-        } catch(error) {
+        } catch (error) {
             throw new UnauthorizedException();
         }
     }
 
-    private _assignUserDataToRequest(context: ExecutionContext, payload: IAccessTokenPayload): void {
+    private _assignUserDataToRequest(
+        context: ExecutionContext,
+        payload: IAccessTokenPayload,
+    ): void {
         context.switchToHttp().getRequest().user = payload;
     }
 }

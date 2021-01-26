@@ -1,5 +1,5 @@
-import { Constants } from "../constants";
-import { BaseException } from "./base.exception";
+import { Constants } from '../constants';
+import { BaseException } from './base.exception';
 
 export class DuplicateEmailException extends BaseException {
     id = Constants.EXCEPTION.DUPLICATE_EMAIL;

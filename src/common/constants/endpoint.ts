@@ -4,15 +4,15 @@ export const Endpoint = {
         LOGIN: '/auth/login',
         LOGIN_GOOGLE: '/auth/login-google',
         LOGIN_FACEBOOK: '/auth/login-facebook',
-        LOGOUT: '/auth/logout'
+        LOGOUT: '/auth/logout',
     },
     ACCOUNT: {
         CONFIRM_EMAIL: '/account/confirm-email',
         RESET_PASSWORD: '/account/reset-password',
         SEND_ACCOUNT_CONFIRMATION_MAIL: '/account/send-account-confirmation-mail',
-        SEND_RESET_PASSWORD_CONFIRMATION_MAIL: '/account/send-reset-password-confirmation-mail'
+        SEND_RESET_PASSWORD_CONFIRMATION_MAIL: '/account/send-reset-password-confirmation-mail',
     },
     USER: {
-        AVATAR: '/user/avatar'
-    }
+        AVATAR: '/user/avatar',
+    },
 } as const;

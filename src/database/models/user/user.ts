@@ -35,7 +35,10 @@ export class User {
             isConfirmed: data.isConfirmed,
             avatar: data.avatar,
             accountType: data.accountType,
-            confirmationCode: new ConfirmationCode(data.confirmationCode.code, data.confirmationCode.expiresAt)
+            confirmationCode: new ConfirmationCode(
+                data.confirmationCode.code,
+                data.confirmationCode.expiresAt,
+            ),
         });
     }
 
@@ -43,24 +46,24 @@ export class User {
         return new User({
             ...data,
             isConfirmed: false,
-            accountType: Constants.ACCOUNT_TYPE.REGULAR
-        })
+            accountType: Constants.ACCOUNT_TYPE.REGULAR,
+        });
     }
 
     public static asGoogleAccount(data: Partial<User>): User {
         return new User({
             ...data,
             isConfirmed: true,
-            accountType: Constants.ACCOUNT_TYPE.GOOGLE
-        })
+            accountType: Constants.ACCOUNT_TYPE.GOOGLE,
+        });
     }
 
     public static asFacebookAccount(data: Partial<User>): User {
         return new User({
             ...data,
             isConfirmed: false,
-            accountType: Constants.ACCOUNT_TYPE.FACEBOOK
-        })
+            accountType: Constants.ACCOUNT_TYPE.FACEBOOK,
+        });
     }
 
     public hasSocialMediaAccount(): boolean {

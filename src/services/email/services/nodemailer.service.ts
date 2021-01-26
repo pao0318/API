@@ -6,7 +6,7 @@ import { Mail } from '../mails/mail';
 
 export class NodemailerEmailService implements IEmailService {
     private readonly _transporter: Transporter;
-    
+
     constructor() {
         this._transporter = this._createTransporter();
         this._verifyTransporter();
@@ -17,7 +17,7 @@ export class NodemailerEmailService implements IEmailService {
             from: Config.MAIL.USER,
             to: mail.to,
             subject: mail.subject,
-            html: await mail.getBody()
+            html: await mail.getBody(),
         });
     }
 
@@ -30,13 +30,13 @@ export class NodemailerEmailService implements IEmailService {
                 refreshToken: Config.MAIL.REFRESH_TOKEN,
                 clientId: Config.MAIL.CLIENT_ID,
                 clientSecret: Config.MAIL.CLIENT_SECRET,
-            }
-        })
+            },
+        });
     }
 
     private _verifyTransporter(): void {
         this._transporter.verify((error) => {
-            if(error) Logger.error(error.message);
+            if (error) Logger.error(error.message);
         });
     }
 }

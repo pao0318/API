@@ -16,35 +16,45 @@ import { ISendResetPasswordConfirmationMailRequestDTO } from './interfaces/ISend
 @Injectable()
 export class AccountService {
     constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
+        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
+        private readonly _userRepository: IUserRepository,
         @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
+        private readonly _validationService: ValidationService,
     ) {}
 
-    public async sendAccountConfirmationMail(input: ISendAccountConfirmationMailRequestDTO): Promise<void> {
+    public async sendAccountConfirmationMail(
+        input: ISendAccountConfirmationMailRequestDTO,
+    ): Promise<void> {
         const user = await this._validationService.getUserByEmailOrThrow(input.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.throwIfAccountIsAlreadyConfirmed(user);
 
-        this._eventService.handle(new SendConfirmationMailEvent({
-            id: user.id,
-            mail: new AccountConfirmationMail(user.email, {})
-        }))
+        this._eventService.handle(
+            new SendConfirmationMailEvent({
+                id: user.id,
+                mail: new AccountConfirmationMail(user.email, {}),
+            }),
+        );
     }
 
-    public async sendResetPasswordConfirmationMail(input: ISendResetPasswordConfirmationMailRequestDTO): Promise<void> {
+    public async sendResetPasswordConfirmationMail(
+        input: ISendResetPasswordConfirmationMailRequestDTO,
+    ): Promise<void> {
         const user = await this._validationService.getUserByEmailOrThrow(input.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        this._eventService.handle(new SendConfirmationMailEvent({
-            id: user.id,
-            mail: new ResetPasswordConfirmationMail(user.email, {})
-        }))
+        this._eventService.handle(
+            new SendConfirmationMailEvent({
+                id: user.id,
+                mail: new ResetPasswordConfirmationMail(user.email, {}),
+            }),
+        );
     }
 
     public async confirmEmail(input: IConfirmEmailRequestDTO): Promise<void> {
@@ -58,7 +68,10 @@ export class AccountService {
 
         this._validationService.throwIfConfirmationCodeIsExpired(user);
 
-        await this._userRepository.updateById(user.id, { confirmationCode: ConfirmationCode.generateEmpty(), isConfirmed: true });
+        await this._userRepository.updateById(user.id, {
+            confirmationCode: ConfirmationCode.generateEmpty(),
+            isConfirmed: true,
+        });
     }
 
     public async resetPassword(input: IResetPasswordRequestDTO): Promise<void> {
@@ -72,6 +85,9 @@ export class AccountService {
 
         this._validationService.throwIfConfirmationCodeIsExpired(user);
 
-        await this._userRepository.updateById(user.id, { confirmationCode: ConfirmationCode.generateEmpty(), password: await hashString(input.password) });
+        await this._userRepository.updateById(user.id, {
+            confirmationCode: ConfirmationCode.generateEmpty(),
+            password: await hashString(input.password),
+        });
     }
 }

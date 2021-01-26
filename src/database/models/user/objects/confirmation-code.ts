@@ -21,6 +21,6 @@ export class ConfirmationCode {
     }
 
     private static _generateExpiresAt(): number {
-        return Date.now() + Constants.TIME.MINUTES_30
+        return Date.now() + Constants.TIME.MINUTES_30;
     }
 }

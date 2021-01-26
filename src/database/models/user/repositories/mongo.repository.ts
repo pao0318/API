@@ -1,6 +1,6 @@
 import { Model, Types } from 'mongoose';
 import { User } from '../user';
-import { InjectModel } from "@nestjs/mongoose";
+import { InjectModel } from '@nestjs/mongoose';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { IUserDocument } from '../interfaces/IUserDocument';
 import { Injectable } from '@nestjs/common';
@@ -8,18 +8,18 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class MongoUserRepository implements IUserRepository {
     constructor(@InjectModel('User') private readonly _userModel: Model<IUserDocument>) {}
-    
+
     public async getMany(data: Partial<User> = {}): Promise<User[]> {
         const users = await this._userModel.find(data);
         return users.map((user) => User.fromEntity(user));
     }
 
     public async getById(id: string): Promise<User | null> {
-        if(!Types.ObjectId.isValid(id)) return null;
-        
+        if (!Types.ObjectId.isValid(id)) return null;
+
         const user = await this._userModel.findById(id);
 
-        if(!user) return null;
+        if (!user) return null;
 
         return User.fromEntity(user);
     }
@@ -27,15 +27,15 @@ export class MongoUserRepository implements IUserRepository {
     public async getByEmail(email: string): Promise<User | null> {
         const user = await this._userModel.findOne({ email });
 
-        if(!user) return null;
-        
+        if (!user) return null;
+
         return User.fromEntity(user);
     }
 
     public async getByUsername(username: string): Promise<User | null> {
         const user = await this._userModel.findOne({ username });
 
-        if(!user) return null;
+        if (!user) return null;
 
         return User.fromEntity(user);
     }

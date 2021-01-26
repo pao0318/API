@@ -5,43 +5,47 @@ import { IUserDocument } from '../interfaces/IUserDocument';
 export const MongoUserSchema = new Schema({
     email: {
         type: String,
-        required: true
+        required: true,
     },
     username: {
         type: String,
-        required: true
+        required: true,
     },
     password: {
         type: String,
-        default: ''
+        default: '',
     },
     joinedAt: {
         type: Number,
-        default: Date.now()
+        default: Date.now(),
     },
     isConfirmed: {
         type: Boolean,
-        default: false
+        default: false,
     },
     avatar: {
         type: String,
-        default: Constants.IMAGE.AVATAR.DEFAULT
+        default: Constants.IMAGE.AVATAR.DEFAULT,
     },
     accountType: {
         type: String,
-        enum: [Constants.ACCOUNT_TYPE.REGULAR, Constants.ACCOUNT_TYPE.GOOGLE, Constants.ACCOUNT_TYPE.FACEBOOK],
-        default: Constants.ACCOUNT_TYPE.REGULAR
+        enum: [
+            Constants.ACCOUNT_TYPE.REGULAR,
+            Constants.ACCOUNT_TYPE.GOOGLE,
+            Constants.ACCOUNT_TYPE.FACEBOOK,
+        ],
+        default: Constants.ACCOUNT_TYPE.REGULAR,
     },
     confirmationCode: {
         code: {
             type: String,
-            default: ''
+            default: '',
         },
         expiresAt: {
             type: Number,
-            default: Date.now()
-        }
-    }
+            default: Date.now(),
+        },
+    },
 });
 
 export const MongoUserModel = model<IUserDocument>('User', MongoUserSchema);

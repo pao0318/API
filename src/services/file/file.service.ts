@@ -7,12 +7,19 @@ import { IFile } from './interfaces/IFile';
 
 @Injectable()
 export class FileService {
-    constructor(@Inject(Constants.DEPENDENCY.CLOUD_PROVIDER) private readonly _cloudProvider: ICloudProvider) {}
+    constructor(
+        @Inject(Constants.DEPENDENCY.CLOUD_PROVIDER)
+        private readonly _cloudProvider: ICloudProvider,
+    ) {}
 
     public async uploadAvatar(image: IFile): Promise<string> {
         this._validateImageFormat(image);
 
-        await this._prepareImage(image, Constants.IMAGE.AVATAR.WIDHT, Constants.IMAGE.AVATAR.HEIGHT);
+        await this._prepareImage(
+            image,
+            Constants.IMAGE.AVATAR.WIDHT,
+            Constants.IMAGE.AVATAR.HEIGHT,
+        );
 
         await this._cloudProvider.uploadImage(image, Constants.IMAGE.AVATAR.FOLDER);
 
@@ -34,7 +41,7 @@ export class FileService {
 
     private _validateImageFormat(image: IFile): void {
         const imageHasSupportedType = image.originalname.match(/\.(jpg|jpeg|png)$/);
-        if(!imageHasSupportedType) throw new InvalidImageFormatException();
+        if (!imageHasSupportedType) throw new InvalidImageFormatException();
     }
 
     private async _resizeImage(image: IFile, width: number, height: number): Promise<void> {

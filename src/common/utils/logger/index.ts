@@ -7,18 +7,16 @@ export class Logger {
     private static readonly _logger: ILogger = new ConsoleLogger();
 
     public static async info(message: string, logger: ILogger | null = null): Promise<void> {
-        if(this._inTestingEnvironment()) return;
+        if (this._inTestingEnvironment()) return;
 
-        if(logger) logger.info(message);
-
+        if (logger) logger.info(message);
         else this._logger.info(message);
     }
 
     public static async error(message: string, logger: ILogger | null = null): Promise<void> {
-        if(this._inTestingEnvironment()) return;
-        
-        if(logger) logger.error(message);
-        
+        if (this._inTestingEnvironment()) return;
+
+        if (logger) logger.error(message);
         else this._logger.error(message);
     }
 

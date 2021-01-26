@@ -1,3 +1,3 @@
 export enum Task {
-    RESET_USERS = 'reset_users'
+    RESET_USERS = 'reset_users',
 }

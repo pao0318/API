@@ -3,8 +3,7 @@ import { UserRepositoryModule } from '../database/models/user/user.repository.mo
 import { ResetUsersTask } from './lib/reset-users';
 
 @Module({
-  imports: [UserRepositoryModule],
-  providers: [ResetUsersTask],
+    imports: [UserRepositoryModule],
+    providers: [ResetUsersTask],
 })
-
 export class TasksModule {}

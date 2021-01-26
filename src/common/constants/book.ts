@@ -5,6 +5,6 @@ export namespace Book {
         FANTASY = 'fantasy',
         HORROR = 'horror',
         SCIENCE_FICTION = 'science_fiction',
-        THRILLER = 'thriller'
+        THRILLER = 'thriller',
     }
 }

@@ -1,7 +1,7 @@
-import { ArgumentsHost, Catch, ExceptionFilter as Filter, HttpException } from "@nestjs/common";
+import { ArgumentsHost, Catch, ExceptionFilter as Filter, HttpException } from '@nestjs/common';
 import { Response } from 'express';
-import { Constants } from "../constants";
-import { BaseException } from "../exceptions/base.exception";
+import { Constants } from '../constants';
+import { BaseException } from '../exceptions/base.exception';
 import { Logger } from '../utils/logger';
 
 @Catch()
@@ -17,22 +17,22 @@ export class ExceptionFilter implements Filter {
         this._updateFieldsBasedOnExceptionType(exception);
 
         this._sendResponse(response);
-        
+
         Logger.error(this._message);
     }
 
     private _updateFieldsBasedOnExceptionType(exception: unknown): void {
-        if(exception instanceof Error) this._assignFieldsAsError(exception);
-        if(exception instanceof HttpException) this._assignFieldsAsHttpException(exception);
-        if(exception instanceof BaseException) this._assignFieldsAsBaseException(exception);
+        if (exception instanceof Error) this._assignFieldsAsError(exception);
+        if (exception instanceof HttpException) this._assignFieldsAsHttpException(exception);
+        if (exception instanceof BaseException) this._assignFieldsAsBaseException(exception);
     }
 
     private _sendResponse(response: Response) {
         response.status(this._status).json({
             error: {
                 id: this._id,
-                message: this._message 
-            }
+                message: this._message,
+            },
         });
     }
 

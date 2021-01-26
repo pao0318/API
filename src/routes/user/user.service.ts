@@ -9,7 +9,8 @@ import { IFile } from '../../services/file/interfaces/IFile';
 export class UserService {
     constructor(
         @Inject(Constants.DEPENDENCY.FILE_SERVICE) private readonly _fileService: FileService,
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository
+        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
+        private readonly _userRepository: IUserRepository,
     ) {}
 
     public async updateAvatar(request: Request, image: IFile): Promise<void> {
@@ -23,13 +24,13 @@ export class UserService {
     private async _removeOldAvatar(id: string): Promise<void> {
         const user = await this._userRepository.getById(id);
 
-        if(user.hasDefaultAvatar()) return;
+        if (user.hasDefaultAvatar()) return;
 
         await this._fileService.removeImage(user.avatar);
     }
 
     private async _changeAvatarInDatabase(id: string, imageName: string): Promise<void> {
         const avatar = `${imageName}.jpg`;
-        await this._userRepository.updateById(id, { avatar })
+        await this._userRepository.updateById(id, { avatar });
     }
 }

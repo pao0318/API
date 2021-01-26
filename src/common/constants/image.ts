@@ -3,9 +3,9 @@ export const Image = {
         WIDHT: 256,
         HEIGHT: 256,
         FOLDER: 'avatars',
-        DEFAULT: 'default.jpg'
+        DEFAULT: 'default.jpg',
     },
     BOOK_COVER: {
-        DEFAULT: 'default.jpg'
-    }
+        DEFAULT: 'default.jpg',
+    },
 } as const;

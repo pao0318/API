@@ -6,7 +6,10 @@ import { IUserRepository } from '../../database/models/user/interfaces/IUserRepo
 import { User } from '../../database/models/user/user';
 
 export class ResetUsersTask {
-    constructor(@Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
+    constructor(
+        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
+        private readonly _userRepository: IUserRepository,
+    ) {}
 
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     public async handle(): Promise<void> {
@@ -18,8 +21,8 @@ export class ResetUsersTask {
     }
 
     private async _deleteUsers(users: User[]): Promise<void> {
-        for(const user of users) {
-            if(user.hasAccountLongerThanTwoHours()) await this._userRepository.deleteById(user.id);
+        for (const user of users) {
+            if (user.hasAccountLongerThanTwoHours()) await this._userRepository.deleteById(user.id);
         }
     }
 }

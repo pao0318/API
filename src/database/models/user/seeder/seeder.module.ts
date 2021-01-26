@@ -1,11 +1,10 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common';
 import { UserRepositoryModule } from '../user.repository.module';
-import { UserSeeder } from ".";
+import { UserSeeder } from '.';
 
 @Module({
     imports: [UserRepositoryModule],
     providers: [UserSeeder],
-    exports: [UserSeeder]
+    exports: [UserSeeder],
 })
-
 export class UserSeederModule {}

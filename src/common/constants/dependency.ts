@@ -8,5 +8,5 @@ export enum Dependency {
     TOKEN_SERVICE = 'JwtTokenService',
     VALIDATION_SERVICE = 'ValidationService',
 
-    CLOUD_PROVIDER = 'CloudinaryProvider'
+    CLOUD_PROVIDER = 'CloudinaryProvider',
 }

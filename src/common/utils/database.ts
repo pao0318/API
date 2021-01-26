@@ -17,11 +17,11 @@ export class Database {
                 useUnifiedTopology: true,
                 useCreateIndex: true,
                 useFindAndModify: false,
-                dbName: this._name
+                dbName: this._name,
             });
 
             Logger.info(`Connected to the database [${this._name}]`);
-        } catch(error) {
+        } catch (error) {
             Logger.error(`Database connection error - [${this._name}]: ${error.message}`);
         }
     }

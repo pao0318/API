@@ -7,7 +7,10 @@ import { Book } from '../book';
 
 @Injectable()
 export class BookSeeder {
-    constructor(@Inject(Constants.DEPENDENCY.BOOK_REPOSITORY) private readonly _bookRepository: IBookRepository) {}
+    constructor(
+        @Inject(Constants.DEPENDENCY.BOOK_REPOSITORY)
+        private readonly _bookRepository: IBookRepository,
+    ) {}
 
     @Command({ command: 'seed:book', describe: 'Create new book', autoExit: true })
     public async run(): Promise<void> {
@@ -23,14 +26,14 @@ export class BookSeeder {
             ownedBy: random.uuid(),
             title: random.word(),
             description: random.word(),
-            genre: random.arrayElement(Object.values(Constants.BOOK.GENRE))
+            genre: random.arrayElement(Object.values(Constants.BOOK.GENRE)),
         };
     }
 
     private async _saveBookToDatabase(data: Partial<Book>): Promise<void> {
         try {
             await this._bookRepository.create(data);
-        } catch(error) {
+        } catch (error) {
             console.log(error.message);
         }
     }

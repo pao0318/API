@@ -17,11 +17,13 @@ import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 @Injectable()
 export class AuthService {
     constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository,
+        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
+        private readonly _userRepository: IUserRepository,
         @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService
-        ) {}
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
+        private readonly _validationService: ValidationService,
+    ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {
         await this._validationService.throwIfEmailAlreadyExists(input.email);
@@ -29,24 +31,33 @@ export class AuthService {
         await this._validationService.throwIfUsernameAlreadyExists(input.username);
 
         const hashedPassword = await hashString(input.password);
-        const user = await this._userRepository.create(User.asRegularAccount({ ...input, password: hashedPassword }));
+        const user = await this._userRepository.create(
+            User.asRegularAccount({ ...input, password: hashedPassword }),
+        );
 
-        this._eventService.handle(new SendConfirmationMailEvent({
-            id: user.id,
-            mail: new AccountConfirmationMail(user.email, {})
-        }));
+        this._eventService.handle(
+            new SendConfirmationMailEvent({
+                id: user.id,
+                mail: new AccountConfirmationMail(user.email, {}),
+            }),
+        );
     }
 
     public async login(input: ILoginRequestDTO, res: Response): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email, new InvalidCredentialsException);
-        
+        const user = await this._validationService.getUserByEmailOrThrow(
+            input.email,
+            new InvalidCredentialsException(),
+        );
+
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
         await this._validationService.throwIfPasswordIsInvalid(user, input.password);
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        const token = await this._tokenService.generate(new AccessToken({ id: user.id, email: user.email, username: user.username }));
+        const token = await this._tokenService.generate(
+            new AccessToken({ id: user.id, email: user.email, username: user.username }),
+        );
         res.cookie('authorization', token, { httpOnly: true });
     }
 

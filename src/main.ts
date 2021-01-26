@@ -8,7 +8,7 @@ async function bootstrap() {
     await ConfigValidator.validate(Config);
 
     const app = await NestFactory.create(AppModule, { cors: true });
-  
+
     app.setGlobalPrefix(Config.APP.PREFIX);
 
     ResourcesInitiator.init(app);

@@ -31,10 +31,10 @@ export abstract class Mail {
     }
 
     private _applyContext(template: string, context: IMailContext): string {
-        for(const key in context) {
-            template = template.replace(`{{ ${key} }}`, context[key]);
+        for (const key in context) {
+            template = template.replace(`{{ ${key} }}`, context[key.toString()]);
         }
-        
+
         return template;
     }
 }

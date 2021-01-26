@@ -17,7 +17,7 @@ export class TestUtils {
         return {
             email: internet.email(),
             username: internet.userName(),
-            password: internet.password()
-        }
+            password: internet.password(),
+        };
     }
 }

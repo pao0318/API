@@ -2,6 +2,6 @@ import { IAccessTokenPayload } from '../services/token/interfaces/IAccessTokenPa
 
 declare module 'express' {
     export interface Request {
-        user: IAccessTokenPayload
+        user: IAccessTokenPayload;
     }
 }

@@ -9,10 +9,13 @@ import { User } from '../user';
 
 @Injectable()
 export class UserSeeder {
-    private _fakeUserData: Partial<User>
-    private _fakeUserDataWithHashedPassword: Partial<User>
+    private _fakeUserData: Partial<User>;
+    private _fakeUserDataWithHashedPassword: Partial<User>;
 
-    constructor(@Inject(Constants.DEPENDENCY.USER_REPOSITORY) private readonly _userRepository: IUserRepository) {}
+    constructor(
+        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
+        private readonly _userRepository: IUserRepository,
+    ) {}
 
     @Command({ command: 'seed:user', describe: 'Create new user', autoExit: true })
     public async run(): Promise<void> {
@@ -30,7 +33,7 @@ export class UserSeeder {
             username: random.alphaNumeric(5),
             email: internet.email(),
             password: random.alphaNumeric(5),
-            isConfirmed: true
+            isConfirmed: true,
         };
     }
 
@@ -42,7 +45,7 @@ export class UserSeeder {
     private async _saveUserAccount(): Promise<void> {
         try {
             await this._userRepository.create(this._fakeUserDataWithHashedPassword);
-        } catch(error) {
+        } catch (error) {
             console.log(error.message);
         }
     }

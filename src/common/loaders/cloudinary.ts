@@ -1,7 +1,7 @@
 import * as cloudinary from 'cloudinary';
 import { Config } from '../config';
 
-export const loadCloudinary = () => {
+export const loadCloudinary = (): void => {
     cloudinary.v2.config({
         cloud_name: Config.CLOUDINARY.CLOUD_NAME,
         api_key: Config.CLOUDINARY.API_KEY,

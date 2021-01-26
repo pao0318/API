@@ -1,6 +1,6 @@
 import { Logger } from '../utils/logger';
 
-export const loadExceptionListeners = () => {
+export const loadExceptionListeners = (): void => {
     process.on('uncaughtException', (error) => {
         Logger.error(`Uncaught Exception - ${error.message}`);
         process.exit(1);

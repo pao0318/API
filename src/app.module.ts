@@ -26,5 +26,4 @@ import { Config } from './common/config';
         TasksModule,
     ],
 })
-
 export class AppModule {}

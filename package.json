@@ -17,7 +17,8 @@
     "seed:user": "nestjs-command seed:user",
     "test": "yarn test:unit",
     "test:unit": "cross-env APP_MODE=testing jest --testTimeout=25000 --detectOpenHandles --forceExit __tests__/",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "format": "prettier --write 'src/*.ts'"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
@@ -67,7 +68,7 @@
     "eslint-plugin-sonarjs": "^0.5.0",
     "jest": "26.4.2",
     "nodemon": "^2.0.7",
-    "prettier": "^1.19.1",
+    "prettier": "^2.2.1",
     "supertest": "^4.0.2",
     "ts-jest": "26.2.0",
     "ts-loader": "^6.2.1",

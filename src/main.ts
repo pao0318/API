@@ -5,11 +5,11 @@ import { ConfigValidator } from './common/utils/config-validator';
 import { ResourcesInitiator } from './common/utils/resources-initiator';
 
 async function bootstrap() {
-	await ConfigValidator.validate(Config);
+    await ConfigValidator.validate(Config);
 
-	const app = await NestFactory.create(AppModule, { cors: true });
-  
-	app.setGlobalPrefix(Config.APP.PREFIX);
+    const app = await NestFactory.create(AppModule, { cors: true });
+
+    app.setGlobalPrefix(Config.APP.PREFIX);
 
     ResourcesInitiator.init(app);
 

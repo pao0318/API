@@ -28,8 +28,7 @@ export class TokenGuard implements CanActivate {
 
     private async _getPayloadFromToken(token: string): Promise<IAccessTokenPayload> {
         try {
-            const payload = await this._tokenService.verify(AccessToken, token);
-            return payload;
+            return await this._tokenService.verify(AccessToken, token);
         } catch(error) {
             throw new UnauthorizedException();
         }

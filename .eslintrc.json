@@ -3,10 +3,12 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:security/recommended"
+        "plugin:security/recommended",
+        "plugin:sonarjs/recommended"
     ],
     "plugins": [
-        "security"
+        "security",
+        "sonarjs"
     ],
     "parserOptions": {
         "ecmaVersion": 2018,

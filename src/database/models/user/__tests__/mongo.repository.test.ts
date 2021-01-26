@@ -1,3 +1,4 @@
+/* eslint sonarjs/no-duplicate-string: 0 */
 import { TestUtils } from '../../../../common/utils/test-utils';
 import { random, internet } from 'faker';
 import { MongoUserRepository } from '../repositories/mongo.repository';

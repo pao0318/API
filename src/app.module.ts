@@ -15,6 +15,7 @@ import { Config } from './common/config';
         MongooseModule.forRoot(Config.DATABASE.URL, {
             dbName: Config.DATABASE.NAME,
         }),
+
         ScheduleModule.forRoot(),
 
         AccountModule,

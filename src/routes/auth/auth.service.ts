@@ -35,6 +35,7 @@ export class AuthService {
         );
 
         const hashedPassword = await hashString(input.password);
+
         const user = await this._userRepository.create(
             User.asRegularAccount({ ...input, password: hashedPassword }),
         );

@@ -11,8 +11,13 @@ export class TestUtils {
     }
 
     public static async dropDatabase(): Promise<void> {
-        if (Config.APP.MODE !== Constants.APP_MODE.TEST)
+        if (
+            Config.APP.MODE !== Constants.APP_MODE.TEST ||
+            connection.name !== 'test'
+        ) {
             throw new Error('You cannot use it in the provided environment');
+        }
+
         await connection.db.dropDatabase();
     }
 

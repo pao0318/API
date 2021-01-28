@@ -13,7 +13,9 @@ export class ResetUsersTask {
 
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     public async handle(): Promise<void> {
-        const users = await this._userRepository.getMany({ isConfirmed: false });
+        const users = await this._userRepository.getMany({
+            isConfirmed: false,
+        });
 
         await this._deleteUsers(users);
 
@@ -22,7 +24,8 @@ export class ResetUsersTask {
 
     private async _deleteUsers(users: User[]): Promise<void> {
         for (const user of users) {
-            if (user.hasAccountLongerThanTwoHours()) await this._userRepository.deleteById(user.id);
+            if (user.hasAccountLongerThanTwoHours())
+                await this._userRepository.deleteById(user.id);
         }
     }
 }

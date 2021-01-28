@@ -18,7 +18,8 @@ export class AccountService {
     constructor(
         @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
         private readonly _userRepository: IUserRepository,
-        @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
+        @Inject(Constants.DEPENDENCY.EVENT_SERVICE)
+        private readonly _eventService: IEventService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
         private readonly _validationService: ValidationService,
     ) {}
@@ -26,7 +27,9 @@ export class AccountService {
     public async sendAccountConfirmationMail(
         input: ISendAccountConfirmationMailRequestDTO,
     ): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(
+            input.email,
+        );
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
@@ -43,7 +46,9 @@ export class AccountService {
     public async sendResetPasswordConfirmationMail(
         input: ISendResetPasswordConfirmationMailRequestDTO,
     ): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(
+            input.email,
+        );
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
@@ -58,13 +63,18 @@ export class AccountService {
     }
 
     public async confirmEmail(input: IConfirmEmailRequestDTO): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(
+            input.email,
+        );
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.throwIfAccountIsAlreadyConfirmed(user);
 
-        this._validationService.throwIfConfirmationCodeIsInvalid(user, input.code);
+        this._validationService.throwIfConfirmationCodeIsInvalid(
+            user,
+            input.code,
+        );
 
         this._validationService.throwIfConfirmationCodeIsExpired(user);
 
@@ -75,13 +85,18 @@ export class AccountService {
     }
 
     public async resetPassword(input: IResetPasswordRequestDTO): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+        const user = await this._validationService.getUserByEmailOrThrow(
+            input.email,
+        );
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        this._validationService.throwIfConfirmationCodeIsInvalid(user, input.code);
+        this._validationService.throwIfConfirmationCodeIsInvalid(
+            user,
+            input.code,
+        );
 
         this._validationService.throwIfConfirmationCodeIsExpired(user);
 

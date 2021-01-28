@@ -8,7 +8,8 @@ import { IFile } from '../../services/file/interfaces/IFile';
 @Injectable()
 export class UserService {
     constructor(
-        @Inject(Constants.DEPENDENCY.FILE_SERVICE) private readonly _fileService: FileService,
+        @Inject(Constants.DEPENDENCY.FILE_SERVICE)
+        private readonly _fileService: FileService,
         @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
         private readonly _userRepository: IUserRepository,
     ) {}
@@ -29,7 +30,10 @@ export class UserService {
         await this._fileService.removeImage(user.avatar);
     }
 
-    private async _changeAvatarInDatabase(id: string, imageName: string): Promise<void> {
+    private async _changeAvatarInDatabase(
+        id: string,
+        imageName: string,
+    ): Promise<void> {
         const avatar = `${imageName}.jpg`;
         await this._userRepository.updateById(id, { avatar });
     }

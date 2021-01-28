@@ -1,4 +1,6 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
+/* eslint sonarjs/no-identical-functions: 0 */
+
 import { TestUtils } from '../../../../common/utils/test-utils';
 import { random, internet } from 'faker';
 import { MongoUserRepository } from '../repositories/mongo.repository';
@@ -32,7 +34,9 @@ describe('MongoUserRepository', () => {
             });
 
             it('Should return empty array', async () => {
-                const users = await userRepository.getMany({ isConfirmed: true });
+                const users = await userRepository.getMany({
+                    isConfirmed: true,
+                });
                 expect(users).toHaveLength(0);
             });
         });
@@ -102,7 +106,9 @@ describe('MongoUserRepository', () => {
     describe('Get by username method', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
-                const user = await userRepository.getByUsername(internet.userName());
+                const user = await userRepository.getByUsername(
+                    internet.userName(),
+                );
                 expect(user).toBeNull();
             });
         });
@@ -115,7 +121,9 @@ describe('MongoUserRepository', () => {
             });
 
             it('Should return user that matches provided data', async () => {
-                const user = await userRepository.getByUsername(userData.username);
+                const user = await userRepository.getByUsername(
+                    userData.username,
+                );
                 expect(user).toMatchObject(userData);
             });
         });
@@ -137,7 +145,9 @@ describe('MongoUserRepository', () => {
         let user: User;
 
         beforeAll(async () => {
-            user = await userRepository.create(TestUtils.generateFakeUserData());
+            user = await userRepository.create(
+                TestUtils.generateFakeUserData(),
+            );
         });
 
         it('Should delete user from the database', async () => {
@@ -154,7 +164,9 @@ describe('MongoUserRepository', () => {
         let user: User;
 
         beforeAll(async () => {
-            user = await userRepository.create(TestUtils.generateFakeUserData());
+            user = await userRepository.create(
+                TestUtils.generateFakeUserData(),
+            );
         });
 
         it('Should update user in database', async () => {

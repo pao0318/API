@@ -9,8 +9,10 @@ export const Endpoint = {
     ACCOUNT: {
         CONFIRM_EMAIL: '/account/confirm-email',
         RESET_PASSWORD: '/account/reset-password',
-        SEND_ACCOUNT_CONFIRMATION_MAIL: '/account/send-account-confirmation-mail',
-        SEND_RESET_PASSWORD_CONFIRMATION_MAIL: '/account/send-reset-password-confirmation-mail',
+        SEND_ACCOUNT_CONFIRMATION_MAIL:
+            '/account/send-account-confirmation-mail',
+        SEND_RESET_PASSWORD_CONFIRMATION_MAIL:
+            '/account/send-reset-password-confirmation-mail',
     },
     USER: {
         AVATAR: '/user/avatar',

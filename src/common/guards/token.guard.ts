@@ -14,7 +14,8 @@ import { Constants } from '../constants';
 @Injectable()
 export class TokenGuard implements CanActivate {
     constructor(
-        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
+        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE)
+        private readonly _tokenService: ITokenService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
         private readonly _validationService: ValidationService,
     ) {}
@@ -33,7 +34,9 @@ export class TokenGuard implements CanActivate {
         return context.switchToHttp().getRequest().cookies['authorization'];
     }
 
-    private async _getPayloadFromToken(token: string): Promise<IAccessTokenPayload> {
+    private async _getPayloadFromToken(
+        token: string,
+    ): Promise<IAccessTokenPayload> {
         try {
             return await this._tokenService.verify(AccessToken, token);
         } catch (error) {

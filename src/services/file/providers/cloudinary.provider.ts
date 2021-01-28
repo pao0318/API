@@ -8,7 +8,11 @@ export class CloudinaryProvider implements ICloudProvider {
     public async uploadImage(image: IFile, folder: string): Promise<void> {
         cloudinary.v2.uploader
             .upload_stream(
-                { format: 'jpg', folder: folder, public_id: image.originalname },
+                {
+                    format: 'jpg',
+                    folder: folder,
+                    public_id: image.originalname,
+                },
                 (error) => {
                     if (error) throw error;
                 },

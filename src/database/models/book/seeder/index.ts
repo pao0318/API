@@ -12,7 +12,11 @@ export class BookSeeder {
         private readonly _bookRepository: IBookRepository,
     ) {}
 
-    @Command({ command: 'seed:book', describe: 'Create new book', autoExit: true })
+    @Command({
+        command: 'seed:book',
+        describe: 'Create new book',
+        autoExit: true,
+    })
     public async run(): Promise<void> {
         const data = this._generateFakeData();
 

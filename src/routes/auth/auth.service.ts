@@ -19,8 +19,10 @@ export class AuthService {
     constructor(
         @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
         private readonly _userRepository: IUserRepository,
-        @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
-        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
+        @Inject(Constants.DEPENDENCY.EVENT_SERVICE)
+        private readonly _eventService: IEventService,
+        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE)
+        private readonly _tokenService: ITokenService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
         private readonly _validationService: ValidationService,
     ) {}
@@ -28,7 +30,9 @@ export class AuthService {
     public async register(input: IRegisterRequestDTO): Promise<void> {
         await this._validationService.throwIfEmailAlreadyExists(input.email);
 
-        await this._validationService.throwIfUsernameAlreadyExists(input.username);
+        await this._validationService.throwIfUsernameAlreadyExists(
+            input.username,
+        );
 
         const hashedPassword = await hashString(input.password);
         const user = await this._userRepository.create(
@@ -51,13 +55,21 @@ export class AuthService {
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
-        await this._validationService.throwIfPasswordIsInvalid(user, input.password);
+        await this._validationService.throwIfPasswordIsInvalid(
+            user,
+            input.password,
+        );
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
         const token = await this._tokenService.generate(
-            new AccessToken({ id: user.id, email: user.email, username: user.username }),
+            new AccessToken({
+                id: user.id,
+                email: user.email,
+                username: user.username,
+            }),
         );
+
         res.cookie('authorization', token, { httpOnly: true });
     }
 

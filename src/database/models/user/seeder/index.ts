@@ -17,7 +17,11 @@ export class UserSeeder {
         private readonly _userRepository: IUserRepository,
     ) {}
 
-    @Command({ command: 'seed:user', describe: 'Create new user', autoExit: true })
+    @Command({
+        command: 'seed:user',
+        describe: 'Create new user',
+        autoExit: true,
+    })
     public async run(): Promise<void> {
         this._generateFakeData();
 
@@ -39,12 +43,17 @@ export class UserSeeder {
 
     private async _createFakeDataWithHashedPassword(): Promise<void> {
         const hashedPassword = await hashString(this._fakeUserData.password);
-        this._fakeUserDataWithHashedPassword = { ...this._fakeUserData, password: hashedPassword };
+        this._fakeUserDataWithHashedPassword = {
+            ...this._fakeUserData,
+            password: hashedPassword,
+        };
     }
 
     private async _saveUserAccount(): Promise<void> {
         try {
-            await this._userRepository.create(this._fakeUserDataWithHashedPassword);
+            await this._userRepository.create(
+                this._fakeUserDataWithHashedPassword,
+            );
         } catch (error) {
             console.log(error.message);
         }

@@ -7,7 +7,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MongoUserRepository implements IUserRepository {
-    constructor(@InjectModel('User') private readonly _userModel: Model<IUserDocument>) {}
+    constructor(
+        @InjectModel('User') private readonly _userModel: Model<IUserDocument>,
+    ) {}
 
     public async getMany(data: Partial<User> = {}): Promise<User[]> {
         const users = await this._userModel.find(data);

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { hashString } from '../../common/helpers/hash-string';
 import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
-import { ConfirmationCode } from '../../database/models/user/objects/confirmation-code';
+import { ConfirmationCode } from '../../database/models/user/subclasses/confirmation-code';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
 import { ResetPasswordConfirmationMail } from '../../services/email/mails/reset-password-confirmation-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';

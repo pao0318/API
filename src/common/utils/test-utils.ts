@@ -3,6 +3,7 @@ import { connection } from 'mongoose';
 import { internet } from 'faker';
 import { User } from '../../database/models/user/user';
 import { Config } from '../config';
+import { Constants } from '../constants';
 
 export class TestUtils {
     public static async connectToDatabase(): Promise<void> {
@@ -10,6 +11,8 @@ export class TestUtils {
     }
 
     public static async dropDatabase(): Promise<void> {
+        if (Config.APP.MODE !== Constants.APP_MODE.TEST)
+            throw new Error('You cannot use it in the provided environment');
         await connection.db.dropDatabase();
     }
 

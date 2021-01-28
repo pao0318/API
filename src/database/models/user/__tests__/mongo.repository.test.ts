@@ -15,12 +15,10 @@ afterAll(async () => {
     await TestUtils.dropDatabase();
 });
 
-describe('MongoUserRepository', () => {
+describe('Mongo User Repository', () => {
     const userRepository = new MongoUserRepository(MongoUserModel);
 
-    describe('getMany', () => {
-        const userData = TestUtils.generateFakeUserData();
-
+    describe('Get many', () => {
         describe('When users do not exist', () => {
             it('Should return empty array', async () => {
                 const users = await userRepository.getMany();
@@ -29,23 +27,24 @@ describe('MongoUserRepository', () => {
         });
 
         describe('When users exist but arguments do not match any', () => {
-            beforeAll(async () => {
-                await userRepository.create(userData);
-            });
+            it('Should return an empty array', async () => {
+                await userRepository.create(TestUtils.generateFakeUserData());
 
-            it('Should return empty array', async () => {
                 const users = await userRepository.getMany({
                     isConfirmed: true,
                 });
+
                 expect(users).toHaveLength(0);
             });
         });
 
-        describe('When more than one user exists and provided arguments matches a record', () => {
+        describe('When more than one user exist and provided arguments match a record', () => {
+            const userData = TestUtils.generateFakeUserData();
             let users: User[];
 
             beforeAll(async () => {
-                users = await userRepository.getMany({ isConfirmed: false });
+                const user = await userRepository.create(userData);
+                users = await userRepository.getMany({ email: user.email });
             });
 
             it('Should return one record', async () => {
@@ -58,7 +57,7 @@ describe('MongoUserRepository', () => {
         });
     });
 
-    describe('Get by id method', () => {
+    describe('Get by id', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
                 const user = await userRepository.getById(random.uuid());

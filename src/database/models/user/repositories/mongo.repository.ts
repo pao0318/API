@@ -34,14 +34,6 @@ export class MongoUserRepository implements IUserRepository {
         return User.fromEntity(user);
     }
 
-    public async getByUsername(username: string): Promise<User | null> {
-        const user = await this._userModel.findOne({ username });
-
-        if (!user) return null;
-
-        return User.fromEntity(user);
-    }
-
     public async create(data: Partial<User>): Promise<User> {
         const user = await new this._userModel(data).save();
         return User.fromEntity(user);

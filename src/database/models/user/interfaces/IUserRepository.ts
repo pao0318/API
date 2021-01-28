@@ -7,8 +7,6 @@ export interface IUserRepository {
 
     getByEmail(email: string): Promise<User | null>;
 
-    getByUsername(username: string): Promise<User | null>;
-
     create(data: Partial<User>): Promise<User>;
 
     deleteById(id: string): Promise<void>;

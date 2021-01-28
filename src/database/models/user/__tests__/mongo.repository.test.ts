@@ -99,32 +99,6 @@ describe('Mongo User Repository', () => {
         });
     });
 
-    describe('Get by username method', () => {
-        describe('When user does not exist', () => {
-            it('Should return null', async () => {
-                const user = await userRepository.getByUsername(
-                    internet.userName(),
-                );
-
-                expect(user).toBeNull();
-            });
-        });
-
-        describe('When user exists', () => {
-            it('Should return user that matches provided data', async () => {
-                const userData = TestUtils.generateFakeUserData();
-
-                await userRepository.create(userData);
-
-                const user = await userRepository.getByUsername(
-                    userData.username,
-                );
-
-                expect(user).toMatchObject(userData);
-            });
-        });
-    });
-
     describe('Create method', () => {
         it('Should create user in the database that matches the provided data', async () => {
             const userData = TestUtils.generateFakeUserData();

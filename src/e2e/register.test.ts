@@ -83,4 +83,29 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
             );
         });
     });
+
+    describe('When everything is valid', () => {
+        const userData = TestUtils.generateFakeUserData();
+        let response: Response;
+
+        beforeAll(async (done) => {
+            response = await request(app.getHttpServer())
+                .post(Constants.ENDPOINT.AUTH.REGISTER)
+                .send({
+                    email: userData.email,
+                    password: userData.password,
+                });
+
+            done();
+        });
+
+        it('Should return status code 201', () => {
+            expect(response.status).toEqual(201);
+        });
+
+        it('Should create user in the database', async () => {
+            const user = await userRepository.getByEmail(userData.email);
+            expect(user).not.toBeNull();
+        });
+    });
 });

@@ -7,9 +7,11 @@ import { INestApplication } from '@nestjs/common';
 import { Constants } from '../common/constants';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Config } from '../common/config';
-import { ExceptionFilter } from '../common/filters/exception.filter';
+import { IUserRepository } from '../database/models/user/interfaces/IUserRepository';
+import { internet } from 'faker';
 
 describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
+    let userRepository: IUserRepository;
     let app: INestApplication;
 
     beforeAll(async () => {
@@ -20,11 +22,10 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
             ],
         }).compile();
 
-        app = module.createNestApplication();
-
-        app.useGlobalFilters(new ExceptionFilter());
-
-        await app.init();
+        app = await TestUtils.createTestApplication(module);
+        userRepository = await app.resolve(
+            Constants.DEPENDENCY.USER_REPOSITORY,
+        );
     });
 
     afterAll(async () => {
@@ -50,6 +51,35 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         it(`Should return error id ${Constants.EXCEPTION.INVALID_INPUT}`, () => {
             expect(response.body.error.id).toEqual(
                 Constants.EXCEPTION.INVALID_INPUT,
+            );
+        });
+    });
+
+    describe('When email already exists', () => {
+        let response: Response;
+
+        beforeAll(async (done) => {
+            const user = await userRepository.create(
+                TestUtils.generateFakeUserData(),
+            );
+
+            response = await request(app.getHttpServer())
+                .post(Constants.ENDPOINT.AUTH.REGISTER)
+                .send({
+                    email: user.email,
+                    password: internet.password(),
+                });
+
+            done();
+        });
+
+        it('Should return status code 409', () => {
+            expect(response.status).toEqual(409);
+        });
+
+        it(`Should return error id ${Constants.EXCEPTION.DUPLICATE_EMAIL}`, () => {
+            expect(response.body.error.id).toEqual(
+                Constants.EXCEPTION.DUPLICATE_EMAIL,
             );
         });
     });

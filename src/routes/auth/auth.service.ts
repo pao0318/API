@@ -30,10 +30,6 @@ export class AuthService {
     public async register(input: IRegisterRequestDTO): Promise<void> {
         await this._validationService.throwIfEmailAlreadyExists(input.email);
 
-        await this._validationService.throwIfUsernameAlreadyExists(
-            input.username,
-        );
-
         const hashedPassword = await hashString(input.password);
 
         const user = await this._userRepository.create(
@@ -67,7 +63,6 @@ export class AuthService {
             new AccessToken({
                 id: user.id,
                 email: user.email,
-                username: user.username,
             }),
         );
 

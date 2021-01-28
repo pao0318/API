@@ -12,7 +12,10 @@ import { Config } from './common/config';
 
 @Module({
     imports: [
-        MongooseModule.forRoot(Config.DATABASE.URL, { dbName: Config.DATABASE.NAME }),
+        MongooseModule.forRoot(Config.DATABASE.URL, {
+            dbName: Config.DATABASE.NAME,
+        }),
+
         ScheduleModule.forRoot(),
 
         AccountModule,

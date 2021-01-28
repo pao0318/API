@@ -21,7 +21,10 @@ export class FileService {
             Constants.IMAGE.AVATAR.HEIGHT,
         );
 
-        await this._cloudProvider.uploadImage(image, Constants.IMAGE.AVATAR.FOLDER);
+        await this._cloudProvider.uploadImage(
+            image,
+            Constants.IMAGE.AVATAR.FOLDER,
+        );
 
         return image.originalname;
     }
@@ -31,7 +34,11 @@ export class FileService {
         await this._cloudProvider.removeFile(filenameWithoutExtension);
     }
 
-    private async _prepareImage(image: IFile, width: number, height: number): Promise<void> {
+    private async _prepareImage(
+        image: IFile,
+        width: number,
+        height: number,
+    ): Promise<void> {
         await this._resizeImage(image, width, height);
 
         await this._changeImageFormatToJPEG(image);
@@ -40,16 +47,26 @@ export class FileService {
     }
 
     private _validateImageFormat(image: IFile): void {
-        const imageHasSupportedType = image.originalname.match(/\.(jpg|jpeg|png)$/);
+        const imageHasSupportedType = image.originalname.match(
+            /\.(jpg|jpeg|png)$/,
+        );
         if (!imageHasSupportedType) throw new InvalidImageFormatException();
     }
 
-    private async _resizeImage(image: IFile, width: number, height: number): Promise<void> {
-        image.buffer = await sharp(image.buffer).resize(width, height).toBuffer();
+    private async _resizeImage(
+        image: IFile,
+        width: number,
+        height: number,
+    ): Promise<void> {
+        image.buffer = await sharp(image.buffer)
+            .resize(width, height)
+            .toBuffer();
     }
 
     private async _changeImageFormatToJPEG(image: IFile): Promise<void> {
-        image.buffer = await sharp(image.buffer).toFormat('jpeg', { quality: 75 }).toBuffer();
+        image.buffer = await sharp(image.buffer)
+            .toFormat('jpeg', { quality: 75 })
+            .toBuffer();
     }
 
     private _renameImage(image: IFile): void {

@@ -12,7 +12,8 @@ export class GenericEventService extends EventEmitter implements IEventService {
     constructor(
         @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
         private readonly _userRepository: IUserRepository,
-        @Inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService,
+        @Inject(Constants.DEPENDENCY.EMAIL_SERVICE)
+        private readonly _emailService: IEmailService,
     ) {
         super();
         this._initEvents();
@@ -25,7 +26,10 @@ export class GenericEventService extends EventEmitter implements IEventService {
     private _initEvents(): void {
         this.on(
             Constants.EVENT.SEND_CONFIRMATION_MAIL,
-            new SendConfirmationMailHandler(this._userRepository, this._emailService).handle,
+            new SendConfirmationMailHandler(
+                this._userRepository,
+                this._emailService,
+            ).handle,
         );
     }
 }

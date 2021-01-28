@@ -3,7 +3,6 @@ import { Constants } from '../../common/constants';
 import { AlreadyConfirmedAccountException } from '../../common/exceptions/already-confirmed-account.exception';
 import { BaseException } from '../../common/exceptions/base.exception';
 import { DuplicateEmailException } from '../../common/exceptions/duplicate-email.exception';
-import { DuplicateUsernameException } from '../../common/exceptions/duplicate-username.exception';
 import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
 import { ExpiredConfirmationCodeException } from '../../common/exceptions/expired-confirmation-code.exception';
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
@@ -49,14 +48,6 @@ export class ValidationService {
         exception: BaseException = new DuplicateEmailException(),
     ): Promise<void> {
         const user = await this._userRepository.getByEmail(email);
-        if (user) throw exception;
-    }
-
-    public async throwIfUsernameAlreadyExists(
-        username: string,
-        exception: BaseException = new DuplicateUsernameException(),
-    ): Promise<void> {
-        const user = await this._userRepository.getByUsername(username);
         if (user) throw exception;
     }
 

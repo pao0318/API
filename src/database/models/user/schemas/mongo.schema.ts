@@ -9,7 +9,7 @@ export const MongoUserSchema = new Schema({
     },
     username: {
         type: String,
-        required: true,
+        default: null,
     },
     password: {
         type: String,

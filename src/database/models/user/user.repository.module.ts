@@ -4,7 +4,9 @@ import { MongoUserRepository } from './repositories/mongo.repository';
 import { MongoUserSchema } from './schemas/mongo.schema';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: 'User', schema: MongoUserSchema }])],
+    imports: [
+        MongooseModule.forFeature([{ name: 'User', schema: MongoUserSchema }]),
+    ],
     providers: [MongoUserRepository],
     exports: [MongoUserRepository],
 })

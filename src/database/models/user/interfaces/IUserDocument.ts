@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 import { AccountType } from '../../../../common/constants/account-type';
-import { ConfirmationCode } from '../objects/confirmation-code';
+import { ConfirmationCode } from '../subclasses/confirmation-code';
 
 export interface IUserDocument extends Document {
     readonly id: string;

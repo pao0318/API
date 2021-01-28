@@ -251,8 +251,13 @@ describe('Config validator - validate method', () => {
     });
 });
 
-async function checkConfig(config: typeof Config, isCalled: boolean = true): Promise<void> {
-    const mockedExit = jest.spyOn(process, 'exit').mockImplementation((number) => number as never);
+async function checkConfig(
+    config: typeof Config,
+    isCalled: boolean = true,
+): Promise<void> {
+    const mockedExit = jest
+        .spyOn(process, 'exit')
+        .mockImplementation((number) => number as never);
 
     await ConfigValidator.validate(config);
 

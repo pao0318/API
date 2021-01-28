@@ -7,7 +7,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MongoUserRepository implements IUserRepository {
-    constructor(@InjectModel('User') private readonly _userModel: Model<IUserDocument>) {}
+    constructor(
+        @InjectModel('User') private readonly _userModel: Model<IUserDocument>,
+    ) {}
 
     public async getMany(data: Partial<User> = {}): Promise<User[]> {
         const users = await this._userModel.find(data);
@@ -26,14 +28,6 @@ export class MongoUserRepository implements IUserRepository {
 
     public async getByEmail(email: string): Promise<User | null> {
         const user = await this._userModel.findOne({ email });
-
-        if (!user) return null;
-
-        return User.fromEntity(user);
-    }
-
-    public async getByUsername(username: string): Promise<User | null> {
-        const user = await this._userModel.findOne({ username });
 
         if (!user) return null;
 

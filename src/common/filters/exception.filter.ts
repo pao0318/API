@@ -1,4 +1,9 @@
-import { ArgumentsHost, Catch, ExceptionFilter as Filter, HttpException } from '@nestjs/common';
+import {
+    ArgumentsHost,
+    Catch,
+    ExceptionFilter as Filter,
+    HttpException,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { Constants } from '../constants';
 import { BaseException } from '../exceptions/base.exception';
@@ -12,6 +17,7 @@ export class ExceptionFilter implements Filter {
 
     public catch(exception: unknown, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
+
         const response = ctx.getResponse<Response>();
 
         this._updateFieldsBasedOnExceptionType(exception);
@@ -22,9 +28,17 @@ export class ExceptionFilter implements Filter {
     }
 
     private _updateFieldsBasedOnExceptionType(exception: unknown): void {
-        if (exception instanceof Error) this._assignFieldsAsError(exception);
-        if (exception instanceof HttpException) this._assignFieldsAsHttpException(exception);
-        if (exception instanceof BaseException) this._assignFieldsAsBaseException(exception);
+        if (exception instanceof Error) {
+            this._assignFieldsAsError(exception);
+        }
+
+        if (exception instanceof HttpException) {
+            this._assignFieldsAsHttpException(exception);
+        }
+
+        if (exception instanceof BaseException) {
+            this._assignFieldsAsBaseException(exception);
+        }
     }
 
     private _sendResponse(response: Response) {

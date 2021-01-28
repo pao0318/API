@@ -2,14 +2,20 @@ import { randomBytes } from 'crypto';
 import { Constants } from '../../../../common/constants';
 
 export class ConfirmationCode {
-    constructor(public readonly code: string, public readonly expiresAt: number) {}
+    constructor(
+        public readonly code: string,
+        public readonly expiresAt: number,
+    ) {}
 
     public isExpired(): boolean {
         return Date.now() > this.expiresAt;
     }
 
     public static generate(): ConfirmationCode {
-        return new ConfirmationCode(this._generateCode(), this._generateExpiresAt());
+        return new ConfirmationCode(
+            this._generateCode(),
+            this._generateExpiresAt(),
+        );
     }
 
     public static generateEmpty(): ConfirmationCode {

@@ -15,7 +15,8 @@ export class AuthController {
     @Post(Constants.ENDPOINT.AUTH.REGISTER)
     @HttpCode(Constants.STATUS_CODE.CREATED)
     public async register(
-        @Body(new ValidationPipe(RegisterValidationSchema)) body: IRegisterRequestDTO,
+        @Body(new ValidationPipe(RegisterValidationSchema))
+        body: IRegisterRequestDTO,
     ): Promise<void> {
         await this._authService.register(body);
     }

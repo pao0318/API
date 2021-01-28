@@ -1,4 +1,6 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
+/* eslint sonarjs/no-identical-functions: 0 */
+
 import { TestUtils } from '../../../../common/utils/test-utils';
 import { random, internet } from 'faker';
 import { MongoUserRepository } from '../repositories/mongo.repository';
@@ -13,12 +15,10 @@ afterAll(async () => {
     await TestUtils.dropDatabase();
 });
 
-describe('MongoUserRepository', () => {
+describe('Mongo User Repository', () => {
     const userRepository = new MongoUserRepository(MongoUserModel);
 
-    describe('getMany', () => {
-        const userData = TestUtils.generateFakeUserData();
-
+    describe('Get many', () => {
         describe('When users do not exist', () => {
             it('Should return empty array', async () => {
                 const users = await userRepository.getMany();
@@ -27,21 +27,24 @@ describe('MongoUserRepository', () => {
         });
 
         describe('When users exist but arguments do not match any', () => {
-            beforeAll(async () => {
-                await userRepository.create(userData);
-            });
+            it('Should return an empty array', async () => {
+                await userRepository.create(TestUtils.generateFakeUserData());
 
-            it('Should return empty array', async () => {
-                const users = await userRepository.getMany({ isConfirmed: true });
+                const users = await userRepository.getMany({
+                    isConfirmed: true,
+                });
+
                 expect(users).toHaveLength(0);
             });
         });
 
-        describe('When more than one user exists and provided arguments matches a record', () => {
+        describe('When more than one user exist and provided arguments match a record', () => {
+            const userData = TestUtils.generateFakeUserData();
             let users: User[];
 
             beforeAll(async () => {
-                users = await userRepository.getMany({ isConfirmed: false });
+                const user = await userRepository.create(userData);
+                users = await userRepository.getMany({ email: user.email });
             });
 
             it('Should return one record', async () => {
@@ -54,7 +57,7 @@ describe('MongoUserRepository', () => {
         });
     });
 
-    describe('Get by id method', () => {
+    describe('Get by id', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
                 const user = await userRepository.getById(random.uuid());
@@ -63,21 +66,19 @@ describe('MongoUserRepository', () => {
         });
 
         describe('When user exists', () => {
-            const userData = TestUtils.generateFakeUserData();
-            let user: User;
-
-            beforeAll(async () => {
-                user = await userRepository.create(userData);
-            });
-
             it('Should return user that matches provided data', async () => {
+                const userData = TestUtils.generateFakeUserData();
+
+                const user = await userRepository.create(userData);
+
                 const foundUser = await userRepository.getById(user.id);
+
                 expect(foundUser).toMatchObject(userData);
             });
         });
     });
 
-    describe('Get by email method', () => {
+    describe('Get by email', () => {
         describe('When user does not exist', () => {
             it('Should return null', async () => {
                 const user = await userRepository.getByEmail(internet.email());
@@ -86,45 +87,22 @@ describe('MongoUserRepository', () => {
         });
 
         describe('When user exists', () => {
-            const userData = TestUtils.generateFakeUserData();
-
-            beforeAll(async () => {
-                await userRepository.create(userData);
-            });
-
             it('Should return user that matches provided data', async () => {
+                const userData = TestUtils.generateFakeUserData();
+
+                await userRepository.create(userData);
+
                 const user = await userRepository.getByEmail(userData.email);
-                expect(user).toMatchObject(userData);
-            });
-        });
-    });
 
-    describe('Get by username method', () => {
-        describe('When user does not exist', () => {
-            it('Should return null', async () => {
-                const user = await userRepository.getByUsername(internet.userName());
-                expect(user).toBeNull();
-            });
-        });
-
-        describe('When user exists', () => {
-            const userData = TestUtils.generateFakeUserData();
-
-            beforeAll(async () => {
-                await userRepository.create(userData);
-            });
-
-            it('Should return user that matches provided data', async () => {
-                const user = await userRepository.getByUsername(userData.username);
                 expect(user).toMatchObject(userData);
             });
         });
     });
 
     describe('Create method', () => {
-        const userData = TestUtils.generateFakeUserData();
+        it('Should create user in the database that matches the provided data', async () => {
+            const userData = TestUtils.generateFakeUserData();
 
-        it('Should create user in database with provided data', async () => {
             await userRepository.create(userData);
 
             const user = await userRepository.create(userData);
@@ -134,13 +112,11 @@ describe('MongoUserRepository', () => {
     });
 
     describe('Delete by id method', () => {
-        let user: User;
+        it('Should remove user from the database', async () => {
+            const user = await userRepository.create(
+                TestUtils.generateFakeUserData(),
+            );
 
-        beforeAll(async () => {
-            user = await userRepository.create(TestUtils.generateFakeUserData());
-        });
-
-        it('Should delete user from the database', async () => {
             await userRepository.deleteById(user.id);
 
             const foundUser = await userRepository.getById(user.id);
@@ -150,14 +126,13 @@ describe('MongoUserRepository', () => {
     });
 
     describe('Update by id method', () => {
-        const userData = TestUtils.generateFakeUserData();
-        let user: User;
-
-        beforeAll(async () => {
-            user = await userRepository.create(TestUtils.generateFakeUserData());
-        });
-
         it('Should update user in database', async () => {
+            const userData = TestUtils.generateFakeUserData();
+
+            const user = await userRepository.create(
+                TestUtils.generateFakeUserData(),
+            );
+
             await userRepository.updateById(user.id, userData);
 
             const foundUser = await userRepository.getById(user.id);

@@ -27,7 +27,11 @@ export class AccountController {
     @Post(Constants.ENDPOINT.ACCOUNT.SEND_RESET_PASSWORD_CONFIRMATION_MAIL)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public async sendResetPasswordConfirmationMail(
-        @Body(new ValidationPipe(SendResetPasswordConfirmationMailValidationSchema))
+        @Body(
+            new ValidationPipe(
+                SendResetPasswordConfirmationMailValidationSchema,
+            ),
+        )
         body: ISendResetPasswordConfirmationMailRequestDTO,
     ): Promise<void> {
         await this._accountService.sendResetPasswordConfirmationMail(body);
@@ -36,7 +40,8 @@ export class AccountController {
     @Post(Constants.ENDPOINT.ACCOUNT.CONFIRM_EMAIL)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public async confirmEmail(
-        @Body(new ValidationPipe(ConfirmEmailValidationSchema)) body: IConfirmEmailRequestDTO,
+        @Body(new ValidationPipe(ConfirmEmailValidationSchema))
+        body: IConfirmEmailRequestDTO,
     ): Promise<void> {
         await this._accountService.confirmEmail(body);
     }
@@ -44,7 +49,8 @@ export class AccountController {
     @Post(Constants.ENDPOINT.ACCOUNT.RESET_PASSWORD)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public async resetPassword(
-        @Body(new ValidationPipe(ResetPasswordValidationSchema)) body: IResetPasswordRequestDTO,
+        @Body(new ValidationPipe(ResetPasswordValidationSchema))
+        body: IResetPasswordRequestDTO,
     ): Promise<void> {
         await this._accountService.resetPassword(body);
     }

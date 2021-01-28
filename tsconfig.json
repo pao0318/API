@@ -12,6 +12,6 @@
     "baseUrl": "./",
     "incremental": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "src/**/__tests__", "src/e2e"],
   "include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }

@@ -1,6 +1,6 @@
 import { Logger } from '../../../common/utils/logger';
 import { IUserRepository } from '../../../database/models/user/interfaces/IUserRepository';
-import { ConfirmationCode } from '../../../database/models/user/objects/confirmation-code';
+import { ConfirmationCode } from '../../../database/models/user/subclasses/confirmation-code';
 import { IEmailService } from '../../email/interfaces/IEmailService';
 import { ISendConfirmationMailPayload } from '../interfaces/ISendConfirmationMailPayload';
 

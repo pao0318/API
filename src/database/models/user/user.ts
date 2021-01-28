@@ -1,6 +1,6 @@
 import { Constants } from '../../../common/constants';
 import { AccountType } from '../../../common/constants/account-type';
-import { ConfirmationCode } from './objects/confirmation-code';
+import { ConfirmationCode } from './subclasses/confirmation-code';
 
 export class User {
     public readonly id: string;

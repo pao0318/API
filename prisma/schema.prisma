@@ -1,0 +1,68 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id                  String      @id @default(uuid())
+    firstName           String?
+    lastName            String?
+    email               String      @unique
+    username            String      @unique @default(uuid())
+    password            String
+    joinedAt            DateTime    @default(now())
+    isConfirmed         Boolean     @default(false)
+    avatar              String      @default("default.jpeg")
+    phoneNumber         String?     @unique
+    personalInterests   Genre[]
+    accountType         AccountType @default(REGULAR)
+}
+
+model ConfirmationCode {
+    id                  String      @id @default(uuid())
+    code                String
+    expiresAt           String
+
+    user                User        @relation(fields: [userId], references: [id])
+    userId              String
+}
+
+enum Genre {
+    ACTION
+    ADVENTURE
+    BIOGRAPHY
+    BUSINESS
+    CHILDRENS
+    COOKING
+    CRIME
+    DRAMA
+    DICTIONARY
+    ENCYKLOPEDIA
+    GUIDE
+    FAIRYTALE
+    FANTASY
+    HEALTH
+    HISTORICAL
+    HUMOR
+    HORROR
+    JOURNAL
+    MATH
+    ROMANCE
+    PHILOSOPHY
+    RELIGION
+    SCIENCE_FICTION
+    SELF_DEVELOPMENT
+    SPORTS
+    TRAVEL
+    WESTERN
+}
+
+enum AccountType {
+    REGULAR
+    GOOGLE
+    FACEBOOK
+}

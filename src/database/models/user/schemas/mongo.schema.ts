@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 import { Constants } from '../../../../common/constants';
 import { IUserDocument } from '../interfaces/IUserDocument';
 

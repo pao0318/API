@@ -21,9 +21,7 @@ export abstract class Mail {
     }
 
     public async getBody(): Promise<string> {
-        const template = await readFile(
-            `./src/assets/templates/${this._templateName}`,
-        );
+        const template = await readFile(`./src/assets/templates/${this._templateName}`);
         return this._applyContext(template, this._context);
     }
 
@@ -34,10 +32,7 @@ export abstract class Mail {
 
     private _applyContext(template: string, context: IMailContext): string {
         for (const key in context) {
-            template = template.replace(
-                `{{ ${key} }}`,
-                context[key.toString()],
-            );
+            template = template.replace(`{{ ${key} }}`, context[key.toString()]);
         }
 
         return template;

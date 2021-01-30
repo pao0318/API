@@ -24,12 +24,6 @@ export class GenericEventService extends EventEmitter implements IEventService {
     }
 
     private _initEvents(): void {
-        this.on(
-            Constants.EVENT.SEND_CONFIRMATION_MAIL,
-            new SendConfirmationMailHandler(
-                this._userRepository,
-                this._emailService,
-            ).handle,
-        );
+        this.on(Constants.EVENT.SEND_CONFIRMATION_MAIL, new SendConfirmationMailHandler(this._userRepository, this._emailService).handle);
     }
 }

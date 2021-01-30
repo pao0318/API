@@ -32,9 +32,7 @@ export class AuthService {
 
         const hashedPassword = await hashString(input.password);
 
-        const user = await this._userRepository.create(
-            User.asRegularAccount({ ...input, password: hashedPassword }),
-        );
+        const user = await this._userRepository.create(User.asRegularAccount({ ...input, password: hashedPassword }));
 
         this._eventService.handle(
             new SendConfirmationMailEvent({
@@ -45,17 +43,11 @@ export class AuthService {
     }
 
     public async login(input: ILoginRequestDTO, res: Response): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(
-            input.email,
-            new InvalidCredentialsException(),
-        );
+        const user = await this._validationService.getUserByEmailOrThrow(input.email, new InvalidCredentialsException());
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
-        await this._validationService.throwIfPasswordIsInvalid(
-            user,
-            input.password,
-        );
+        await this._validationService.throwIfPasswordIsInvalid(user, input.password);
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 

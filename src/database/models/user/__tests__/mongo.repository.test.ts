@@ -113,9 +113,7 @@ describe('Mongo User Repository', () => {
 
     describe('Delete by id method', () => {
         it('Should remove user from the database', async () => {
-            const user = await userRepository.create(
-                TestUtils.generateFakeUserData(),
-            );
+            const user = await userRepository.create(TestUtils.generateFakeUserData());
 
             await userRepository.deleteById(user.id);
 
@@ -129,9 +127,7 @@ describe('Mongo User Repository', () => {
         it('Should update user in database', async () => {
             const userData = TestUtils.generateFakeUserData();
 
-            const user = await userRepository.create(
-                TestUtils.generateFakeUserData(),
-            );
+            const user = await userRepository.create(TestUtils.generateFakeUserData());
 
             await userRepository.updateById(user.id, userData);
 

@@ -7,11 +7,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class JwtTokenService implements ITokenService {
-    private readonly _verifyAsync = promisify<
-        string,
-        string,
-        object | undefined
-    >(verify);
+    private readonly _verifyAsync = promisify<string, string, object | undefined>(verify);
 
     public async generate(token: Token): Promise<string> {
         const constructor = token.constructor as typeof Token;
@@ -20,11 +16,8 @@ export class JwtTokenService implements ITokenService {
         });
     }
 
-    public async verify(
-        token: typeof Token,
-        stringifyToken: string,
-    ): Promise<ITokenPayload> {
-        const payload = await this._verifyAsync(stringifyToken, token.secret);
+    public async verify(token: typeof Token, stringifiedToken: string): Promise<ITokenPayload> {
+        const payload = await this._verifyAsync(stringifiedToken, token.secret);
         return payload as ITokenPayload;
     }
 }

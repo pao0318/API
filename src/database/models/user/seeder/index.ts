@@ -51,9 +51,7 @@ export class UserSeeder {
 
     private async _saveUserAccount(): Promise<void> {
         try {
-            await this._userRepository.create(
-                this._fakeUserDataWithHashedPassword,
-            );
+            await this._userRepository.create(this._fakeUserDataWithHashedPassword);
         } catch (error) {
             console.log(error.message);
         }

@@ -30,10 +30,7 @@ export class UserService {
         await this._fileService.removeImage(user.avatar);
     }
 
-    private async _changeAvatarInDatabase(
-        id: string,
-        imageName: string,
-    ): Promise<void> {
+    private async _changeAvatarInDatabase(id: string, imageName: string): Promise<void> {
         const avatar = `${imageName}.jpg`;
         await this._userRepository.updateById(id, { avatar });
     }

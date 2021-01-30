@@ -24,8 +24,7 @@ export class ResetUsersTask {
 
     private async _deleteUsers(users: User[]): Promise<void> {
         for (const user of users) {
-            if (user.hasAccountLongerThanTwoHours())
-                await this._userRepository.deleteById(user.id);
+            if (user.hasAccountLongerThanTwoHours()) await this._userRepository.deleteById(user.id);
         }
     }
 }

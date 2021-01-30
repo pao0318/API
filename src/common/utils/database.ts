@@ -22,9 +22,7 @@ export class Database {
 
             Logger.info(`Connected to the database [${this._name}]`);
         } catch (error) {
-            Logger.error(
-                `Database connection error - [${this._name}]: ${error.message}`,
-            );
+            Logger.error(`Database connection error - [${this._name}]: ${error.message}`);
         }
     }
 }

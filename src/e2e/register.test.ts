@@ -16,16 +16,11 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: [
-                AuthModule,
-                MongooseModule.forRoot(Config.DATABASE.TEST_URL),
-            ],
+            imports: [AuthModule, MongooseModule.forRoot(Config.DATABASE.TEST_URL)],
         }).compile();
 
         app = await TestUtils.createTestApplication(module);
-        userRepository = await app.resolve(
-            Constants.DEPENDENCY.USER_REPOSITORY,
-        );
+        userRepository = await app.resolve(Constants.DEPENDENCY.USER_REPOSITORY);
     });
 
     afterAll(async () => {
@@ -37,9 +32,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         let response: Response;
 
         beforeAll(async (done) => {
-            response = await request(app.getHttpServer()).post(
-                Constants.ENDPOINT.AUTH.REGISTER,
-            );
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER);
 
             done();
         });
@@ -49,9 +42,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         });
 
         it(`Should return error id ${Constants.EXCEPTION.INVALID_INPUT}`, () => {
-            expect(response.body.error.id).toEqual(
-                Constants.EXCEPTION.INVALID_INPUT,
-            );
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_INPUT);
         });
     });
 
@@ -59,16 +50,12 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         let response: Response;
 
         beforeAll(async (done) => {
-            const user = await userRepository.create(
-                TestUtils.generateFakeUserData(),
-            );
+            const user = await userRepository.create(TestUtils.generateFakeUserData());
 
-            response = await request(app.getHttpServer())
-                .post(Constants.ENDPOINT.AUTH.REGISTER)
-                .send({
-                    email: user.email,
-                    password: internet.password(),
-                });
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER).send({
+                email: user.email,
+                password: internet.password(),
+            });
 
             done();
         });
@@ -78,9 +65,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         });
 
         it(`Should return error id ${Constants.EXCEPTION.DUPLICATE_EMAIL}`, () => {
-            expect(response.body.error.id).toEqual(
-                Constants.EXCEPTION.DUPLICATE_EMAIL,
-            );
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.DUPLICATE_EMAIL);
         });
     });
 
@@ -89,12 +74,10 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         let response: Response;
 
         beforeAll(async (done) => {
-            response = await request(app.getHttpServer())
-                .post(Constants.ENDPOINT.AUTH.REGISTER)
-                .send({
-                    email: userData.email,
-                    password: userData.password,
-                });
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER).send({
+                email: userData.email,
+                password: userData.password,
+            });
 
             done();
         });

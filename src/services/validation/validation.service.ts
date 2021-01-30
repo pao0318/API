@@ -21,10 +21,7 @@ export class ValidationService {
         private readonly _userRepository: IUserRepository,
     ) {}
 
-    public async getUserByEmailOrThrow(
-        email: string,
-        exception: BaseException = new EmailNotFoundException(),
-    ): Promise<User> {
+    public async getUserByEmailOrThrow(email: string, exception: BaseException = new EmailNotFoundException()): Promise<User> {
         const user = await this._userRepository.getByEmail(email);
 
         if (!user) throw exception;
@@ -32,10 +29,7 @@ export class ValidationService {
         return user;
     }
 
-    public async getUserByIdOrThrow(
-        id: string,
-        exception: BaseException = new UserNotFoundException(),
-    ): Promise<User> {
+    public async getUserByIdOrThrow(id: string, exception: BaseException = new UserNotFoundException()): Promise<User> {
         const user = await this._userRepository.getById(id);
 
         if (!user) throw exception;
@@ -43,56 +37,33 @@ export class ValidationService {
         return user;
     }
 
-    public async throwIfEmailAlreadyExists(
-        email: string,
-        exception: BaseException = new DuplicateEmailException(),
-    ): Promise<void> {
+    public async throwIfEmailAlreadyExists(email: string, exception: BaseException = new DuplicateEmailException()): Promise<void> {
         const user = await this._userRepository.getByEmail(email);
         if (user) throw exception;
     }
 
-    public async throwIfPasswordIsInvalid(
-        user: User,
-        password: string,
-        exception: BaseException = new InvalidCredentialsException(),
-    ): Promise<void> {
+    public async throwIfPasswordIsInvalid(user: User, password: string, exception: BaseException = new InvalidCredentialsException()): Promise<void> {
         const isValid = await compareStringToHash(password, user.password);
         if (!isValid) throw exception;
     }
 
-    public throwIfUserHasSocialMediaAccount(
-        user: User,
-        exception: BaseException = new InvalidAccountTypeException(),
-    ): void {
+    public throwIfUserHasSocialMediaAccount(user: User, exception: BaseException = new InvalidAccountTypeException()): void {
         if (user.hasSocialMediaAccount()) throw exception;
     }
 
-    public throwIfAccountIsNotConfirmed(
-        user: User,
-        exception: BaseException = new UnconfirmedAccountException(),
-    ): void {
+    public throwIfAccountIsNotConfirmed(user: User, exception: BaseException = new UnconfirmedAccountException()): void {
         if (!user.isConfirmed) throw exception;
     }
 
-    public throwIfAccountIsAlreadyConfirmed(
-        user: User,
-        exception: BaseException = new AlreadyConfirmedAccountException(),
-    ): void {
+    public throwIfAccountIsAlreadyConfirmed(user: User, exception: BaseException = new AlreadyConfirmedAccountException()): void {
         if (user.isConfirmed) throw exception;
     }
 
-    public throwIfConfirmationCodeIsInvalid(
-        user: User,
-        code: string,
-        exception: BaseException = new InvalidConfirmationCodeException(),
-    ): void {
+    public throwIfConfirmationCodeIsInvalid(user: User, code: string, exception: BaseException = new InvalidConfirmationCodeException()): void {
         if (code !== user.confirmationCode.code) throw exception;
     }
 
-    public throwIfConfirmationCodeIsExpired(
-        user: User,
-        exception: BaseException = new ExpiredConfirmationCodeException(),
-    ): void {
+    public throwIfConfirmationCodeIsExpired(user: User, exception: BaseException = new ExpiredConfirmationCodeException()): void {
         if (user.hasExpiredConfirmationCode()) throw exception;
     }
 }

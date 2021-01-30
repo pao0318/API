@@ -35,10 +35,7 @@ export class User {
             isConfirmed: data.isConfirmed,
             avatar: data.avatar,
             accountType: data.accountType,
-            confirmationCode: new ConfirmationCode(
-                data.confirmationCode.code,
-                data.confirmationCode.expiresAt,
-            ),
+            confirmationCode: new ConfirmationCode(data.confirmationCode.code, data.confirmationCode.expiresAt),
         });
     }
 

@@ -14,10 +14,7 @@ export class TestUtils {
     }
 
     public static async dropDatabase(): Promise<void> {
-        if (
-            Config.APP.MODE !== Constants.APP_MODE.TEST ||
-            connection.name !== 'test'
-        ) {
+        if (Config.APP.MODE !== Constants.APP_MODE.TEST || connection.name !== 'test') {
             throw new Error('You cannot use it in the provided environment');
         }
 
@@ -32,9 +29,7 @@ export class TestUtils {
         };
     }
 
-    public static async createTestApplication(
-        module: TestingModule,
-    ): Promise<INestApplication> {
+    public static async createTestApplication(module: TestingModule): Promise<INestApplication> {
         const app = module.createNestApplication();
 
         app.useGlobalFilters(new ExceptionFilter());

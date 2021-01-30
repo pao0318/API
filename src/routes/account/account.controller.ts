@@ -27,11 +27,7 @@ export class AccountController {
     @Post(Constants.ENDPOINT.ACCOUNT.SEND_RESET_PASSWORD_CONFIRMATION_MAIL)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public async sendResetPasswordConfirmationMail(
-        @Body(
-            new ValidationPipe(
-                SendResetPasswordConfirmationMailValidationSchema,
-            ),
-        )
+        @Body(new ValidationPipe(SendResetPasswordConfirmationMailValidationSchema))
         body: ISendResetPasswordConfirmationMailRequestDTO,
     ): Promise<void> {
         await this._accountService.sendResetPasswordConfirmationMail(body);

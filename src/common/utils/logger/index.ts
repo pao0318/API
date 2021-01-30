@@ -6,20 +6,14 @@ import { ConsoleLogger } from './loggers/console-logger';
 export class Logger {
     private static readonly _logger: ILogger = new ConsoleLogger();
 
-    public static async info(
-        message: string,
-        logger: ILogger | null = null,
-    ): Promise<void> {
+    public static async info(message: string, logger: ILogger | null = null): Promise<void> {
         if (this._inTestingEnvironment()) return;
 
         if (logger) logger.info(message);
         else this._logger.info(message);
     }
 
-    public static async error(
-        message: string,
-        logger: ILogger | null = null,
-    ): Promise<void> {
+    public static async error(message: string, logger: ILogger | null = null): Promise<void> {
         if (this._inTestingEnvironment()) return;
 
         if (logger) logger.error(message);

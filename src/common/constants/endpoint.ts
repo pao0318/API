@@ -1,25 +1,24 @@
 export const Endpoint = {
     AUTH: {
-        REGISTER: '/auth/register',
-        LOGIN: '/auth/email',
-        LOGIN_GOOGLE: '/auth/google',
-        LOGIN_FACEBOOK: '/auth/facebook',
+        NEW_ACCOUNT: '/auth/new-account',
+        EMAIL: '/auth/email',
+        GOOGLE: '/auth/google',
+        FACEBOOK: '/auth/facebook',
         LOGOUT: '/auth/logout',
     },
-    ACCOUNT: {
-        CONFIRM_EMAIL: '/account/email-confirmation',
-        RESET_PASSWORD: '/account/password-reset',
-        SEND_ACCOUNT_CONFIRMATION_MAIL: '/account/send-account-confirmation-mail',
-        SEND_RESET_PASSWORD_CONFIRMATION_MAIL: '/account/password-reset',
-    },
-    EMAIL: {
-        ACCOUNT_CONFIRMATION: '/email/account-confirmation',
-        PASSWORD_RESET: '/email/password-reset',
+    MAIL: {
+        EMAIL_CONFIRMATION: '/mail/email-confirmation',
+        PASSWORD_RESET: '/mail/password-reset',
     },
     USER: {
-        AVATAR: '/user/avatar',
+        AVATAR: {
+            UPDATE: '/user/avatar',
+        },
         EMAIL: {
-            SEND_ACCOUNT_CONFIRMATION_MAIL: '/user/email/confirmation/send',
+            UPDATE: '/user/email',
+        },
+        PASSWORD: {
+            UPDATE: '/user/password',
         },
     },
 } as const;

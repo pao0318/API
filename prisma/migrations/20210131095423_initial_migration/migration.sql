@@ -10,11 +10,11 @@ CREATE TABLE "User" (
     "firstName" TEXT,
     "lastName" TEXT,
     "email" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
+    "username" TEXT,
     "password" TEXT NOT NULL,
     "joinedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "isConfirmed" BOOLEAN NOT NULL DEFAULT false,
-    "avatar" TEXT NOT NULL DEFAULT E'default.jpeg',
+    "avatar" TEXT NOT NULL DEFAULT E'default.jpg',
     "phoneNumber" TEXT,
     "personalInterests" "Genre"[],
     "accountType" "AccountType" NOT NULL DEFAULT E'REGULAR',
@@ -104,6 +104,9 @@ CREATE UNIQUE INDEX "User.username_unique" ON "User"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User.phoneNumber_unique" ON "User"("phoneNumber");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ConfirmationCode.userId_unique" ON "ConfirmationCode"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "BookData.isbn_unique" ON "BookData"("isbn");

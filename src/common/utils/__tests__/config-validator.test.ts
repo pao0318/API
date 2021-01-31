@@ -20,7 +20,6 @@ describe('Config validator - validate method', () => {
             API_SECRET: random.alphaNumeric(10),
         },
         DATABASE: {
-            NAME: 'main',
             URL: 'mongodb://',
             TEST_URL: 'mongodb://',
         },
@@ -135,21 +134,6 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.CLOUDINARY.API_SECRET = random.alphaNumeric(10);
-            jest.clearAllMocks();
-        });
-    });
-
-    describe('When DATABASE.NAME is invalid', () => {
-        beforeAll(() => {
-            config.DATABASE.NAME = '';
-        });
-
-        it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
-        });
-
-        afterAll(() => {
-            config.DATABASE.NAME = 'main';
             jest.clearAllMocks();
         });
     });

@@ -16,7 +16,7 @@ model User {
     password            String
     joinedAt            DateTime    @default(now())
     isConfirmed         Boolean     @default(false)
-    avatar              String      @default("default.jpeg")
+    avatar              String      @default("default.jpg")
     phoneNumber         String?     @unique
     personalInterests   Genre[]
     accountType         AccountType @default(REGULAR)

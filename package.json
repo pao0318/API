@@ -17,6 +17,7 @@
     "prisma:migrate:dev": "npx prisma migrate dev --preview-feature",
     "start:metrics": "bash ./scripts/start-metrics.sh",
     "seed:user": "nestjs-command seed:user",
+    "seed:book": "nestjs-command seed:book",
     "test": "yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env APP_MODE=testing jest --testTimeout=25000 --detectOpenHandles --forceExit __tests__/",
     "test:e2e": "cross-env APP_MODE=testing jest --testTimeout=25000 --detectOpenHandles --forceExit e2e/",

@@ -6,4 +6,4 @@ import { BookSeeder } from './book.seeder';
     providers: [BookSeeder, PrismaService],
     exports: [BookSeeder],
 })
-export class BookSeederModule {}
+export class SeederModule {}

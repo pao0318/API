@@ -1,5 +1,5 @@
 export enum Dependency {
-    DATABASES_SERVICE = 'PrismaService',
+    DATABASE_SERVICE = 'PrismaService',
     EMAIL_SERVICE = 'NodemailerEmailService',
     EVENT_SERVICE = 'GenericEventService',
     FILE_SERVICE = 'FileService',

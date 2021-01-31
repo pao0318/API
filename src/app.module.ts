@@ -7,8 +7,8 @@ import { CommandModule } from 'nestjs-command';
 import { AuthModule } from './routes/auth/auth.module';
 import { AccountModule } from './routes/account/account.module';
 import { UserModule } from './routes/user/user.module';
-import { BookSeederModule } from './database/models/book/seeder/seeder.module';
 import { Config } from './common/config';
+import { SeederModule } from './database/seeders/seeder.module';
 
 @Module({
     imports: [
@@ -22,7 +22,7 @@ import { Config } from './common/config';
         AuthModule,
         UserModule,
 
-        BookSeederModule,
+        SeederModule,
         UserSeederModule,
 
         CommandModule,

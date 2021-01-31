@@ -7,7 +7,7 @@ import { User } from '../../database/models/user/user';
 
 export class ResetUsersTask {
     constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
+        @Inject(Constants.DEPENDENCY.DATABASES_SERVICE)
         private readonly _userRepository: IUserRepository,
     ) {}
 

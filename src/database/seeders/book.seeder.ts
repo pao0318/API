@@ -8,7 +8,7 @@ import { IBookCreateInput } from '../interfaces/IBookCreateInput';
 
 @Injectable()
 export class BookSeeder {
-    constructor(@Inject(Constants.DEPENDENCY.DATABASES_SERVICE) private readonly _databaseService: PrismaService) {}
+    constructor(@Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService) {}
 
     @Command({
         command: 'seed:book',

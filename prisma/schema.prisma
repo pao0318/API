@@ -12,7 +12,7 @@ model User {
     firstName           String?
     lastName            String?
     email               String      @unique
-    username            String      @unique @default(uuid())
+    username            String?      @unique
     password            String
     joinedAt            DateTime    @default(now())
     isConfirmed         Boolean     @default(false)

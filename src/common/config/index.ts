@@ -1,9 +1,9 @@
-import { parse } from 'dotenv';
+import { DotenvParseOutput, parse } from 'dotenv';
 import { join } from 'path';
 import { readFileSync } from 'fs';
+import { Logger } from '../utils/logger';
 
-const path = join(__dirname, '../../../env', `${process.env.NODE_ENV || 'development'}.env`);
-const variables = parse(readFileSync(path));
+const variables = loadConfig();
 
 export const Config = {
     APP: {
@@ -29,3 +29,12 @@ export const Config = {
         USER: variables.MAIL_USER || process.env.MAIL_USER,
     },
 } as const;
+
+function loadConfig(): DotenvParseOutput {
+    try {
+        const path = join(__dirname, '../../../env', `${process.env.NODE_ENV || 'development'}.env`);
+        return parse(readFileSync(path));
+    } catch (error) {
+        Logger.info('Existing config not found');
+    }
+}

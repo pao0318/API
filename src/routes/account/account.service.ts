@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { hashString } from '../../common/helpers/hash-string';
-import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
-import { ConfirmationCode } from '../../database/models/user/subclasses/confirmation-code';
+import { PrismaService } from '../../database/prisma.service';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
 import { ResetPasswordConfirmationMail } from '../../services/email/mails/reset-password-confirmation-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
@@ -16,12 +15,9 @@ import { ISendResetPasswordConfirmationMailRequestDTO } from './interfaces/ISend
 @Injectable()
 export class AccountService {
     constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
-        private readonly _userRepository: IUserRepository,
-        @Inject(Constants.DEPENDENCY.EVENT_SERVICE)
-        private readonly _eventService: IEventService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
-        private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
+        @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
     ) {}
 
     public async sendAccountConfirmationMail(input: ISendAccountConfirmationMailRequestDTO): Promise<void> {
@@ -61,14 +57,13 @@ export class AccountService {
 
         this._validationService.throwIfAccountIsAlreadyConfirmed(user);
 
-        this._validationService.throwIfConfirmationCodeIsInvalid(user, input.code);
+        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, input.code);
 
-        this._validationService.throwIfConfirmationCodeIsExpired(user);
+        this._validationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
-        await this._userRepository.updateById(user.id, {
-            confirmationCode: ConfirmationCode.generateEmpty(),
-            isConfirmed: true,
-        });
+        await this._databaseService.user.update({ where: { id: user.id }, data: { isConfirmed: true } });
+
+        await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
     }
 
     public async resetPassword(input: IResetPasswordRequestDTO): Promise<void> {
@@ -78,13 +73,12 @@ export class AccountService {
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        this._validationService.throwIfConfirmationCodeIsInvalid(user, input.code);
+        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, input.code);
 
-        this._validationService.throwIfConfirmationCodeIsExpired(user);
+        this._validationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
-        await this._userRepository.updateById(user.id, {
-            confirmationCode: ConfirmationCode.generateEmpty(),
-            password: await hashString(input.password),
-        });
+        await this._databaseService.user.update({ where: { id: user.id }, data: { password: await hashString(input.password) } });
+
+        await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
     }
 }

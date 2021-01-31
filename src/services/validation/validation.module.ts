@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UserRepositoryModule } from '../../database/models/user/user.repository.module';
+import { PrismaService } from '../../database/prisma.service';
 import { ValidationService } from './validation.service';
 
 @Module({
-    imports: [UserRepositoryModule],
-    providers: [ValidationService],
+    providers: [ValidationService, PrismaService],
     exports: [ValidationService],
 })
 export class ValidationModule {}

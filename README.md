@@ -16,7 +16,7 @@ git clone https://github.com/ProjectEaster/API.git
 ```
 
 ```
-cd Book-App-Backend/
+cd API/
 ```
 
 ```
@@ -37,7 +37,7 @@ git clone https://github.com/ProjectEaster/API.git
 ```
 
 ```
-cd Book-App-Backend/
+cd API/
 ```
 
 ```

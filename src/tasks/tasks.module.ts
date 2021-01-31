@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserRepositoryModule } from '../database/models/user/user.repository.module';
+import { PrismaService } from '../database/prisma.service';
 import { ResetUsersTask } from './lib/reset-users';
 
 @Module({
-    imports: [UserRepositoryModule],
-    providers: [ResetUsersTask],
+    providers: [ResetUsersTask, PrismaService],
 })
 export class TasksModule {}

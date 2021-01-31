@@ -1,21 +1,18 @@
 import { Command } from 'nestjs-command';
 import { Inject, Injectable } from '@nestjs/common';
 import { random, internet } from 'faker';
-import { IUserRepository } from '../interfaces/IUserRepository';
-import { Constants } from '../../../../common/constants';
-import { hashString } from '../../../../common/helpers/hash-string';
-import { sleep } from '../../../../common/helpers/sleep';
-import { User } from '../user';
+import { Constants } from '../../common/constants';
+import { PrismaService } from '../prisma.service';
+import { IUserCreateInput } from '../interfaces/IUserCreateInput';
+import { sleep } from '../../common/helpers/sleep';
+import { hashString } from '../../common/helpers/hash-string';
 
 @Injectable()
 export class UserSeeder {
-    private _fakeUserData: Partial<User>;
-    private _fakeUserDataWithHashedPassword: Partial<User>;
+    private _fakeUserData: IUserCreateInput;
+    private _fakeUserDataWithHashedPassword: IUserCreateInput;
 
-    constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
-        private readonly _userRepository: IUserRepository,
-    ) {}
+    constructor(@Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService) {}
 
     @Command({
         command: 'seed:user',
@@ -34,7 +31,6 @@ export class UserSeeder {
 
     private _generateFakeData(): void {
         this._fakeUserData = {
-            username: random.alphaNumeric(5),
             email: internet.email(),
             password: random.alphaNumeric(5),
             isConfirmed: true,
@@ -51,7 +47,7 @@ export class UserSeeder {
 
     private async _saveUserAccount(): Promise<void> {
         try {
-            await this._userRepository.create(this._fakeUserDataWithHashedPassword);
+            await this._databaseService.user.create({ data: this._fakeUserDataWithHashedPassword });
         } catch (error) {
             console.log(error.message);
         }

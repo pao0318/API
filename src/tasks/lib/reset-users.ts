@@ -1,21 +1,16 @@
 import { Inject } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { User } from '@prisma/client';
 import { Constants } from '../../common/constants';
 import { Logger } from '../../common/utils/logger';
-import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
-import { User } from '../../database/models/user/user';
+import { PrismaService } from '../../database/prisma.service';
 
 export class ResetUsersTask {
-    constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
-        private readonly _userRepository: IUserRepository,
-    ) {}
+    constructor(@Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService) {}
 
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     public async handle(): Promise<void> {
-        const users = await this._userRepository.getMany({
-            isConfirmed: false,
-        });
+        const users = await this._databaseService.user.findMany({ where: { isConfirmed: false, joinedAt: {} } });
 
         await this._deleteUsers(users);
 
@@ -24,7 +19,8 @@ export class ResetUsersTask {
 
     private async _deleteUsers(users: User[]): Promise<void> {
         for (const user of users) {
-            if (user.hasAccountLongerThanTwoHours()) await this._userRepository.deleteById(user.id);
+            const accountHasMoreThanTwoHours = Date.now() - user.joinedAt.getTime() > Constants.TIME.HOURS_2;
+            if (accountHasMoreThanTwoHours) await this._databaseService.user.delete({ where: { id: user.id } });
         }
     }
 }

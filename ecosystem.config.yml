@@ -5,7 +5,5 @@ apps:
     exec_mode: cluster
     env:
       NODE_ENV: development
-      APP_MODE: development
     env_production:
       NODE_ENV: production
-      APP_MODE: production

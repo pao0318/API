@@ -1,13 +1,12 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
 import { ConfigValidator } from '../config-validator';
 import { random, internet } from 'faker';
-import { Constants } from '../../constants';
 import { Config } from '../../config';
 
 describe('Config validator - validate method', () => {
     const config = {
         APP: {
-            MODE: Constants.APP_MODE.TEST,
+            MODE: 'test',
             PREFIX: 'api/v1/',
             PORT: 4000,
         },
@@ -20,9 +19,7 @@ describe('Config validator - validate method', () => {
             API_SECRET: random.alphaNumeric(10),
         },
         DATABASE: {
-            NAME: 'main',
             URL: 'mongodb://',
-            TEST_URL: 'mongodb://',
         },
         MAIL: {
             CLIENT_ID: random.alphaNumeric(10),
@@ -34,7 +31,6 @@ describe('Config validator - validate method', () => {
 
     describe('When APP.MODE is invalid', () => {
         beforeAll(() => {
-            //@ts-expect-error
             config.APP.MODE = random.word();
         });
 
@@ -43,7 +39,7 @@ describe('Config validator - validate method', () => {
         });
 
         afterAll(() => {
-            config.APP.MODE = Constants.APP_MODE.TEST;
+            config.APP.MODE = 'test';
             jest.clearAllMocks();
         });
     });
@@ -139,21 +135,6 @@ describe('Config validator - validate method', () => {
         });
     });
 
-    describe('When DATABASE.NAME is invalid', () => {
-        beforeAll(() => {
-            config.DATABASE.NAME = '';
-        });
-
-        it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
-        });
-
-        afterAll(() => {
-            config.DATABASE.NAME = 'main';
-            jest.clearAllMocks();
-        });
-    });
-
     describe('When DATABASE.URL is invalid', () => {
         beforeAll(() => {
             config.DATABASE.URL = '';
@@ -165,21 +146,6 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.DATABASE.URL = 'mongodb://';
-            jest.clearAllMocks();
-        });
-    });
-
-    describe('When DATABASE.TEST_URL is invalid', () => {
-        beforeAll(() => {
-            config.DATABASE.TEST_URL = '';
-        });
-
-        it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
-        });
-
-        afterAll(() => {
-            config.DATABASE.TEST_URL = 'mongodb://';
             jest.clearAllMocks();
         });
     });

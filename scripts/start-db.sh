@@ -2,7 +2,7 @@
 
 set -e
 
-CONTAINER="mongo";
+CONTAINER="postgres";
 GREEN_COLOR='\033[1;32m'
 NO_COLOR='\033[0m'
 
@@ -10,8 +10,10 @@ echo "Removing old container [$CONTAINER] and starting new fresh instance of [$C
 (docker kill $CONTAINER || :) && \
   (docker rm $CONTAINER || :) && \
   docker run --name $CONTAINER \
-  -p 27018:27018 \
-  -d mongo:4.0 \
-  mongod --port 27018 --bind_ip_all
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_USER=root \
+  -p 5432:5432  \
+  -v /database/postgres:/var/lib/postgresql/data \
+  -d postgres:13-alpine \
 
 echo -e "${GREEN_COLOR}[$CONTAINER] has started successfully!${NO_COLOR}";

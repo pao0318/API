@@ -1,6 +1,5 @@
 import { object, string, number } from 'joi';
 import { Config } from '../config';
-import { Constants } from '../constants';
 import { Logger } from './logger';
 
 export class ConfigValidator {
@@ -16,7 +15,7 @@ export class ConfigValidator {
     private static _getValidationSchema() {
         return object({
             APP: {
-                MODE: string().valid(Constants.APP_MODE.DEV, Constants.APP_MODE.PROD, Constants.APP_MODE.TEST),
+                MODE: string().valid('production', 'development', 'test'),
                 PREFIX: string(),
                 PORT: number().min(1).max(65353),
             },
@@ -29,9 +28,7 @@ export class ConfigValidator {
                 API_SECRET: string().required(),
             },
             DATABASE: {
-                NAME: string(),
                 URL: string().required(),
-                TEST_URL: string().required(),
             },
             MAIL: {
                 CLIENT_ID: string().required(),

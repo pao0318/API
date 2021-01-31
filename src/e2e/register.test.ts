@@ -5,26 +5,24 @@ import { TestUtils } from '../common/utils/test-utils';
 import { AuthModule } from '../routes/auth/auth.module';
 import { INestApplication } from '@nestjs/common';
 import { Constants } from '../common/constants';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Config } from '../common/config';
-import { IUserRepository } from '../database/models/user/interfaces/IUserRepository';
 import { internet } from 'faker';
+import { PrismaService } from '../database/prisma.service';
 
 describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
-    let userRepository: IUserRepository;
+    let databaseService: PrismaService;
     let app: INestApplication;
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: [AuthModule, MongooseModule.forRoot(Config.DATABASE.TEST_URL)],
+            imports: [AuthModule],
         }).compile();
 
         app = await TestUtils.createTestApplication(module);
-        userRepository = await app.resolve(Constants.DEPENDENCY.USER_REPOSITORY);
+        databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
     });
 
     afterAll(async () => {
-        await TestUtils.dropDatabase();
+        await TestUtils.dropDatabase(databaseService);
         await app.close();
     });
 
@@ -50,7 +48,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         let response: Response;
 
         beforeAll(async (done) => {
-            const user = await userRepository.create(TestUtils.generateFakeUserData());
+            const user = await databaseService.user.create({ data: TestUtils.generateFakeUserData() });
 
             response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER).send({
                 email: user.email,
@@ -87,7 +85,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         });
 
         it('Should create user in the database', async () => {
-            const user = await userRepository.getByEmail(userData.email);
+            const user = await databaseService.user.findUnique({ where: { email: userData.email } });
             expect(user).not.toBeNull();
         });
     });

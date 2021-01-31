@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserRepositoryModule } from '../../database/models/user/user.repository.module';
+import { PrismaService } from '../../database/prisma.service';
 import { EventModule } from '../../services/event/event.module';
 import { TokenModule } from '../../services/token/token.module';
 import { ValidationModule } from '../../services/validation/validation.module';
@@ -7,8 +7,8 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
 @Module({
-    imports: [UserRepositoryModule, TokenModule, EventModule, ValidationModule],
-    providers: [AuthService],
+    imports: [TokenModule, EventModule, ValidationModule],
+    providers: [AuthService, PrismaService],
     controllers: [AuthController],
     exports: [AuthService],
 })

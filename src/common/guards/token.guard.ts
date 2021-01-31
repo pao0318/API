@@ -8,10 +8,8 @@ import { Constants } from '../constants';
 @Injectable()
 export class TokenGuard implements CanActivate {
     constructor(
-        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE)
-        private readonly _tokenService: ITokenService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
-        private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
     ) {}
 
     public async canActivate(context: ExecutionContext): Promise<boolean> {

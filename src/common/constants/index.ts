@@ -1,6 +1,3 @@
-import { AccountType } from './account-type';
-import { AppMode } from './app-mode';
-import { Book } from './book';
 import { DefaultException } from './default-exception';
 import { Dependency } from './dependency';
 import { Endpoint } from './endpoint';
@@ -12,9 +9,6 @@ import { Task } from './task';
 import { Time } from './time';
 
 export const Constants = {
-    ACCOUNT_TYPE: AccountType,
-    APP_MODE: AppMode,
-    BOOK: Book,
     DEFAULT_EXCEPTION: DefaultException,
     DEPENDENCY: Dependency,
     ENDPOINT: Endpoint,

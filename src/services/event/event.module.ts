@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UserRepositoryModule } from '../../database/models/user/user.repository.module';
+import { PrismaService } from '../../database/prisma.service';
 import { EmailModule } from '../email/email.module';
 import { GenericEventService } from './services/generic.service';
 
 @Module({
-    imports: [UserRepositoryModule, EmailModule],
-    providers: [GenericEventService],
+    imports: [EmailModule],
+    providers: [GenericEventService, PrismaService],
     exports: [GenericEventService],
 })
 export class EventModule {}

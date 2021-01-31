@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
-import { UserRepositoryModule } from '../../database/models/user/user.repository.module';
 import { EventModule } from '../../services/event/event.module';
 import { ValidationModule } from '../../services/validation/validation.module';
+import { PrismaService } from '../../database/prisma.service';
 
 @Module({
-    imports: [UserRepositoryModule, EventModule, ValidationModule],
-    providers: [AccountService],
+    imports: [EventModule, ValidationModule],
+    providers: [AccountService, PrismaService],
     controllers: [AccountController],
     exports: [AccountService],
 })

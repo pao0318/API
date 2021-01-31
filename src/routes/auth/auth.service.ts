@@ -3,8 +3,7 @@ import { Response } from 'express';
 import { Constants } from '../../common/constants';
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { hashString } from '../../common/helpers/hash-string';
-import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
-import { User } from '../../database/models/user/user';
+import { PrismaService } from '../../database/prisma.service';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
@@ -17,14 +16,10 @@ import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
 @Injectable()
 export class AuthService {
     constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
-        private readonly _userRepository: IUserRepository,
-        @Inject(Constants.DEPENDENCY.EVENT_SERVICE)
-        private readonly _eventService: IEventService,
-        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE)
-        private readonly _tokenService: ITokenService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE)
-        private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
+        @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
+        @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
     ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {
@@ -32,7 +27,7 @@ export class AuthService {
 
         const hashedPassword = await hashString(input.password);
 
-        const user = await this._userRepository.create(User.asRegularAccount({ ...input, password: hashedPassword }));
+        const user = await this._databaseService.user.create({ data: { ...input, password: hashedPassword } });
 
         this._eventService.handle(
             new SendConfirmationMailEvent({

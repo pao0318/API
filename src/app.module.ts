@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TasksModule } from './tasks/tasks.module';
-import { UserSeederModule } from './database/models/user/seeder/seeder.module';
 import { CommandModule } from 'nestjs-command';
 import { AuthModule } from './routes/auth/auth.module';
 import { AccountModule } from './routes/account/account.module';
@@ -23,8 +22,6 @@ import { SeederModule } from './database/seeders/seeder.module';
         UserModule,
 
         SeederModule,
-        UserSeederModule,
-
         CommandModule,
         TasksModule,
     ],

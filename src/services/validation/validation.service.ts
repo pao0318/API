@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { AccountType, ConfirmationCode, User } from '@prisma/client';
 import { Constants } from '../../common/constants';
 import { AlreadyConfirmedAccountException } from '../../common/exceptions/already-confirmed-account.exception';
 import { BaseException } from '../../common/exceptions/base.exception';
@@ -11,18 +12,14 @@ import { InvalidCredentialsException } from '../../common/exceptions/invalid-cre
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { UserNotFoundException } from '../../common/exceptions/user-not-found-exception';
 import { compareStringToHash } from '../../common/helpers/compare-string-to-hash';
-import { IUserRepository } from '../../database/models/user/interfaces/IUserRepository';
-import { User } from '../../database/models/user/user';
+import { PrismaService } from '../../database/prisma.service';
 
 @Injectable()
 export class ValidationService {
-    constructor(
-        @Inject(Constants.DEPENDENCY.USER_REPOSITORY)
-        private readonly _userRepository: IUserRepository,
-    ) {}
+    constructor(@Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService) {}
 
     public async getUserByEmailOrThrow(email: string, exception: BaseException = new EmailNotFoundException()): Promise<User> {
-        const user = await this._userRepository.getByEmail(email);
+        const user = await this._databaseService.user.findUnique({ where: { email } });
 
         if (!user) throw exception;
 
@@ -30,15 +27,27 @@ export class ValidationService {
     }
 
     public async getUserByIdOrThrow(id: string, exception: BaseException = new UserNotFoundException()): Promise<User> {
-        const user = await this._userRepository.getById(id);
+        const user = await this._databaseService.user.findUnique({ where: { id } });
 
         if (!user) throw exception;
 
         return user;
     }
 
+    public async getConfirmationCodeOrThrow(
+        id: string,
+        code: string,
+        exception: BaseException = new InvalidConfirmationCodeException(),
+    ): Promise<ConfirmationCode> {
+        const confirmationCode = await this._databaseService.confirmationCode.findUnique({ where: { userId: id } });
+
+        if (!confirmationCode || confirmationCode.code !== code) throw exception;
+
+        return confirmationCode;
+    }
+
     public async throwIfEmailAlreadyExists(email: string, exception: BaseException = new DuplicateEmailException()): Promise<void> {
-        const user = await this._userRepository.getByEmail(email);
+        const user = await this._databaseService.user.findUnique({ where: { email } });
         if (user) throw exception;
     }
 
@@ -48,7 +57,7 @@ export class ValidationService {
     }
 
     public throwIfUserHasSocialMediaAccount(user: User, exception: BaseException = new InvalidAccountTypeException()): void {
-        if (user.hasSocialMediaAccount()) throw exception;
+        if (user.accountType !== AccountType.REGULAR) throw exception;
     }
 
     public throwIfAccountIsNotConfirmed(user: User, exception: BaseException = new UnconfirmedAccountException()): void {
@@ -59,11 +68,10 @@ export class ValidationService {
         if (user.isConfirmed) throw exception;
     }
 
-    public throwIfConfirmationCodeIsInvalid(user: User, code: string, exception: BaseException = new InvalidConfirmationCodeException()): void {
-        if (code !== user.confirmationCode.code) throw exception;
-    }
-
-    public throwIfConfirmationCodeIsExpired(user: User, exception: BaseException = new ExpiredConfirmationCodeException()): void {
-        if (user.hasExpiredConfirmationCode()) throw exception;
+    public throwIfConfirmationCodeIsExpired(
+        confirmationCode: ConfirmationCode,
+        exception: BaseException = new ExpiredConfirmationCodeException(),
+    ): void {
+        if (Date.parse(confirmationCode.expiresAt) < Date.now()) throw exception;
     }
 }

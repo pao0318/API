@@ -7,7 +7,7 @@ const variables = parse(readFileSync(path));
 
 export const Config = {
     APP: {
-        MODE: variables.NODE_ENV!,
+        MODE: process.env.NODE_ENV!,
         PREFIX: variables.APP_PREFIX! || '/',
         PORT: parseInt(variables.PORT! || variables.APP_PORT!),
     },

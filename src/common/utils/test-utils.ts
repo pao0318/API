@@ -1,18 +1,18 @@
 import { internet } from 'faker';
-import { User } from '../../database/models/user/user';
 import { Config } from '../config';
 import { INestApplication } from '@nestjs/common';
 import { ExceptionFilter } from '../filters/exception.filter';
 import { TestingModule } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
+import { IUserCreateInput } from '../../database/interfaces/IUserCreateInput';
 
 export class TestUtils {
     public static async dropDatabase(database: PrismaClient): Promise<void> {
         if (Config.APP.MODE !== 'test') {
-            throw new Error('You cannot use it only in the testing environment');
+            console.log('ERROR: You can drop database only in the testing environment');
         }
 
-        Promise.all([
+        await Promise.all([
             database.book.deleteMany(),
             database.bookData.deleteMany(),
             database.chat.deleteMany(),
@@ -23,10 +23,13 @@ export class TestUtils {
         ]);
     }
 
-    public static generateFakeUserData(): Partial<User> {
+    public static async closeDatabase(database: PrismaClient): Promise<void> {
+        await database.$disconnect();
+    }
+
+    public static generateFakeUserData(): IUserCreateInput {
         return {
             email: internet.email(),
-            username: internet.userName(),
             password: internet.password(),
         };
     }

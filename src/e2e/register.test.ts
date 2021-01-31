@@ -22,7 +22,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
     });
 
     afterAll(async () => {
-        // await TestUtils.dropDatabase(databaseService);
+        await TestUtils.dropDatabase(databaseService);
         await app.close();
     });
 

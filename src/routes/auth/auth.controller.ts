@@ -23,10 +23,7 @@ export class AuthController {
 
     @Post(Constants.ENDPOINT.AUTH.LOGIN)
     @HttpCode(Constants.STATUS_CODE.OK)
-    public async login(
-        @Res({ passthrough: true }) response: Response,
-        @Body(new ValidationPipe(LoginValidationSchema)) body: ILoginRequestDTO,
-    ): Promise<void> {
+    public async login(@Res({ passthrough: true }) response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: ILoginRequestDTO): Promise<void> {
         await this._authService.login(body, response);
     }
 

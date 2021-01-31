@@ -68,10 +68,7 @@ export class ValidationService {
         if (user.isConfirmed) throw exception;
     }
 
-    public throwIfConfirmationCodeIsExpired(
-        confirmationCode: ConfirmationCode,
-        exception: BaseException = new ExpiredConfirmationCodeException(),
-    ): void {
+    public throwIfConfirmationCodeIsExpired(confirmationCode: ConfirmationCode, exception: BaseException = new ExpiredConfirmationCodeException()): void {
         if (Date.parse(confirmationCode.expiresAt) < Date.now()) throw exception;
     }
 }

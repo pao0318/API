@@ -29,7 +29,6 @@ export class ConfigValidator {
                 API_SECRET: string().required(),
             },
             DATABASE: {
-                NAME: string(),
                 URL: string().required(),
                 TEST_URL: string().required(),
             },

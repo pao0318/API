@@ -17,7 +17,6 @@ export const Config = {
         API_SECRET: process.env.CLOUDINARY_API_SECRET,
     },
     DATABASE: {
-        NAME: process.env.DATABASE_NAME! || 'main',
         URL: process.env.DATABASE_URL!,
         TEST_URL: process.env.DATABASE_TEST_URL!,
     },

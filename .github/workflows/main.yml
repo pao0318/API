@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_PORT: ${{ secrets.APP_PORT }}
+      APP_PREFIX: ${{ secrets.APP_PREFIX }}
       AUTH_ACCESS_TOKEN_SECRET: ${{ secrets.AUTH_ACCESS_TOKEN_SECRET }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      DATABASE_TEST_URL: ${{ secrets.DATABASE_TEST_URL }}
       MAIL_CLIENT_ID: ${{ secrets.MAIL_CLIENT_ID }}
       MAIL_CLIENT_SECRET: ${{ secrets.MAIL_CLIENT_SECRET }}
       MAIL_REFRESH_TOKEN: ${{ secrets.MAIL_REFRESH_TOKEN }}

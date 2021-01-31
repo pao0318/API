@@ -1,5 +1,4 @@
 import { Config } from '../../config';
-import { Constants } from '../../constants';
 import { ILogger } from './interfaces/ILogger';
 import { ConsoleLogger } from './loggers/console-logger';
 
@@ -21,6 +20,6 @@ export class Logger {
     }
 
     private static _inTestingEnvironment(): boolean {
-        return Config.APP.MODE === Constants.APP_MODE.TEST;
+        return Config.APP.MODE === 'test';
     }
 }

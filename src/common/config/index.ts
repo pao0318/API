@@ -4,7 +4,7 @@ config();
 
 export const Config = {
     APP: {
-        MODE: process.env.APP_MODE!,
+        MODE: process.env.NODE_ENV!,
         PREFIX: process.env.APP_PREFIX! || '/',
         PORT: parseInt(process.env.PORT! || process.env.APP_PORT!),
     },

@@ -3,7 +3,7 @@ import { Constants } from '../../common/constants';
 import { hashString } from '../../common/helpers/hash-string';
 import { PrismaService } from '../../database/prisma.service';
 import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
-import { ResetPasswordConfirmationMail } from '../../services/email/mails/reset-password-confirmation-mail';
+import { PasswordResetMail } from '../../services/email/mails/password-reset-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
 import { ValidationService } from '../../services/validation/validation.service';
@@ -45,7 +45,7 @@ export class AccountService {
         this._eventService.handle(
             new SendConfirmationMailEvent({
                 id: user.id,
-                mail: new ResetPasswordConfirmationMail(user.email, {}),
+                mail: new PasswordResetMail(user.email, {}),
             }),
         );
     }

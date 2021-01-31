@@ -81,6 +81,16 @@ model Book {
     borrowedById        String?
 }
 
+model Review {
+    id                  String      @id @default(uuid())
+    isbn                String  
+    content             String
+    rating              Float
+
+    user                User        @relation(fields: [userId], references: [id])
+    userId              String
+}
+
 enum Genre {
     ACTION
     ADVENTURE

@@ -20,6 +20,10 @@ model User {
     phoneNumber         String?     @unique
     personalInterests   Genre[]
     accountType         AccountType @default(REGULAR)
+
+    chats               Chat[]
+    ownedBooks          Book[]      @relation("ownedBooks")
+    borrowedBooks       Book[]      @relation("borrowedBooks")
 }
 
 model ConfirmationCode {
@@ -29,6 +33,52 @@ model ConfirmationCode {
 
     user                User        @relation(fields: [userId], references: [id])
     userId              String
+}
+
+model Chat {
+    id                  String      @id @default(uuid())
+
+    users               User[]
+    messages            Message[]
+}
+
+model Message {
+    id                  String      @id @default(uuid())
+    content             String
+    sentAt              DateTime    @default(now())
+
+    user                User        @relation(fields: [userId], references: [id])
+    userId              String
+
+    chat                Chat        @relation(fields: [chatId], references: [id])
+    chatId              String
+}
+
+model BookData {
+    id                  String      @id @default(uuid())
+    isbn                String      @unique
+    title               String
+    description         String
+    genre               Genre
+    image               String
+}
+
+model Book {
+    id                  String      @id @default(uuid())
+    isbn                String      
+    title               String
+    description         String
+    genre               Genre
+    image               String
+    rating              Float?
+    googleRating        Float?
+    addedAt             DateTime    @default(now())
+
+    ownedBy             User        @relation("ownedBooks", fields: [ownedById], references: [id])
+    ownedById           String      
+
+    borrowedBy          User?       @relation("borrowedBooks", fields: [borrowedById], references: [id])
+    borrowedById        String?
 }
 
 enum Genre {

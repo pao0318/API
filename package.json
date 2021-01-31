@@ -22,7 +22,8 @@
     "test:unit": "cross-env NODE_ENV=test jest --testTimeout=25000 --detectOpenHandles --forceExit __tests__/",
     "test:e2e": "cross-env NODE_ENV=test jest --testTimeout=25000 --detectOpenHandles --forceExit e2e/",
     "lint": "eslint src",
-    "format": "prettier --write 'src/**/*.ts'"
+    "format": "prettier --write 'src/**/*.ts'",
+    "ci": "rm -rf node_modules && yarn install --frozen-lockfile"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.6",

@@ -8,15 +8,27 @@ jobs:
   build_and_test:
     name: Build and test
     runs-on: ubuntu-latest
+    container: node:14.15.4-buster-slim
     env:
       APP_PORT: ${{ secrets.APP_PORT }}
       APP_PREFIX: ${{ secrets.APP_PREFIX }}
       AUTH_ACCESS_TOKEN_SECRET: ${{ secrets.AUTH_ACCESS_TOKEN_SECRET }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL: "postgresql://root:password@postgres:5432/easter_api?schema=public"
       MAIL_CLIENT_ID: ${{ secrets.MAIL_CLIENT_ID }}
       MAIL_CLIENT_SECRET: ${{ secrets.MAIL_CLIENT_SECRET }}
       MAIL_REFRESH_TOKEN: ${{ secrets.MAIL_REFRESH_TOKEN }}
       MAIL_USER: ${{ secrets.MAIL_USER }}
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
@@ -25,8 +37,11 @@ jobs:
       run: sudo npm install -g yarn
 
     - name: Install dependencies
-      run: yarn install
+      run: yarn ci
       
+    - name: Apply migrations
+      run: yarn prisma:migrate:dev
+
     - name: Build application
       run: yarn build
 

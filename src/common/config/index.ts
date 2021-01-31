@@ -1,7 +1,6 @@
 import { DotenvParseOutput, parse } from 'dotenv';
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import { Logger } from '../utils/logger';
 
 const variables = loadConfig();
 
@@ -35,6 +34,6 @@ function loadConfig(): DotenvParseOutput {
         const path = join(__dirname, '../../../env', `${process.env.NODE_ENV || 'development'}.env`);
         return parse(readFileSync(path));
     } catch (error) {
-        Logger.info('Existing config not found');
+        console.log('Existing config not found');
     }
 }

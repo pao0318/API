@@ -2,7 +2,7 @@ import { DotenvParseOutput, parse } from 'dotenv';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 
-const variables = loadConfig();
+const variables = loadConfig() || process.env;
 
 export const Config = {
     APP: {

@@ -1,7 +1,5 @@
 export enum Dependency {
-    BOOK_REPOSITORY = 'MongoBookRepository',
-    USER_REPOSITORY = 'MongoUserRepository',
-
+    DATABASES_SERVICE = 'PrismaService',
     EMAIL_SERVICE = 'NodemailerEmailService',
     EVENT_SERVICE = 'GenericEventService',
     FILE_SERVICE = 'FileService',

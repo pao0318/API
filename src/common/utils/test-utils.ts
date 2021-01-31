@@ -1,22 +1,26 @@
 import { internet } from 'faker';
 import { User } from '../../database/models/user/user';
 import { Config } from '../config';
-import { Constants } from '../constants';
 import { INestApplication } from '@nestjs/common';
 import { ExceptionFilter } from '../filters/exception.filter';
 import { TestingModule } from '@nestjs/testing';
+import { PrismaClient } from '@prisma/client';
 
 export class TestUtils {
-    public static async connectToDatabase(): Promise<void> {
-        await new Database(Config.DATABASE.TEST_URL).connect();
-    }
-
-    public static async dropDatabase(): Promise<void> {
+    public static async dropDatabase(database: PrismaClient): Promise<void> {
         if (Config.APP.MODE !== 'test') {
-            throw new Error('You cannot use it in the provided environment');
+            throw new Error('You cannot use it only in the testing environment');
         }
 
-        await connection.db.dropDatabase();
+        Promise.all([
+            database.book.deleteMany(),
+            database.bookData.deleteMany(),
+            database.chat.deleteMany(),
+            database.confirmationCode.deleteMany(),
+            database.message.deleteMany(),
+            database.review.deleteMany(),
+            database.user.deleteMany(),
+        ]);
     }
 
     public static generateFakeUserData(): Partial<User> {

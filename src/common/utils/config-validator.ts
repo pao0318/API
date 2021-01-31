@@ -1,6 +1,5 @@
 import { object, string, number } from 'joi';
 import { Config } from '../config';
-import { Constants } from '../constants';
 import { Logger } from './logger';
 
 export class ConfigValidator {
@@ -30,7 +29,6 @@ export class ConfigValidator {
             },
             DATABASE: {
                 URL: string().required(),
-                TEST_URL: string().required(),
             },
             MAIL: {
                 CLIENT_ID: string().required(),

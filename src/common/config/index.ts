@@ -43,11 +43,11 @@ class ConfigManager {
     }
 
     private _getVariable(name: string): string {
-        if (this._fileConfig[name.toString()]) {
-            return this._fileConfig[name.toString()];
+        if (!this._fileConfig || !this._fileConfig[name.toString()]) {
+            return this._environmentalConfig[name.toString()];
         }
 
-        return this._environmentalConfig[name.toString()];
+        return this._fileConfig[name.toString()];
     }
 
     private _loadFileConfig(): DotenvParseOutput {

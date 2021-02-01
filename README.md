@@ -2,7 +2,7 @@
 * Node.js
 * Nest.js
 * Typescript
-* MongoDB
+* PostgreSQL
 * Redis
 * Websockets
 

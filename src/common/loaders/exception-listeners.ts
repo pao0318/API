@@ -1,12 +1,12 @@
-import { Logger } from '../utils/logger';
+import { logger } from '../utils/logger/logger';
 
 export const loadExceptionListeners = (): void => {
     process.on('uncaughtException', (error) => {
-        Logger.error(`Uncaught Exception - ${error.message}`);
+        logger.error(`Uncaught Exception - ${error.message}`);
         process.exit(1);
     });
 
     process.on('unhandledRejection', (error) => {
-        Logger.error(`Unhandled Rejection - ${error}`);
+        logger.error(`Unhandled Rejection - ${error}`);
     });
 };

@@ -1,4 +1,4 @@
 export interface ILogger {
-    info(message: string): Promise<void>;
-    error(message: string): Promise<void>;
+    info(message: string): void;
+    error(message: string): void;
 }

@@ -1,5 +1,5 @@
 import { generateConfirmationCode } from '../../../common/helpers/generate-confirmation-code';
-import { Logger } from '../../../common/utils/logger';
+import { logger } from '../../../common/utils/logger/logger';
 import { PrismaService } from '../../../database/prisma.service';
 import { IEmailService } from '../../email/interfaces/IEmailService';
 import { ISendConfirmationMailPayload } from '../interfaces/ISendConfirmationMailPayload';
@@ -14,6 +14,6 @@ export class SendConfirmationMailHandler {
 
         await this._emailService.sendMail(payload.mail.withDifferentContext({ code: confirmationCode.code }));
 
-        Logger.info('Confirmation code has been sent successfully');
+        logger.info('Confirmation code has been sent successfully');
     }
 }

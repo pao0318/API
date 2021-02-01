@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { User } from '@prisma/client';
 import { Constants } from '../../common/constants';
-import { logger } from '../../common/utils/logger';
+import { logger } from '../../common/utils/logger/logger';
 import { PrismaService } from '../../database/prisma.service';
 
 export class ResetUsersTask {

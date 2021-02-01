@@ -2,7 +2,7 @@ import { ArgumentsHost, Catch, ExceptionFilter as Filter, HttpException } from '
 import { Response } from 'express';
 import { Constants } from '../constants';
 import { BaseException } from '../exceptions/base.exception';
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logger/logger';
 
 @Catch()
 export class ExceptionFilter implements Filter {

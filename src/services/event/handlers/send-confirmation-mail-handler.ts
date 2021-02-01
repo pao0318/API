@@ -1,5 +1,5 @@
 import { generateConfirmationCode } from '../../../common/helpers/generate-confirmation-code';
-import { logger } from '../../../common/utils/logger';
+import { logger } from '../../../common/utils/logger/logger';
 import { PrismaService } from '../../../database/prisma.service';
 import { IEmailService } from '../../email/interfaces/IEmailService';
 import { ISendConfirmationMailPayload } from '../interfaces/ISendConfirmationMailPayload';

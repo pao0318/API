@@ -1,6 +1,6 @@
 import { object, string, number } from 'joi';
 import { Config } from '../config';
-import { logger } from './logger';
+import { logger } from './logger/logger';
 
 export class ConfigValidator {
     public static async validate(config: typeof Config): Promise<void> {

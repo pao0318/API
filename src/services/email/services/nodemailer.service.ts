@@ -1,6 +1,6 @@
 import { createTransport, Transporter } from 'nodemailer';
 import { Config } from '../../../common/config';
-import { logger } from '../../../common/utils/logger';
+import { logger } from '../../../common/utils/logger/logger';
 import { IEmailService } from '../interfaces/IEmailService';
 import { Mail } from '../mails/mail';
 

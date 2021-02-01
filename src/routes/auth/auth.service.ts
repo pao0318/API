@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { Constants } from '../../common/constants';
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
-import { hashString } from '../../common/helpers/hash-string';
 import { PrismaService } from '../../database/prisma.service';
 import { EmailConfirmationMail } from '../../services/email/mails/email-confirmation-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
+import { IHashService } from '../../services/hash/interfaces/IHashService';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
 import { ValidationService } from '../../services/validation/validation.service';
@@ -20,12 +20,13 @@ export class AuthService {
         @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
     ) {}
 
     public async register(input: IRegisterRequestDTO): Promise<void> {
         await this._validationService.throwIfEmailAlreadyExists(input.email);
 
-        const hashedPassword = await hashString(input.password);
+        const hashedPassword = await this._hashService.generateHash(input.password);
 
         const user = await this._databaseService.user.create({ data: { ...input, password: hashedPassword } });
 

@@ -5,14 +5,17 @@ import { Constants } from '../../common/constants';
 import { PrismaService } from '../prisma.service';
 import { IUserCreateInput } from '../interfaces/IUserCreateInput';
 import { sleep } from '../../common/helpers/sleep';
-import { hashString } from '../../common/helpers/hash-string';
+import { IHashService } from '../../services/hash/interfaces/IHashService';
 
 @Injectable()
 export class UserSeeder {
     private _fakeUserData: IUserCreateInput;
     private _fakeUserDataWithHashedPassword: IUserCreateInput;
 
-    constructor(@Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService) {}
+    constructor(
+        @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
+        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
+    ) {}
 
     @Command({
         command: 'seed:user',
@@ -38,7 +41,7 @@ export class UserSeeder {
     }
 
     private async _createFakeDataWithHashedPassword(): Promise<void> {
-        const hashedPassword = await hashString(this._fakeUserData.password);
+        const hashedPassword = await this._hashService.generateHash(this._fakeUserData.password);
         this._fakeUserDataWithHashedPassword = {
             ...this._fakeUserData,
             password: hashedPassword,

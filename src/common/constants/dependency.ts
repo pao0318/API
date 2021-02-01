@@ -3,6 +3,7 @@ export enum Dependency {
     EMAIL_SERVICE = 'NodemailerEmailService',
     EVENT_SERVICE = 'GenericEventService',
     FILE_SERVICE = 'FileService',
+    HASH_SERVICE = 'BcryptService',
     TOKEN_SERVICE = 'JwtTokenService',
     VALIDATION_SERVICE = 'ValidationService',
 

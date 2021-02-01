@@ -11,12 +11,15 @@ import { InvalidConfirmationCodeException } from '../../common/exceptions/invali
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { UserNotFoundException } from '../../common/exceptions/user-not-found-exception';
-import { compareStringToHash } from '../../common/helpers/compare-string-to-hash';
 import { PrismaService } from '../../database/prisma.service';
+import { IHashService } from '../hash/interfaces/IHashService';
 
 @Injectable()
 export class ValidationService {
-    constructor(@Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService) {}
+    constructor(
+        @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
+        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
+    ) {}
 
     public async getUserByEmailOrThrow(email: string, exception: BaseException = new EmailNotFoundException()): Promise<User> {
         const user = await this._databaseService.user.findUnique({ where: { email } });
@@ -52,7 +55,7 @@ export class ValidationService {
     }
 
     public async throwIfPasswordIsInvalid(user: User, password: string, exception: BaseException = new InvalidCredentialsException()): Promise<void> {
-        const isValid = await compareStringToHash(password, user.password);
+        const isValid = await this._hashService.compareStringToHash(password, user.password);
         if (!isValid) throw exception;
     }
 

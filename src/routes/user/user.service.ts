@@ -6,8 +6,8 @@ import { IFile } from '../../services/file/interfaces/IFile';
 import { PrismaService } from '../../database/prisma.service';
 import { IEmailConfirmationRequestDTO } from './interfaces/IEmailConfirmationRequestDTO';
 import { ValidationService } from '../../services/validation/validation.service';
-import { hashString } from '../../common/helpers/hash-string';
 import { IPasswordResetRequestDTO } from './interfaces/IPasswordResetRequestDTO';
+import { IHashService } from '../../services/hash/interfaces/IHashService';
 
 @Injectable()
 export class UserService {
@@ -15,6 +15,7 @@ export class UserService {
         @Inject(Constants.DEPENDENCY.FILE_SERVICE) private readonly _fileService: FileService,
         @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
     ) {}
 
     public async confirmEmail(input: IEmailConfirmationRequestDTO): Promise<void> {
@@ -44,7 +45,7 @@ export class UserService {
 
         this._validationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
-        await this._databaseService.user.update({ where: { id: user.id }, data: { password: await hashString(input.password) } });
+        await this._databaseService.user.update({ where: { id: user.id }, data: { password: await this._hashService.generateHash(input.password) } });
 
         await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
     }

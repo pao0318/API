@@ -1,6 +1,6 @@
 import { createTransport, Transporter } from 'nodemailer';
 import { Config } from '../../../common/config';
-import { Logger } from '../../../common/utils/logger';
+import { logger } from '../../../common/utils/logger';
 import { IEmailService } from '../interfaces/IEmailService';
 import { Mail } from '../mails/mail';
 
@@ -36,7 +36,7 @@ export class NodemailerEmailService implements IEmailService {
 
     private _verifyTransporter(): void {
         this._transporter.verify((error) => {
-            if (error) Logger.error(error.message);
+            if (error) logger.error(error.message);
         });
     }
 }

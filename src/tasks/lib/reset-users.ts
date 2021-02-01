@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { User } from '@prisma/client';
 import { Constants } from '../../common/constants';
-import { Logger } from '../../common/utils/logger';
+import { logger } from '../../common/utils/logger';
 import { PrismaService } from '../../database/prisma.service';
 
 export class ResetUsersTask {
@@ -14,7 +14,7 @@ export class ResetUsersTask {
 
         await this._deleteUsers(users);
 
-        Logger.info('Unconfirmed users have been removed from the database');
+        logger.info('Unconfirmed users have been removed from the database');
     }
 
     private async _deleteUsers(users: User[]): Promise<void> {

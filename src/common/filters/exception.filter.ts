@@ -2,7 +2,7 @@ import { ArgumentsHost, Catch, ExceptionFilter as Filter, HttpException } from '
 import { Response } from 'express';
 import { Constants } from '../constants';
 import { BaseException } from '../exceptions/base.exception';
-import { Logger } from '../utils/logger';
+import { logger } from '../utils/logger';
 
 @Catch()
 export class ExceptionFilter implements Filter {
@@ -19,7 +19,7 @@ export class ExceptionFilter implements Filter {
 
         this._sendResponse(response);
 
-        Logger.error(this._message);
+        logger.error(this._message);
     }
 
     private _updateFieldsBasedOnExceptionType(exception: unknown): void {

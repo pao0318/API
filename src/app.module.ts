@@ -6,8 +6,9 @@ import { AuthModule } from './routes/auth/auth.module';
 import { AccountModule } from './routes/account/account.module';
 import { UserModule } from './routes/user/user.module';
 import { SeederModule } from './database/seeders/seeder.module';
+import { MailModule } from './routes/mail/mail.module';
 
 @Module({
-    imports: [ScheduleModule.forRoot(), AccountModule, AuthModule, UserModule, SeederModule, CommandModule, TasksModule],
+    imports: [ScheduleModule.forRoot(), AccountModule, AuthModule, MailModule, UserModule, SeederModule, CommandModule, TasksModule],
 })
 export class AppModule {}

@@ -15,7 +15,7 @@ export const Endpoint = {
             UPDATE: '/user/avatar',
         },
         EMAIL: {
-            UPDATE: '/user/email',
+            CONFIRM: '/user/email',
         },
         PASSWORD: {
             UPDATE: '/user/password',

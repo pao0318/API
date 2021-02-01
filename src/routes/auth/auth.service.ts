@@ -4,7 +4,7 @@ import { Constants } from '../../common/constants';
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { hashString } from '../../common/helpers/hash-string';
 import { PrismaService } from '../../database/prisma.service';
-import { AccountConfirmationMail } from '../../services/email/mails/account-confirmation-mail';
+import { EmailConfirmationMail } from '../../services/email/mails/email-confirmation-mail';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
@@ -32,7 +32,7 @@ export class AuthService {
         this._eventService.handle(
             new SendConfirmationMailEvent({
                 id: user.id,
-                mail: new AccountConfirmationMail(user.email, {}),
+                mail: new EmailConfirmationMail(user.email, {}),
             }),
         );
     }

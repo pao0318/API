@@ -24,6 +24,7 @@ class ConfigManager {
             },
             AUTH: {
                 ACCESS_TOKEN_SECRET: this._getVariable('ACCESS_TOKEN_SECRET'),
+                GOOGLE_BOOKS_API_KEY: this._getVariable('AUTH_GOOGLE_BOOKS_API_KEY'),
             },
             CLOUDINARY: {
                 CLOUD_NAME: this._getVariable('CLOUDINARY_CLOUD_NAME'),

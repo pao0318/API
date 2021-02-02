@@ -1,6 +1,6 @@
 apps:
   - script: ./dist/main.js
-    name: 'book-app-api'
+    name: 'easter-api'
     instances: 1
     exec_mode: cluster
     env:

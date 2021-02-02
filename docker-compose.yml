@@ -8,8 +8,8 @@ services:
          - '5000:4000'
       depends_on:
          - postgres
-      environment: 
-         DATABASE_URL: mongodb://database:27018
+      environment:
+         DATABASE_URL: postgresql://root:password@postgres:5432/easter_api?schema=public
       links:
          - postgres:postgres
    postgres:
@@ -17,7 +17,7 @@ services:
       restart: always
       image: postgres:13-alpine
       ports:
-         - 1234:1234
+         - 5432:5432
       environment:
          POSTGRES_USER: root
          POSTGRES_PASSWORD: password

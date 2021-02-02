@@ -1,28 +1,23 @@
 version: '3'
 services:
-   server:
-      container_name: book-app-server
+   api:
+      container_name: easter-api
       restart: always
       build: .
       ports:
          - '5000:4000'
       depends_on:
-         - database
+         - postgres
       environment: 
          DATABASE_URL: mongodb://database:27018
       links:
-         - database:database
-   database:
-      container_name: book-app-database
+         - postgres:postgres
+   postgres:
+      container_name: easter-postgres
       restart: always
-      image: mongo:4.0
-      ports:
-         - 27018:27018
-      command: mongod --port 27018 --bind_ip_all
-   database-admin:
-      container_name: book-app-database-admin
-      image: mrvautin/adminmongo
+      image: postgres:13-alpine
       ports:
          - 1234:1234
-      environment: 
-         HOST: 0.0.0.0
+      environment:
+         POSTGRES_USER: root
+         POSTGRES_PASSWORD: password

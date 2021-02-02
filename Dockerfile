@@ -2,14 +2,20 @@ FROM node:14.15.4-buster-slim
 
 WORKDIR /app
 
+ENV DATABASE_URL="postgresql://root:password@postgres:5432/easter_api?schema=public"
+
+RUN apt-get -qy update
+RUN apt-get -qy install openssl
+
 COPY package.json /app
-
-RUN npm install
-
-COPY . /app
+COPY yarn.lock /app
+COPY nodemon.json /app
+COPY prisma /app/prisma
 
 RUN npm install -g typescript
 
-RUN npm run build
+RUN yarn install
 
-CMD ["npm", "run", "start:prod"]
+COPY . /app
+
+CMD ["yarn", "start:docker"]

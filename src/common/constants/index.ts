@@ -7,6 +7,7 @@ import { Image } from './image';
 import { StatusCode } from './status-code';
 import { Task } from './task';
 import { Time } from './time';
+import { Url } from './url';
 
 export const Constants = {
     DEFAULT_EXCEPTION: DefaultException,
@@ -18,4 +19,5 @@ export const Constants = {
     STATUS_CODE: StatusCode,
     TASK: Task,
     TIME: Time,
+    URL: Url,
 } as const;

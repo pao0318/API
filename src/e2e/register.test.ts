@@ -8,7 +8,7 @@ import { Constants } from '../common/constants';
 import { internet } from 'faker';
 import { PrismaService } from '../database/prisma.service';
 
-describe(`POST ${Constants.ENDPOINT.AUTH.NEW_ACCOUNT}`, () => {
+describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
     let databaseService: PrismaService;
     let app: INestApplication;
 
@@ -30,7 +30,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.NEW_ACCOUNT}`, () => {
         let response: Response;
 
         beforeAll(async (done) => {
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.NEW_ACCOUNT);
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER);
 
             done();
         });
@@ -50,7 +50,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.NEW_ACCOUNT}`, () => {
         beforeAll(async (done) => {
             const user = await databaseService.user.create({ data: TestUtils.generateFakeUserData() });
 
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.NEW_ACCOUNT).send({
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER).send({
                 email: user.email,
                 password: internet.password(),
             });
@@ -72,7 +72,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.NEW_ACCOUNT}`, () => {
         let response: Response;
 
         beforeAll(async (done) => {
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.NEW_ACCOUNT).send({
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER).send({
                 email: userData.email,
                 password: userData.password,
             });

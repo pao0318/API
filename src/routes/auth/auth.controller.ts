@@ -12,7 +12,7 @@ import { Response } from 'express';
 export class AuthController {
     constructor(private readonly _authService: AuthService) {}
 
-    @Post(Constants.ENDPOINT.AUTH.NEW_ACCOUNT)
+    @Post(Constants.ENDPOINT.AUTH.REGISTER)
     @HttpCode(Constants.STATUS_CODE.CREATED)
     public async register(
         @Body(new ValidationPipe(RegisterValidationSchema))
@@ -21,7 +21,7 @@ export class AuthController {
         await this._authService.register(body);
     }
 
-    @Post(Constants.ENDPOINT.AUTH.EMAIL)
+    @Post(Constants.ENDPOINT.AUTH.LOGIN_EMAIL)
     @HttpCode(Constants.STATUS_CODE.OK)
     public async login(@Res({ passthrough: true }) response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: ILoginRequestDTO): Promise<void> {
         await this._authService.login(body, response);

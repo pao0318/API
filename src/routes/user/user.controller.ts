@@ -6,10 +6,10 @@ import { UserService } from './user.service';
 import { TokenGuard } from '../../common/guards/token.guard';
 import { IFile } from '../../services/file/interfaces/IFile';
 import { ValidationPipe } from '../../common/pipes/validation.pipe';
-import { EmailConfirmationValidationSchema } from './schemas/email-confirmation.schema';
-import { IEmailConfirmationRequestDTO } from './interfaces/IEmailConfirmationRequestDTO';
-import { IPasswordResetRequestDTO } from './interfaces/IPasswordResetRequestDTO';
-import { PasswordResetValidationSchema } from './schemas/password-reset.schema';
+import { ConfirmEmailValidationSchema } from './schemas/confirm-email.schema';
+import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
+import { ResetPasswordValidationSchema } from './schemas/reset-password.schema';
+import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
 
 @Controller('/')
 export class UserController {
@@ -20,18 +20,18 @@ export class UserController {
     @UseInterceptors(FileInterceptor('file'))
     @UseGuards(TokenGuard)
     public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
-        await this._userService.updateAvatar(request, image);
+        await this._userService.updateAvatar(image, request.user.id);
     }
 
     @Post(Constants.ENDPOINT.USER.EMAIL.CONFIRM)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    public async confirmEmail(@Body(new ValidationPipe(EmailConfirmationValidationSchema)) body: IEmailConfirmationRequestDTO): Promise<void> {
+    public async confirmEmail(@Body(new ValidationPipe(ConfirmEmailValidationSchema)) body: ConfirmEmailRequestDto): Promise<void> {
         await this._userService.confirmEmail(body);
     }
 
     @Post(Constants.ENDPOINT.USER.PASSWORD.UPDATE)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    public async resetPassword(@Body(new ValidationPipe(PasswordResetValidationSchema)) body: IPasswordResetRequestDTO): Promise<void> {
+    public async resetPassword(@Body(new ValidationPipe(ResetPasswordValidationSchema)) body: ResetPasswordRequestDto): Promise<void> {
         await this._userService.resetPassword(body);
     }
 }

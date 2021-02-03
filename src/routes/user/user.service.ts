@@ -4,10 +4,10 @@ import { Request } from 'express';
 import { Constants } from '../../common/constants';
 import { IFile } from '../../services/file/interfaces/IFile';
 import { PrismaService } from '../../database/prisma.service';
-import { IEmailConfirmationRequestDTO } from './interfaces/IEmailConfirmationRequestDTO';
 import { ValidationService } from '../../services/validation/validation.service';
-import { IPasswordResetRequestDTO } from './interfaces/IPasswordResetRequestDTO';
 import { IHashService } from '../../services/hash/interfaces/IHashService';
+import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
+import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
 
 @Injectable()
 export class UserService {
@@ -18,14 +18,14 @@ export class UserService {
         @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
     ) {}
 
-    public async confirmEmail(input: IEmailConfirmationRequestDTO): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+    public async confirmEmail(body: ConfirmEmailRequestDto): Promise<void> {
+        const user = await this._validationService.getUserByEmailOrThrow(body.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.throwIfAccountIsAlreadyConfirmed(user);
 
-        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, input.code);
+        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, body.code);
 
         this._validationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
@@ -34,28 +34,28 @@ export class UserService {
         await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
     }
 
-    public async resetPassword(input: IPasswordResetRequestDTO): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+    public async resetPassword(body: ResetPasswordRequestDto): Promise<void> {
+        const user = await this._validationService.getUserByEmailOrThrow(body.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, input.code);
+        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, body.code);
 
         this._validationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
-        await this._databaseService.user.update({ where: { id: user.id }, data: { password: await this._hashService.generateHash(input.password) } });
+        await this._databaseService.user.update({ where: { id: user.id }, data: { password: await this._hashService.generateHash(body.password) } });
 
         await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
     }
 
-    public async updateAvatar(request: Request, image: IFile): Promise<void> {
+    public async updateAvatar(image: IFile, userId: string): Promise<void> {
         const imageName = await this._fileService.uploadAvatar(image);
 
-        await this._removeOldAvatar(request.user.id);
+        await this._removeOldAvatar(userId);
 
-        await this._databaseService.user.update({ where: { id: request.user.id }, data: { avatar: `${imageName}.jpg` } });
+        await this._databaseService.user.update({ where: { id: userId }, data: { avatar: `${imageName}.jpg` } });
     }
 
     private async _removeOldAvatar(id: string): Promise<void> {

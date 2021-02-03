@@ -10,8 +10,8 @@ import { IHashService } from '../../services/hash/interfaces/IHashService';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
 import { ValidationService } from '../../services/validation/validation.service';
-import { ILoginRequestDTO } from './interfaces/ILoginRequestDTO';
-import { IRegisterRequestDTO } from './interfaces/IRegisterRequestDTO';
+import { LoginRequestDto } from './dto/login-request.dto';
+import { RegisterRequestDto } from './dto/register-request.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,12 +23,12 @@ export class AuthService {
         @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
     ) {}
 
-    public async register(input: IRegisterRequestDTO): Promise<void> {
-        await this._validationService.throwIfEmailAlreadyExists(input.email);
+    public async register(body: RegisterRequestDto): Promise<void> {
+        await this._validationService.throwIfEmailAlreadyExists(body.email);
 
-        const hashedPassword = await this._hashService.generateHash(input.password);
+        const hashedPassword = await this._hashService.generateHash(body.password);
 
-        const user = await this._databaseService.user.create({ data: { ...input, password: hashedPassword } });
+        const user = await this._databaseService.user.create({ data: { ...body, password: hashedPassword } });
 
         this._eventService.handle(
             new SendConfirmationMailEvent({
@@ -38,12 +38,12 @@ export class AuthService {
         );
     }
 
-    public async login(input: ILoginRequestDTO, res: Response): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email, new InvalidCredentialsException());
+    public async login(body: LoginRequestDto, res: Response): Promise<void> {
+        const user = await this._validationService.getUserByEmailOrThrow(body.email, new InvalidCredentialsException());
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
-        await this._validationService.throwIfPasswordIsInvalid(user, input.password);
+        await this._validationService.throwIfPasswordIsInvalid(user, body.password);
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 

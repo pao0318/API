@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Response } from 'express';
 import { Constants } from '../../common/constants';
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { PrismaService } from '../../database/prisma.service';
@@ -38,7 +37,7 @@ export class AuthService {
         );
     }
 
-    public async login(body: LoginRequestDto, res: Response): Promise<void> {
+    public async login(body: LoginRequestDto): Promise<string> {
         const user = await this._validationService.getUserByEmailOrThrow(body.email, new InvalidCredentialsException());
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
@@ -54,10 +53,6 @@ export class AuthService {
             }),
         );
 
-        res.cookie('authorization', token, { httpOnly: true });
-    }
-
-    public logout(res: Response): void {
-        res.cookie('authorization', '', { httpOnly: true });
+        return token;
     }
 }

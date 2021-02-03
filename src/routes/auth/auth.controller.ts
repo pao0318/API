@@ -21,12 +21,13 @@ export class AuthController {
     @Post(Constants.ENDPOINT.AUTH.LOGIN_EMAIL)
     @HttpCode(Constants.STATUS_CODE.OK)
     public async login(@Res({ passthrough: true }) response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: LoginRequestDto): Promise<void> {
-        await this._authService.login(body, response);
+        const token = await this._authService.login(body);
+        response.cookie('authorization', token, { httpOnly: true });
     }
 
     @Post(Constants.ENDPOINT.AUTH.LOGOUT)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     public logout(@Res({ passthrough: true }) response: Response): void {
-        this._authService.logout(response);
+        response.cookie('authorization', '', { httpOnly: true });
     }
 }

@@ -1,9 +1,10 @@
+import * as cookieParser from 'cookie-parser';
 import { internet } from 'faker';
 import { Config } from '../config';
 import { INestApplication } from '@nestjs/common';
 import { ExceptionFilter } from '../filters/exception.filter';
 import { TestingModule } from '@nestjs/testing';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { IUserCreateInput } from '../../database/interfaces/IUserCreateInput';
 
 export class TestUtils {
@@ -34,13 +35,17 @@ export class TestUtils {
         };
     }
 
+    public static async createUserInDatabase(database: PrismaClient): Promise<User> {
+        return await database.user.create({ data: this.generateFakeUserData() });
+    }
+
     public static async createTestApplication(module: TestingModule): Promise<INestApplication> {
         const app = module.createNestApplication();
 
         app.useGlobalFilters(new ExceptionFilter());
+        app.use(cookieParser());
 
         await app.init();
-
         return app;
     }
 }

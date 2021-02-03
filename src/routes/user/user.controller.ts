@@ -25,19 +25,13 @@ export class UserController {
 
     @Post(Constants.ENDPOINT.USER.EMAIL.CONFIRM)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    public async confirmEmail(
-        @Body(new ValidationPipe(EmailConfirmationValidationSchema))
-        body: IEmailConfirmationRequestDTO,
-    ): Promise<void> {
+    public async confirmEmail(@Body(new ValidationPipe(EmailConfirmationValidationSchema)) body: IEmailConfirmationRequestDTO): Promise<void> {
         await this._userService.confirmEmail(body);
     }
 
     @Post(Constants.ENDPOINT.USER.PASSWORD.UPDATE)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    public async resetPassword(
-        @Body(new ValidationPipe(PasswordResetValidationSchema))
-        body: IPasswordResetRequestDTO,
-    ): Promise<void> {
+    public async resetPassword(@Body(new ValidationPipe(PasswordResetValidationSchema)) body: IPasswordResetRequestDTO): Promise<void> {
         await this._userService.resetPassword(body);
     }
 }

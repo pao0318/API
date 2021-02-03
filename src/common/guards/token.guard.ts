@@ -23,7 +23,8 @@ export class TokenGuard implements CanActivate {
     }
 
     private _getTokenFromContext(context: ExecutionContext): string {
-        return context.switchToHttp().getRequest().cookies['authorization'];
+        const cookies = context.switchToHttp().getRequest().cookies;
+        return cookies['authorization'];
     }
 
     private async _getPayloadFromToken(token: string): Promise<IAccessTokenPayload> {

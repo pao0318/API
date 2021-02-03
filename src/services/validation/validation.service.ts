@@ -9,6 +9,7 @@ import { ExpiredConfirmationCodeException } from '../../common/exceptions/expire
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
 import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
+import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { UserNotFoundException } from '../../common/exceptions/user-not-found-exception';
 import { PrismaService } from '../../database/prisma.service';
@@ -73,5 +74,9 @@ export class ValidationService {
 
     public throwIfConfirmationCodeIsExpired(confirmationCode: ConfirmationCode, exception: BaseException = new ExpiredConfirmationCodeException()): void {
         if (Date.parse(confirmationCode.expiresAt) < Date.now()) throw exception;
+    }
+
+    public throwIfIsbnIsNotValid(isbn: string, exception: BaseException = new IsbnNotFoundException()): void {
+        if (isbn.length !== 10 && isbn.length !== 13) throw exception;
     }
 }

@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "start:debug": "nest start --debug --watch",
+    "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "start:dev": "cross-env NODE_ENV=development nodemon --config nodemon.json",
     "start:prod": "tsc && pm2 start ecosystem.config.yml --env production",
     "start:db": "bash ./scripts/start-db.sh",

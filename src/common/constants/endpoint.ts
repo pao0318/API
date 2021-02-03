@@ -1,10 +1,14 @@
 export const Endpoint = {
     AUTH: {
-        NEW_ACCOUNT: '/auth/new-account',
-        EMAIL: '/auth/email',
-        GOOGLE: '/auth/google',
-        FACEBOOK: '/auth/facebook',
+        REGISTER: '/auth/new-account',
+        LOGIN_EMAIL: '/auth/email',
+        LOGIN_GOOGLE: '/auth/google',
+        LOGIN_FACEBOOK: '/auth/facebook',
         LOGOUT: '/auth/logout',
+    },
+    BOOK: {
+        CREATE: '/book',
+        GET_DATA_BY_ISBN: '/book/data/isbn/:isbn',
     },
     MAIL: {
         EMAIL_CONFIRMATION: '/mail/email-confirmation',

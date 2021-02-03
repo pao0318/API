@@ -1,4 +1,3 @@
-/* eslint sonarjs/no-duplicate-string: 0 */
 import { ConfigValidator } from '../config-validator';
 import { random, internet } from 'faker';
 import { Config } from '../../config';
@@ -12,6 +11,7 @@ describe('Config validator - validate method', () => {
         },
         AUTH: {
             ACCESS_TOKEN_SECRET: random.alphaNumeric(48),
+            GOOGLE_BOOKS_API_KEY: random.alphaNumeric(48),
         },
         CLOUDINARY: {
             CLOUD_NAME: random.alphaNumeric(10),
@@ -86,6 +86,21 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.AUTH.ACCESS_TOKEN_SECRET = random.alphaNumeric(64);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When AUTH.GOOGLE_BOOKS_API_KEY is invalid', () => {
+        beforeAll(() => {
+            config.AUTH.GOOGLE_BOOKS_API_KEY = '';
+        });
+
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.AUTH.GOOGLE_BOOKS_API_KEY = random.alphaNumeric(64);
             jest.clearAllMocks();
         });
     });

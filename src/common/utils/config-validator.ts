@@ -21,6 +21,7 @@ export class ConfigValidator {
             },
             AUTH: {
                 ACCESS_TOKEN_SECRET: string().min(16),
+                GOOGLE_BOOKS_API_KEY: string().required(),
             },
             CLOUDINARY: {
                 CLOUD_NAME: string().required(),

@@ -1,9 +1,9 @@
 import { verify, sign } from 'jsonwebtoken';
 import { promisify } from 'util';
-import { ITokenService } from '../interfaces/ITokenService';
-import { ITokenPayload } from '../interfaces/ITokenPayload';
-import { Token } from '../tokens/token';
 import { Injectable } from '@nestjs/common';
+import { ITokenPayload } from './interfaces/ITokenPayload';
+import { ITokenService } from './interfaces/ITokenService';
+import { Token } from './tokens/token';
 
 @Injectable()
 export class JwtTokenService implements ITokenService {

@@ -1,8 +1,8 @@
 import { createTransport, Transporter } from 'nodemailer';
-import { Config } from '../../../common/config';
-import { logger } from '../../../common/utils/logger/logger';
-import { IEmailService } from '../interfaces/IEmailService';
-import { Mail } from '../mails/mail';
+import { Config } from '../../common/config';
+import { logger } from '../../common/utils/logger/logger';
+import { IEmailService } from './interfaces/IEmailService';
+import { Mail } from './mails/mail';
 
 export class NodemailerEmailService implements IEmailService {
     private readonly _transporter: Transporter;

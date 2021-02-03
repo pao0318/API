@@ -62,6 +62,20 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
 
         beforeAll(async () => {
             response = await request(app.getHttpServer())
+                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813444'))
+                .set('Cookie', [`authorization=${token}`]);
+        });
+
+        it('Should return status code 404', () => {
+            expect(response.status).toEqual(404);
+        });
+    });
+
+    describe('When the provided isbn is invalid', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            response = await request(app.getHttpServer())
                 .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '978142681344'))
                 .set('Cookie', [`authorization=${token}`]);
         });

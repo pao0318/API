@@ -9,7 +9,7 @@ describe('Google API Service', () => {
         describe('When book exists', () => {
             describe('When all the values exist', () => {
                 it('Should return correct payload', async () => {
-                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse();
+                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: true, isImage: true });
 
                     httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
 
@@ -21,9 +21,9 @@ describe('Google API Service', () => {
 
             describe('When author does not exist', () => {
                 it('Should return correct payload', async () => {
-                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse();
+                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: false, isDescription: true, isImage: true });
 
-                    httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { ...fakeResponse, authors: [] } });
+                    httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
 
                     const book = await googleApiService.getBookByIsbn(random.uuid());
 
@@ -33,9 +33,9 @@ describe('Google API Service', () => {
 
             describe('When description does not exist', () => {
                 it('Should return correct payload', async () => {
-                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse();
+                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: false, isImage: true });
 
-                    httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { ...fakeResponse, description: undefined } });
+                    httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
 
                     const book = await googleApiService.getBookByIsbn(random.uuid());
 
@@ -45,9 +45,9 @@ describe('Google API Service', () => {
 
             describe('When image does not exist', () => {
                 it('Should return correct payload', async () => {
-                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse();
+                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: true, isImage: false });
 
-                    httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { ...fakeResponse, imageLinks: undefined } });
+                    httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
 
                     const book = await googleApiService.getBookByIsbn(random.uuid());
 
@@ -68,12 +68,12 @@ describe('Google API Service', () => {
     });
 });
 
-const generateGoogleBooksApiResponse = () => {
+const generateGoogleBooksApiResponse = (values: { isAuthor: boolean; isDescription: boolean; isImage: boolean }) => {
     const fakeValues = {
         title: random.word(),
-        author: random.word(),
-        description: random.word(),
-        image: random.word(),
+        author: values.isAuthor ? random.word() : null,
+        description: values.isDescription ? random.word() : null,
+        image: values.isImage ? random.word() : null,
     };
 
     return {

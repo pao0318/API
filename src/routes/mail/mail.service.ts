@@ -5,8 +5,8 @@ import { PasswordResetMail } from '../../services/email/mails/password-reset-mai
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { IEventService } from '../../services/event/interfaces/IEventService';
 import { ValidationService } from '../../services/validation/validation.service';
-import { ISendEmailConfirmationMailRequestDTO } from './interfaces/ISendAccountConfirmationMailRequestDTO';
-import { ISendPasswordResetMailRequestDTO } from './interfaces/ISendPasswordResetMailRequestDTO';
+import { SendEmailConfirmationMailRequestDto } from './dto/send-email-confirmation-mail-request.dto';
+import { SendPasswordResetMailRequestDto } from './dto/send-password-reset-mail-request.dto';
 
 @Injectable()
 export class MailService {
@@ -15,8 +15,8 @@ export class MailService {
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
     ) {}
 
-    public async sendEmailConfirmationMail(input: ISendEmailConfirmationMailRequestDTO): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+    public async sendEmailConfirmationMail(body: SendEmailConfirmationMailRequestDto): Promise<void> {
+        const user = await this._validationService.getUserByEmailOrThrow(body.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 
@@ -30,8 +30,8 @@ export class MailService {
         );
     }
 
-    public async sendPasswordResetMail(input: ISendPasswordResetMailRequestDTO): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(input.email);
+    public async sendPasswordResetMail(body: SendPasswordResetMailRequestDto): Promise<void> {
+        const user = await this._validationService.getUserByEmailOrThrow(body.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
 

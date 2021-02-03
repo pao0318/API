@@ -12,4 +12,5 @@ export enum Exception {
     EXPIRED_CONFIRMATION_CODE = 109,
     USER_NOT_FOUND = 110,
     INVALID_IMAGE_FORMAT = 111,
+    ISBN_NOT_FOUND = 112,
 }

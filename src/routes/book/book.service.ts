@@ -5,9 +5,10 @@ import { BookDataResponseDto } from './dto/book-data-response.dto';
 
 @Injectable()
 export class BookService {
-    constructor(private readonly _googleApiService: GoogleApiService, private readonly _databaseService: PrismaService) {}
+    constructor(private readonly _googleApiService: GoogleApiService) {}
 
     public async getBookDataByIsbn(isbn: string): Promise<BookDataResponseDto> {
-        throw new Error('Not implemented');
+        // if(isbn.length)
+        // const bookData = await this._googleApiService.getBookByIsbn(isbn);
     }
 }

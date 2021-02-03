@@ -1,6 +1,6 @@
 import axios, { AxiosStatic } from 'axios';
-import { IHttpResponse } from '../interfaces/IHttpResponse';
-import { IHttpService } from '../interfaces/IHttpService';
+import { IHttpResponse } from './interfaces/IHttpResponse';
+import { IHttpService } from './interfaces/IHttpService';
 
 export class AxiosService implements IHttpService {
     constructor(private readonly _httpClient: AxiosStatic = axios) {}

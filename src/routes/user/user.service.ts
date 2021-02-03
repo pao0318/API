@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { FileService } from '../../services/file/file.service';
-import { Request } from 'express';
 import { Constants } from '../../common/constants';
 import { IFile } from '../../services/file/interfaces/IFile';
 import { PrismaService } from '../../database/prisma.service';

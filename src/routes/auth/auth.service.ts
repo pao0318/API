@@ -46,13 +46,11 @@ export class AuthService {
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        const token = await this._tokenService.generate(
+        return await this._tokenService.generate(
             new AccessToken({
                 id: user.id,
                 email: user.email,
             }),
         );
-
-        return token;
     }
 }

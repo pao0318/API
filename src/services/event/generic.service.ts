@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { EventEmitter } from 'events';
-import { Constants } from '../../../common/constants';
-import { PrismaService } from '../../../database/prisma.service';
-import { IEmailService } from '../../email/interfaces/IEmailService';
-import { SendConfirmationMailHandler } from '../handlers/send-confirmation-mail-handler';
-import { IEvent } from '../interfaces/IEvent';
-import { IEventService } from '../interfaces/IEventService';
+import { Constants } from '../../common/constants';
+import { PrismaService } from '../../database/prisma.service';
+import { IEmailService } from '../email/interfaces/IEmailService';
+import { SendConfirmationMailHandler } from './handlers/send-confirmation-mail-handler';
+import { IEvent } from './interfaces/IEvent';
+import { IEventService } from './interfaces/IEventService';
 
 @Injectable()
 export class GenericEventService extends EventEmitter implements IEventService {

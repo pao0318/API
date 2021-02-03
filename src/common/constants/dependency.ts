@@ -1,7 +1,7 @@
 export enum Dependency {
     DATABASE_SERVICE = 'PrismaService',
     EMAIL_SERVICE = 'NodemailerEmailService',
-    EVENT_SERVICE = 'GenericEventService',
+    EVENT_SERVICE = 'EventService',
     GOOGLE_API_SERVICE = 'GoogleApiService',
     FILE_SERVICE = 'FileService',
     HASH_SERVICE = 'BcryptService',

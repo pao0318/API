@@ -5,10 +5,9 @@ import { PrismaService } from '../../database/prisma.service';
 import { IEmailService } from '../email/interfaces/IEmailService';
 import { SendConfirmationMailHandler } from './handlers/send-confirmation-mail-handler';
 import { IEvent } from './interfaces/IEvent';
-import { IEventService } from './interfaces/IEventService';
 
 @Injectable()
-export class GenericEventService extends EventEmitter implements IEventService {
+export class EventService extends EventEmitter {
     constructor(
         @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
         @Inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService,

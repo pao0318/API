@@ -1,10 +1,10 @@
-import { Get, HttpCode, Injectable, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, Param, UseGuards } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { TokenGuard } from '../../common/guards/token.guard';
 import { BookService } from './book.service';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
 
-@Injectable()
+@Controller()
 export class BookController {
     constructor(private readonly _bookService: BookService) {}
 

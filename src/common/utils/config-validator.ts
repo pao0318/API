@@ -20,7 +20,7 @@ export class ConfigValidator {
                 PORT: number().min(1).max(65353),
             },
             AUTH: {
-                ACCESS_TOKEN_SECRET: string().min(16),
+                ACCESS_TOKEN_SECRET: string().min(16).required(),
                 GOOGLE_BOOKS_API_KEY: string().required(),
             },
             CLOUDINARY: {

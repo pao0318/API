@@ -6,10 +6,13 @@ import { Constants } from '../common/constants';
 import { TestUtils } from '../common/utils/test-utils';
 import { PrismaService } from '../database/prisma.service';
 import { BookModule } from '../routes/book/book.module';
+import { ITokenService } from '../services/token/interfaces/ITokenService';
+import { AccessToken } from '../services/token/tokens/access-token';
 
 describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
     let databaseService: PrismaService;
     let app: INestApplication;
+    let token: string;
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
@@ -18,6 +21,11 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
 
         app = await TestUtils.createTestApplication(module);
         databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
+
+        const tokenService = (await app.resolve(Constants.DEPENDENCY.TOKEN_SERVICE)) as ITokenService;
+        const user = await TestUtils.createUserInDatabase(databaseService);
+
+        token = await tokenService.generate(new AccessToken({ id: user.id, email: user.email }));
     });
 
     afterAll(async () => {
@@ -29,7 +37,9 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app).get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813443'));
+            response = await request(app.getHttpServer())
+                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813443'))
+                .set('Cookie', [`authorization=${token}`]);
         });
 
         it('Should return status code 200', () => {
@@ -51,7 +61,9 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app).get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '978142681344'));
+            response = await request(app.getHttpServer())
+                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '978142681344'))
+                .set('Cookie', [`authorization=${token}`]);
         });
 
         it('Should return status code 404', () => {

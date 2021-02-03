@@ -23,7 +23,7 @@ class ConfigManager {
                 PORT: parseInt(this._getVariable('PORT') || this._getVariable('APP_PORT')),
             },
             AUTH: {
-                ACCESS_TOKEN_SECRET: this._getVariable('ACCESS_TOKEN_SECRET'),
+                ACCESS_TOKEN_SECRET: this._getVariable('AUTH_ACCESS_TOKEN_SECRET'),
                 GOOGLE_BOOKS_API_KEY: this._getVariable('AUTH_GOOGLE_BOOKS_API_KEY'),
             },
             CLOUDINARY: {

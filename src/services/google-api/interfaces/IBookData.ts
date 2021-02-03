@@ -1,6 +1,6 @@
 export interface IBookData {
     title: string;
-    author?: string;
-    description?: string;
-    image?: string;
+    author: string | null;
+    description: string | null;
+    image: string;
 }

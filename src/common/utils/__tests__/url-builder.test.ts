@@ -8,7 +8,7 @@ describe('Url Builder', () => {
         it('Should return the url with an applied context', () => {
             const isbn = random.uuid();
 
-            const expected = `${Constants.URL.GOOGLE_BOOKS_API}?isbn=:${isbn}&key=${Config.AUTH.GOOGLE_BOOKS_API_KEY}`;
+            const expected = `${Constants.URL.GOOGLE_BOOKS_API}?q=isbn:${isbn}&key=${Config.AUTH.GOOGLE_BOOKS_API_KEY}`;
 
             const actual = UrlBuilder.buildGetBookByIsbnUrl(isbn);
 

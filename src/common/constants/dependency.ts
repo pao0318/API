@@ -4,6 +4,7 @@ export enum Dependency {
     EVENT_SERVICE = 'GenericEventService',
     FILE_SERVICE = 'FileService',
     HASH_SERVICE = 'BcryptService',
+    HTTP_SERVICE = 'AxiosHttpService',
     TOKEN_SERVICE = 'JwtTokenService',
     VALIDATION_SERVICE = 'ValidationService',
 

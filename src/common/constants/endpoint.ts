@@ -7,8 +7,8 @@ export const Endpoint = {
         LOGOUT: '/auth/logout',
     },
     BOOK: {
-        GET_BY_ISBN: '/book/isbn/:isbn',
         CREATE: '/book',
+        GET_DATA_BY_ISBN: '/book/data/isbn/:isbn',
     },
     MAIL: {
         EMAIL_CONFIRMATION: '/mail/email-confirmation',

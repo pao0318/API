@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { Constants } from '../../common/constants';
 import { UrlBuilder } from '../../common/utils/url-builder';
 import { IHttpService } from '../http/interfaces/IHttpService';
 import { IBookData } from './interfaces/IBookData';
 
 @Injectable()
 export class GoogleApiService {
-    constructor(private readonly _httpService: IHttpService) {}
+    constructor(@Inject(Constants.DEPENDENCY.HTTP_SERVICE) private readonly _httpService: IHttpService) {}
 
     public async getBookByIsbn(isbn: string): Promise<IBookData | null> {
         const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByIsbnUrl(isbn), this._getCompressionHeaders());

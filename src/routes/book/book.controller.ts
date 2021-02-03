@@ -1,7 +1,8 @@
-import { Get, HttpCode, Injectable, Param, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Get, HttpCode, Injectable, Param, UseGuards } from '@nestjs/common';
 import { Constants } from '../../common/constants';
+import { TokenGuard } from '../../common/guards/token.guard';
 import { BookService } from './book.service';
+import { BookDataResponseDto } from './dto/book-data-response.dto';
 
 @Injectable()
 export class BookController {
@@ -9,5 +10,8 @@ export class BookController {
 
     @Get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN)
     @HttpCode(Constants.STATUS_CODE.OK)
-    public async getBookDataByIsbn(@Req() request: Request, @Param('isbn') isbn: string): Promise<IBookData> {}
+    @UseGuards(TokenGuard)
+    public async getBookDataByIsbn(@Param('isbn') isbn: string): Promise<BookDataResponseDto> {
+        return await this._bookService.getBookDataByIsbn(isbn);
+    }
 }

@@ -1,4 +1,3 @@
-/* eslint sonarjs/no-duplicate-string: 0 */
 import { ConfigValidator } from '../config-validator';
 import { random, internet } from 'faker';
 import { Config } from '../../config';

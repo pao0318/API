@@ -2,7 +2,7 @@ import { GoogleApiService } from '../google-api/google-api.service';
 import { random } from 'faker';
 
 describe('Google API Service', () => {
-    let httpService = { performGetRequest: jest.fn() };
+    const httpService = { performGetRequest: jest.fn() };
     const googleApiService = new GoogleApiService(httpService as any);
 
     describe('Get book by isbn', () => {

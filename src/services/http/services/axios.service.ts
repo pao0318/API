@@ -6,7 +6,6 @@ export class AxiosService implements IHttpService {
     constructor(private readonly _httpClient: AxiosStatic = axios) {}
 
     public async performGetRequest(url: string, headers?: Record<string, string>): Promise<IHttpResponse> {
-        const response = await this._httpClient.get(url, { headers });
-        return response;
+        return await this._httpClient.get(url, { headers });
     }
 }

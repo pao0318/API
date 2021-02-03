@@ -3,8 +3,8 @@ import { Constants } from '../../common/constants';
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { PrismaService } from '../../database/prisma.service';
 import { EmailConfirmationMail } from '../../services/email/mails/email-confirmation-mail';
+import { EventService } from '../../services/event/event.service';
 import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
-import { IEventService } from '../../services/event/interfaces/IEventService';
 import { IHashService } from '../../services/hash/interfaces/IHashService';
 import { ITokenService } from '../../services/token/interfaces/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
@@ -16,7 +16,7 @@ import { RegisterRequestDto } from './dto/register-request.dto';
 export class AuthService {
     constructor(
         @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
-        @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: IEventService,
+        @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: EventService,
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
         @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,

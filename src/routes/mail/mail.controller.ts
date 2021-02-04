@@ -6,7 +6,9 @@ import { SendEmailConfirmationMailValidationSchema } from './schemas/send-email-
 import { SendPasswordResetMailValidationSchema } from './schemas/send-password-reset-mail.schema';
 import { SendEmailConfirmationMailRequestDto } from './dto/send-email-confirmation-mail-request.dto';
 import { SendPasswordResetMailRequestDto } from './dto/send-password-reset-mail-request.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('mail')
 @Controller('/')
 export class MailController {
     constructor(private readonly _mailService: MailService) {}

@@ -7,7 +7,9 @@ import { LoginValidationSchema } from './schemas/login.schema';
 import { Response } from 'express';
 import { RegisterRequestDto } from './dto/register-request.dto';
 import { LoginRequestDto } from './dto/login-request.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('/')
 export class AuthController {
     constructor(private readonly _authService: AuthService) {}

@@ -10,7 +10,9 @@ import { ConfirmEmailValidationSchema } from './schemas/confirm-email.schema';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
 import { ResetPasswordValidationSchema } from './schemas/reset-password.schema';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('user')
 @Controller('/')
 export class UserController {
     constructor(private readonly _userService: UserService) {}

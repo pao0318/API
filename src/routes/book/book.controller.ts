@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, Param, UseGuards } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Constants } from '../../common/constants';
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
 import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
@@ -15,6 +15,7 @@ export class BookController {
     @Get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN)
     @HttpCode(Constants.STATUS_CODE.OK)
     @UseGuards(TokenGuard)
+    @ApiCookieAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'The book data has been retrieved successfully' })
     @ExceptionResponses([IsbnNotFoundException])
     public async getBookDataByIsbn(@Param('isbn') isbn: string): Promise<BookDataResponseDto> {

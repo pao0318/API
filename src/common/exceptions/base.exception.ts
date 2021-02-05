@@ -9,8 +9,8 @@ export class BaseException extends Error {
         const exception = new this();
 
         return {
-            status: exception.statusCode,
-            description: `${exception.message} | ID - ${exception.id}`,
+            status: exception.id,
+            description: exception.message,
         };
     }
 }

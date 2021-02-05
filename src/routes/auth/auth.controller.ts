@@ -1,9 +1,6 @@
 import { Body, Controller, HttpCode, Post, Res } from '@nestjs/common';
-import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { Constants } from '../../common/constants';
 import { AuthService } from './auth.service';
-import { RegisterValidationSchema } from './schemas/register.schema';
-import { LoginValidationSchema } from './schemas/login.schema';
 import { Response } from 'express';
 import { RegisterRequestDto } from './dto/register-request.dto';
 import { LoginRequestDto } from './dto/login-request.dto';
@@ -23,7 +20,7 @@ export class AuthController {
     @HttpCode(Constants.STATUS_CODE.CREATED)
     @ApiResponse({ status: Constants.STATUS_CODE.CREATED, description: 'User has registered successfully' })
     @ExceptionResponses([DuplicateEmailException])
-    public async register(@Body(new ValidationPipe(RegisterValidationSchema)) body: RegisterRequestDto): Promise<void> {
+    public async register(@Body() body: RegisterRequestDto): Promise<void> {
         await this._authService.register(body);
     }
 
@@ -31,7 +28,7 @@ export class AuthController {
     @HttpCode(Constants.STATUS_CODE.OK)
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'User has logged in successfully' })
     @ExceptionResponses([InvalidAccountTypeException, InvalidCredentialsException, UnconfirmedAccountException])
-    public async login(@Res() response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: LoginRequestDto): Promise<void> {
+    public async login(@Res() response: Response, @Body() body: LoginRequestDto): Promise<void> {
         const token = await this._authService.login(body);
         response.cookie('authorization', token, { httpOnly: true });
     }

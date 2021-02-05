@@ -11,11 +11,11 @@ export const setupLoaders = (app: INestApplication): void => {
 
     loadConfig(app);
 
+    loadSwagger(app);
+
     loadGlobalFilters(app);
 
     loadMiddlewares(app);
 
     loadCloudinary();
-
-    loadSwagger(app);
 };

@@ -31,7 +31,7 @@ export class AuthController {
     @HttpCode(Constants.STATUS_CODE.OK)
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'User has logged in successfully' })
     @ExceptionResponses([InvalidAccountTypeException, InvalidCredentialsException, UnconfirmedAccountException])
-    public async login(@Res({ passthrough: true }) response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: LoginRequestDto): Promise<void> {
+    public async login(@Res() response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: LoginRequestDto): Promise<void> {
         const token = await this._authService.login(body);
         response.cookie('authorization', token, { httpOnly: true });
     }
@@ -39,7 +39,7 @@ export class AuthController {
     @Post(Constants.ENDPOINT.AUTH.LOGOUT)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'User has logged out successfully' })
-    public logout(@Res({ passthrough: true }) response: Response): void {
+    public logout(@Res() response: Response): void {
         response.cookie('authorization', '', { httpOnly: true });
     }
 }

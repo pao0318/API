@@ -5,10 +5,7 @@ import { Request } from 'express';
 import { UserService } from './user.service';
 import { TokenGuard } from '../../common/guards/token.guard';
 import { IFile } from '../../services/file/interfaces/IFile';
-import { ValidationPipe } from '../../common/pipes/validation.pipe';
-import { ConfirmEmailValidationSchema } from './schemas/confirm-email.schema';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
-import { ResetPasswordValidationSchema } from './schemas/reset-password.schema';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
 import { ApiBody, ApiCookieAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
@@ -44,9 +41,9 @@ export class UserController {
         InvalidAccountTypeException,
         AlreadyConfirmedAccountException,
         InvalidConfirmationCodeException,
-        ExpiredConfirmationCodeException,
+        ExpiredConfirmationCodeException
     ])
-    public async confirmEmail(@Body(new ValidationPipe(ConfirmEmailValidationSchema)) body: ConfirmEmailRequestDto): Promise<void> {
+    public async confirmEmail(@Body() body: ConfirmEmailRequestDto): Promise<void> {
         await this._userService.confirmEmail(body);
     }
 
@@ -58,9 +55,9 @@ export class UserController {
         InvalidAccountTypeException,
         UnconfirmedAccountException,
         InvalidConfirmationCodeException,
-        ExpiredConfirmationCodeException,
+        ExpiredConfirmationCodeException
     ])
-    public async resetPassword(@Body(new ValidationPipe(ResetPasswordValidationSchema)) body: ResetPasswordRequestDto): Promise<void> {
+    public async resetPassword(@Body() body: ResetPasswordRequestDto): Promise<void> {
         await this._userService.resetPassword(body);
     }
 }

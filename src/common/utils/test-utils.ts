@@ -6,6 +6,7 @@ import { ExceptionFilter } from '../filters/exception.filter';
 import { TestingModule } from '@nestjs/testing';
 import { PrismaClient, User } from '@prisma/client';
 import { IUserCreateInput } from '../../database/interfaces/IUserCreateInput';
+import { ValidationPipe } from '../pipes/validation.pipe';
 
 export class TestUtils {
     public static async dropDatabase(database: PrismaClient): Promise<void> {
@@ -20,7 +21,7 @@ export class TestUtils {
             database.confirmationCode.deleteMany(),
             database.message.deleteMany(),
             database.review.deleteMany(),
-            database.user.deleteMany(),
+            database.user.deleteMany()
         ]);
     }
 
@@ -31,7 +32,7 @@ export class TestUtils {
     public static generateFakeUserData(): IUserCreateInput {
         return {
             email: internet.email(),
-            password: internet.password(),
+            password: internet.password()
         };
     }
 
@@ -43,6 +44,7 @@ export class TestUtils {
         const app = module.createNestApplication();
 
         app.useGlobalFilters(new ExceptionFilter());
+        app.useGlobalPipes(new ValidationPipe());
         app.use(cookieParser());
 
         await app.init();

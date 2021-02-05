@@ -1,9 +1,6 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { ValidationPipe } from '../../common/pipes/validation.pipe';
 import { Constants } from '../../common/constants';
 import { MailService } from './mail.service';
-import { SendEmailConfirmationMailValidationSchema } from './schemas/send-email-confirmation-mail.schema';
-import { SendPasswordResetMailValidationSchema } from './schemas/send-password-reset-mail.schema';
 import { SendEmailConfirmationMailRequestDto } from './dto/send-email-confirmation-mail-request.dto';
 import { SendPasswordResetMailRequestDto } from './dto/send-password-reset-mail-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -21,9 +18,7 @@ export class MailController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Mail has been sent succesfully' })
     @ExceptionResponses([EmailNotFoundException, InvalidAccountTypeException, AlreadyConfirmedAccountException])
-    public async sendAccountConfirmationMail(
-        @Body(new ValidationPipe(SendEmailConfirmationMailValidationSchema)) body: SendEmailConfirmationMailRequestDto,
-    ): Promise<void> {
+    public async sendAccountConfirmationMail(@Body() body: SendEmailConfirmationMailRequestDto): Promise<void> {
         await this._mailService.sendEmailConfirmationMail(body);
     }
 
@@ -31,9 +26,7 @@ export class MailController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Mail has been sent succesfully' })
     @ExceptionResponses([EmailNotFoundException, InvalidAccountTypeException, AlreadyConfirmedAccountException])
-    public async sendResetPasswordConfirmationMail(
-        @Body(new ValidationPipe(SendPasswordResetMailValidationSchema)) body: SendPasswordResetMailRequestDto,
-    ): Promise<void> {
+    public async sendResetPasswordConfirmationMail(@Body() body: SendPasswordResetMailRequestDto): Promise<void> {
         await this._mailService.sendPasswordResetMail(body);
     }
 }

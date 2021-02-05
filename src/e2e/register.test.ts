@@ -14,7 +14,7 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: [AuthModule],
+            imports: [AuthModule]
         }).compile();
 
         app = await TestUtils.createTestApplication(module);
@@ -29,10 +29,8 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
     describe('When input is invalid', () => {
         let response: Response;
 
-        beforeAll(async (done) => {
+        beforeAll(async () => {
             response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER);
-
-            done();
         });
 
         it('Should return status code 400', () => {
@@ -47,15 +45,13 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
     describe('When email already exists', () => {
         let response: Response;
 
-        beforeAll(async (done) => {
+        beforeAll(async () => {
             const user = await databaseService.user.create({ data: TestUtils.generateFakeUserData() });
 
             response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER).send({
                 email: user.email,
-                password: internet.password(),
+                password: internet.password()
             });
-
-            done();
         });
 
         it('Should return status code 409', () => {
@@ -71,13 +67,11 @@ describe(`POST ${Constants.ENDPOINT.AUTH.REGISTER}`, () => {
         const userData = TestUtils.generateFakeUserData();
         let response: Response;
 
-        beforeAll(async (done) => {
+        beforeAll(async () => {
             response = await request(app.getHttpServer()).post(Constants.ENDPOINT.AUTH.REGISTER).send({
                 email: userData.email,
-                password: userData.password,
+                password: userData.password
             });
-
-            done();
         });
 
         it('Should return status code 201', () => {

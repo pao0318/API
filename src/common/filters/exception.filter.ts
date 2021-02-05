@@ -20,6 +20,8 @@ export class ExceptionFilter implements Filter {
         this._sendResponse(response);
 
         logger.error(this._message);
+
+        this._resetFields();
     }
 
     private _updateFieldsBasedOnExceptionType(exception: unknown): void {
@@ -40,8 +42,8 @@ export class ExceptionFilter implements Filter {
         response.status(this._status).json({
             error: {
                 id: this._id,
-                message: this._message,
-            },
+                message: this._message
+            }
         });
     }
 
@@ -56,5 +58,11 @@ export class ExceptionFilter implements Filter {
     private _assignFieldsAsBaseException(exception: BaseException): void {
         this._id = exception.id;
         this._status = exception.statusCode;
+    }
+
+    private _resetFields(): void {
+        this._id = Constants.DEFAULT_EXCEPTION.ID;
+        this._status = Constants.DEFAULT_EXCEPTION.STATUS;
+        this._message = Constants.DEFAULT_EXCEPTION.MESSAGE;
     }
 }

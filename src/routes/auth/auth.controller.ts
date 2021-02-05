@@ -21,15 +21,15 @@ export class AuthController {
 
     @Post(Constants.ENDPOINT.AUTH.REGISTER)
     @HttpCode(Constants.STATUS_CODE.CREATED)
-    @ApiResponse({ status: 201, description: 'User registered successfully' })
-    @ApiResponse(DuplicateEmailException.getDescription())
+    @ApiResponse({ status: Constants.STATUS_CODE.CREATED, description: 'User has registered successfully' })
+    @ExceptionResponses([DuplicateEmailException])
     public async register(@Body(new ValidationPipe(RegisterValidationSchema)) body: RegisterRequestDto): Promise<void> {
         await this._authService.register(body);
     }
 
     @Post(Constants.ENDPOINT.AUTH.LOGIN_EMAIL)
     @HttpCode(Constants.STATUS_CODE.OK)
-    @ApiResponse({ status: 200, description: 'User logged in successfully' })
+    @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'User has logged in successfully' })
     @ExceptionResponses([InvalidAccountTypeException, InvalidCredentialsException, UnconfirmedAccountException])
     public async login(@Res({ passthrough: true }) response: Response, @Body(new ValidationPipe(LoginValidationSchema)) body: LoginRequestDto): Promise<void> {
         const token = await this._authService.login(body);
@@ -38,6 +38,7 @@ export class AuthController {
 
     @Post(Constants.ENDPOINT.AUTH.LOGOUT)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'User has logged out successfully' })
     public logout(@Res({ passthrough: true }) response: Response): void {
         response.cookie('authorization', '', { httpOnly: true });
     }

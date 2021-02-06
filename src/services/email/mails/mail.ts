@@ -25,11 +25,6 @@ export abstract class Mail {
         return this._applyContext(template, this._context);
     }
 
-    public withDifferentContext(context: IMailContext): this {
-        this._context = context;
-        return this;
-    }
-
     private _applyContext(template: string, context: IMailContext): string {
         for (const key in context) {
             template = template.replace(`{{ ${key} }}`, context[key.toString()]);

@@ -1,3 +1,3 @@
 export interface IEmailConfirmationMailContext {
-    code?: string;
+    code: string;
 }

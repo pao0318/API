@@ -1,3 +1,3 @@
 export interface IPasswordResetMailContext {
-    code?: string;
+    code: string;
 }

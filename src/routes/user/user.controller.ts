@@ -16,6 +16,7 @@ import { InvalidConfirmationCodeException } from '../../common/exceptions/invali
 import { ExpiredConfirmationCodeException } from '../../common/exceptions/expired-confirmation-code.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { FileUploadDto } from '../../services/file/dto/file-upload.dto';
+import { CookieAuth } from '../../common/decorators/cookie-auth.decorator';
 
 @ApiTags('user')
 @Controller('/')
@@ -26,8 +27,7 @@ export class UserController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @UseInterceptors(FileInterceptor('file'))
     @ApiBody({ type: FileUploadDto })
-    @ApiCookieAuth()
-    @UseGuards(TokenGuard)
+    @CookieAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Avatar has been changed successfullly' })
     public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
         await this._userService.updateAvatar(image, request.user.id);

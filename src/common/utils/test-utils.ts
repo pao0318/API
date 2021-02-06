@@ -5,7 +5,7 @@ import { INestApplication } from '@nestjs/common';
 import { ExceptionFilter } from '../filters/exception.filter';
 import { TestingModule } from '@nestjs/testing';
 import { PrismaClient, User } from '@prisma/client';
-import { IUserCreateInput } from '../../database/interfaces/IUserCreateInput';
+import { IUserCreateInput } from '../../database/types/IUserCreateInput';
 import { ValidationPipe } from '../pipes/validation.pipe';
 
 export class TestUtils {

@@ -1,4 +1,4 @@
-import { IPasswordResetMailContext } from '../interfaces/IPasswordResetMailContext';
+import { IPasswordResetMailContext } from '../types/IPasswordResetMailContext';
 import { Mail } from './mail';
 
 export class PasswordResetMail extends Mail {

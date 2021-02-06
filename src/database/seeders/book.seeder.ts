@@ -4,7 +4,7 @@ import { random } from 'faker';
 import { Constants } from '../../common/constants';
 import { PrismaService } from '../prisma.service';
 import { Genre } from '@prisma/client';
-import { IBookCreateInput } from '../interfaces/IBookCreateInput';
+import { IBookCreateInput } from '../types/IBookCreateInput';
 
 @Injectable()
 export class BookSeeder {
@@ -13,7 +13,7 @@ export class BookSeeder {
     @Command({
         command: 'seed:book',
         describe: 'Create new book',
-        autoExit: true,
+        autoExit: true
     })
     public async run(): Promise<void> {
         const data = this._generateFakeData();
@@ -30,7 +30,7 @@ export class BookSeeder {
             description: random.word(),
             genre: random.arrayElement(Object.values(Genre)),
             isbn: random.uuid(),
-            image: random.word(),
+            image: random.word()
         };
     }
 

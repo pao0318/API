@@ -1,7 +1,7 @@
 import * as cloudinary from 'cloudinary';
 import { Injectable } from '@nestjs/common';
-import { ICloudProvider } from '../interfaces/ICloudProvider';
-import { IFile } from '../interfaces/IFile';
+import { ICloudProvider } from '../types/ICloudProvider';
+import { IFile } from '../types/IFile';
 
 @Injectable()
 export class CloudinaryProvider implements ICloudProvider {
@@ -11,11 +11,11 @@ export class CloudinaryProvider implements ICloudProvider {
                 {
                     format: 'jpg',
                     folder: folder,
-                    public_id: image.originalname,
+                    public_id: image.originalname
                 },
                 (error) => {
                     if (error) throw error;
-                },
+                }
             )
             .end(image.buffer);
     }

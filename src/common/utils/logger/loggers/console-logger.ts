@@ -1,5 +1,5 @@
 import { blue, green, red } from 'chalk';
-import { ILogger } from '../interfaces/ILogger';
+import { ILogger } from '../types/ILogger';
 
 export class ConsoleLogger implements ILogger {
     public async info(message: string): Promise<void> {

@@ -1,8 +1,8 @@
 import { verify, sign } from 'jsonwebtoken';
 import { promisify } from 'util';
 import { Injectable } from '@nestjs/common';
-import { ITokenPayload } from './interfaces/ITokenPayload';
-import { ITokenService } from './interfaces/ITokenService';
+import { ITokenPayload } from './types/ITokenPayload';
+import { ITokenService } from './types/ITokenService';
 import { Token } from './tokens/token';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class JwtTokenService implements ITokenService {
     public async generate(token: Token): Promise<string> {
         const constructor = token.constructor as typeof Token;
         return sign(token.payload, constructor.secret, {
-            expiresIn: constructor.expiresIn,
+            expiresIn: constructor.expiresIn
         });
     }
 

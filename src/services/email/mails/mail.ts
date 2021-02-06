@@ -1,5 +1,5 @@
 import readFile from '../../../common/helpers/read-file';
-import { IMailContext } from '../interfaces/IMailContext';
+import { IMailContext } from '../types/IMailContext';
 
 export abstract class Mail {
     protected abstract readonly _subject: string;

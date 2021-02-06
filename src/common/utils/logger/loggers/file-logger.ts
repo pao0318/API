@@ -1,6 +1,6 @@
 import { Logger, createLogger, transports } from 'winston';
 import { join } from 'path';
-import { ILogger } from '../interfaces/ILogger';
+import { ILogger } from '../types/ILogger';
 
 export class FileLogger implements ILogger {
     private readonly _logger: Logger;
@@ -12,10 +12,10 @@ export class FileLogger implements ILogger {
                     filename: join(__dirname, '../../../../../logs', 'application.log'),
                     handleExceptions: true,
                     maxsize: 5242880,
-                    maxFiles: 5,
-                }),
+                    maxFiles: 5
+                })
             ],
-            exitOnError: false,
+            exitOnError: false
         });
     }
 

@@ -1,13 +1,11 @@
-import { Body, Controller, HttpCode, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, HttpCode, Post, Put, Req, UploadedFile } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { Request } from 'express';
 import { UserService } from './user.service';
-import { TokenGuard } from '../../common/guards/token.guard';
-import { IFile } from '../../services/file/interfaces/IFile';
+import { IFile } from '../../services/file/types/IFile';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
-import { ApiBody, ApiCookieAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
 import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
@@ -15,7 +13,8 @@ import { AlreadyConfirmedAccountException } from '../../common/exceptions/alread
 import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 import { ExpiredConfirmationCodeException } from '../../common/exceptions/expired-confirmation-code.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
-import { FileUploadDto } from '../../services/file/dto/file-upload.dto';
+import { CookieAuth } from '../../common/decorators/cookie-auth.decorator';
+import { FileUpload } from '../../common/decorators/file-upload.decorator';
 
 @ApiTags('user')
 @Controller('/')
@@ -24,10 +23,8 @@ export class UserController {
 
     @Put(Constants.ENDPOINT.USER.AVATAR.UPDATE)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    @UseInterceptors(FileInterceptor('file'))
-    @ApiBody({ type: FileUploadDto })
-    @ApiCookieAuth()
-    @UseGuards(TokenGuard)
+    @FileUpload()
+    @CookieAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Avatar has been changed successfullly' })
     public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
         await this._userService.updateAvatar(image, request.user.id);

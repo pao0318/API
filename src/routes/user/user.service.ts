@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { FileService } from '../../services/file/file.service';
 import { Constants } from '../../common/constants';
-import { IFile } from '../../services/file/interfaces/IFile';
+import { IFile } from '../../services/file/types/IFile';
 import { PrismaService } from '../../database/prisma.service';
 import { ValidationService } from '../../services/validation/validation.service';
-import { IHashService } from '../../services/hash/interfaces/IHashService';
+import { IHashService } from '../../services/hash/types/IHashService';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
 
@@ -14,7 +14,7 @@ export class UserService {
         @Inject(Constants.DEPENDENCY.FILE_SERVICE) private readonly _fileService: FileService,
         @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
         @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
-        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
+        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService
     ) {}
 
     public async confirmEmail(body: ConfirmEmailRequestDto): Promise<void> {

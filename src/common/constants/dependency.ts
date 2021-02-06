@@ -1,4 +1,5 @@
 export enum Dependency {
+    CACHE_SERVICE = 'CacheService',
     DATABASE_SERVICE = 'PrismaService',
     EMAIL_SERVICE = 'NodemailerEmailService',
     EVENT_SERVICE = 'EventService',
@@ -8,5 +9,7 @@ export enum Dependency {
     HTTP_SERVICE = 'AxiosService',
     TOKEN_SERVICE = 'JwtTokenService',
     VALIDATION_SERVICE = 'ValidationService',
-    CLOUD_PROVIDER = 'CloudinaryProvider',
+
+    CACHE_MANAGER = 'CACHE_MANAGER',
+    CLOUD_PROVIDER = 'CloudinaryProvider'
 }

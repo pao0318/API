@@ -7,26 +7,30 @@ describe('Config validator - validate method', () => {
         APP: {
             MODE: 'test',
             PREFIX: 'api/v1/',
-            PORT: 4000,
+            PORT: 4000
         },
         AUTH: {
             ACCESS_TOKEN_SECRET: random.alphaNumeric(48),
-            GOOGLE_BOOKS_API_KEY: random.alphaNumeric(48),
+            GOOGLE_BOOKS_API_KEY: random.alphaNumeric(48)
         },
         CLOUDINARY: {
             CLOUD_NAME: random.alphaNumeric(10),
             API_KEY: random.alphaNumeric(10),
-            API_SECRET: random.alphaNumeric(10),
+            API_SECRET: random.alphaNumeric(10)
         },
         DATABASE: {
-            URL: 'mongodb://',
+            URL: 'mongodb://'
         },
         MAIL: {
             CLIENT_ID: random.alphaNumeric(10),
             CLIENT_SECRET: random.alphaNumeric(10),
             REFRESH_TOKEN: random.alphaNumeric(10),
-            USER: internet.email(),
+            USER: internet.email()
         },
+        REDIS: {
+            HOST: random.alphaNumeric(10),
+            PORT: 4000
+        }
     };
 
     describe('When APP.MODE is invalid', () => {
@@ -221,6 +225,36 @@ describe('Config validator - validate method', () => {
 
         afterAll(() => {
             config.MAIL.USER = internet.email();
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When REDIS.HOST is invalid', () => {
+        beforeAll(() => {
+            config.REDIS.HOST = '';
+        });
+
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.REDIS.HOST = random.alphaNumeric(10);
+            jest.clearAllMocks();
+        });
+    });
+
+    describe('When REDIS.PORT is invalid', () => {
+        beforeAll(() => {
+            config.REDIS.PORT = 0;
+        });
+
+        it('Should call process.exit with code 1', async () => {
+            await checkConfig(config);
+        });
+
+        afterAll(() => {
+            config.REDIS.PORT = 4000;
             jest.clearAllMocks();
         });
     });

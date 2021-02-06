@@ -20,26 +20,30 @@ class ConfigManager {
             APP: {
                 MODE: this._getVariable('NODE_ENV'),
                 PREFIX: this._getVariable('APP_PREFIX') || '/',
-                PORT: parseInt(this._getVariable('PORT') || this._getVariable('APP_PORT')),
+                PORT: parseInt(this._getVariable('PORT') || this._getVariable('APP_PORT'))
             },
             AUTH: {
                 ACCESS_TOKEN_SECRET: this._getVariable('AUTH_ACCESS_TOKEN_SECRET'),
-                GOOGLE_BOOKS_API_KEY: this._getVariable('AUTH_GOOGLE_BOOKS_API_KEY'),
+                GOOGLE_BOOKS_API_KEY: this._getVariable('AUTH_GOOGLE_BOOKS_API_KEY')
             },
             CLOUDINARY: {
                 CLOUD_NAME: this._getVariable('CLOUDINARY_CLOUD_NAME'),
                 API_KEY: this._getVariable('CLOUDINARY_API_KEY'),
-                API_SECRET: this._getVariable('CLOUDINARY_API_SECRET'),
+                API_SECRET: this._getVariable('CLOUDINARY_API_SECRET')
             },
             DATABASE: {
-                URL: this._getVariable('DATABASE_URL'),
+                URL: this._getVariable('DATABASE_URL')
             },
             MAIL: {
                 CLIENT_ID: this._getVariable('MAIL_CLIENT_ID'),
                 CLIENT_SECRET: this._getVariable('MAIL_CLIENT_SECRET'),
                 REFRESH_TOKEN: this._getVariable('MAIL_REFRESH_TOKEN'),
-                USER: this._getVariable('MAIL_USER'),
+                USER: this._getVariable('MAIL_USER')
             },
+            REDIS: {
+                HOST: this._getVariable('REDIS_HOST'),
+                PORT: parseInt(this._getVariable('REDIS_PORT'))
+            }
         } as const;
     }
 

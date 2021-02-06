@@ -21,3 +21,9 @@ services:
       environment:
          POSTGRES_USER: root
          POSTGRES_PASSWORD: password
+   redis:
+      container_name: easter-redis
+      restart: always
+      image: redis:6.0-alpine
+      ports:
+         - 6379:6379

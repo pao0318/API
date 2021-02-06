@@ -1,3 +1,4 @@
+import { Cache } from './cache';
 import { DefaultException } from './default-exception';
 import { Dependency } from './dependency';
 import { Endpoint } from './endpoint';
@@ -10,6 +11,7 @@ import { Time } from './time';
 import { Url } from './url';
 
 export const Constants = {
+    CACHE: Cache,
     DEFAULT_EXCEPTION: DefaultException,
     DEPENDENCY: Dependency,
     ENDPOINT: Endpoint,
@@ -19,5 +21,5 @@ export const Constants = {
     STATUS_CODE: StatusCode,
     TASK: Task,
     TIME: Time,
-    URL: Url,
+    URL: Url
 } as const;

@@ -6,6 +6,6 @@ import { SeederModule } from './database/seeders/seeder.module';
 import { RoutesModule } from './routes/routes.module';
 
 @Module({
-    imports: [ScheduleModule.forRoot(), RoutesModule, SeederModule, CommandModule, TasksModule],
+    imports: [ScheduleModule.forRoot(), RoutesModule, SeederModule, CommandModule, TasksModule]
 })
 export class AppModule {}

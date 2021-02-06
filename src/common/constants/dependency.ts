@@ -1,5 +1,4 @@
 export enum Dependency {
-    CACHE_SERVICE = 'CacheService',
     DATABASE_SERVICE = 'PrismaService',
     EMAIL_SERVICE = 'NodemailerEmailService',
     EVENT_SERVICE = 'EventService',
@@ -8,6 +7,7 @@ export enum Dependency {
     HASH_SERVICE = 'BcryptService',
     HTTP_SERVICE = 'AxiosService',
     TOKEN_SERVICE = 'JwtTokenService',
+    REDIS_SERVICE = 'RedisService',
     VALIDATION_SERVICE = 'ValidationService',
 
     CACHE_MANAGER = 'CACHE_MANAGER',

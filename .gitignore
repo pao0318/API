@@ -6,4 +6,4 @@ build/
 env/
 .idea/
 newrelic.js
-logs/
+*.log

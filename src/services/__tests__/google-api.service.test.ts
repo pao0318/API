@@ -87,7 +87,7 @@ describe('Google API Service', () => {
 
                     it('Should return correct payload', async () => {
                         const book = await googleApiService.getBookByIsbn(random.uuid());
-                        expect(book).toEqual({ ...fakeValues, author: null });
+                        expect(book).toEqual(fakeValues);
                     });
 
                     it('Should call set method on the cache service', () => {
@@ -105,7 +105,7 @@ describe('Google API Service', () => {
 
                     it('Should return correct payload', async () => {
                         const book = await googleApiService.getBookByIsbn(random.uuid());
-                        expect(book).toEqual({ ...fakeValues, description: null });
+                        expect(book).toEqual(fakeValues);
                     });
 
                     it('Should call set method on the cache service', () => {
@@ -123,7 +123,7 @@ describe('Google API Service', () => {
 
                     it('Should return correct payload', async () => {
                         const book = await googleApiService.getBookByIsbn(random.uuid());
-                        expect(book).toEqual({ ...fakeValues, image: null });
+                        expect(book).toEqual(fakeValues);
                     });
 
                     it('Should call set method on the cache service', () => {

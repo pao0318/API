@@ -14,14 +14,28 @@ export class GoogleApiService {
 
     public async getBookByIsbn(isbn: string): Promise<IBookData | null> {
         const cachedBook = await this._cacheService.get(`${Constants.CACHE.GOOGLE_API_PREFIX}:${isbn}`);
-
-        if (cachedBook) return cachedBook as IBookData;
+        if (cachedBook) return this._returnBookDataBasedOnCache(cachedBook);
 
         const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByIsbnUrl(isbn), this._getCompressionHeaders());
 
-        if (response.data.totalItems === 0) return null;
+        if (response.data.totalItems === 0) {
+            await this._saveBookDataToCache(isbn, Constants.CACHE.GOOGLE_API_NOT_AVAILABLE);
+            return null;
+        }
 
-        return this._mapResponseToBookData(response.data.items[0]);
+        const book = this._mapResponseToBookData(response.data.items[0]);
+        await this._saveBookDataToCache(isbn, book);
+
+        return book;
+    }
+
+    private _returnBookDataBasedOnCache(cachedBook: string | Object): IBookData | null {
+        if (cachedBook === Constants.CACHE.GOOGLE_API_NOT_AVAILABLE) return null;
+        return cachedBook as IBookData;
+    }
+
+    private async _saveBookDataToCache(isbn: string, bookData: string | Object): Promise<void> {
+        await this._cacheService.set(`${Constants.CACHE.GOOGLE_API_PREFIX}:${isbn}`, bookData);
     }
 
     private _getCompressionHeaders() {

@@ -8,5 +8,6 @@
     },
     "verbose": true,
     "testEnvironment": "node",
-    "timers": "fake"
+    "timers": "fake",
+    "modulePathIgnorePatterns": ["helpers"]
 }

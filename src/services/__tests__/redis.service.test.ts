@@ -47,7 +47,7 @@ describe('Redis Service', () => {
                 const value = { field: random.alphaNumeric(10) };
 
                 await redisClient.set(key, JSON.stringify(value));
-                const result = await redisService.get({ key: key, toJson: true });
+                const result = await redisService.get({ key });
 
                 expect(result).toEqual(value);
             });

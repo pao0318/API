@@ -1,9 +1,7 @@
+import { Time } from './time';
+
 export const Redis = {
     GOOGLE_API_PREFIX: 'google_api',
     GOOGLE_API_NOT_AVAILABLE: 'NOT_AVAILABLE',
-    PROVIDERS: {
-        CACHE: 'REDIS_CACHE_CLIENT',
-        PUBLISHER: 'REDIS_PUBLISHER_CLIENT',
-        SUBSCRIBER: 'REDIS_SUBSCRIBER_CLIENT'
-    }
+    GOOGLE_API_EXPIRATION_TIME: Time.MINUTES_5
 } as const;

@@ -10,19 +10,23 @@ export class RedisService {
 
     public async get(data: IGetData): Promise<string | null | Object> {
         const value = await this._redisCacheClient.get(data.key);
-
         if (!value) return null;
 
-        if (data.toJson) return JSON.parse(value);
-
-        return value;
+        try {
+            return JSON.parse(value);
+        } catch (error) {
+            return value;
+        }
     }
 
     public async set(data: ISetData): Promise<void> {
         let value = data.value;
+        if (typeof value !== 'string') value = JSON.stringify(data.value);
 
-        if (data.toJson) value = JSON.stringify(value);
-
-        await this._redisCacheClient.set(data.key, value as string, 'ex', data.expiresIn);
+        if (data.expiresIn) {
+            await this._redisCacheClient.set(data.key, value as string, 'px', data.expiresIn);
+        } else {
+            await this._redisCacheClient.set(data.key, value as string);
+        }
     }
 }

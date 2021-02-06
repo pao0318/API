@@ -1,7 +1,4 @@
-import * as RedisStore from 'cache-manager-redis-store';
-import { CacheModule as NestCacheModule } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { Config } from '../../common/config';
 import { CacheService } from '../cache/cache.service';
 import { Cache } from 'cache-manager';
 import { TestUtils } from '../../common/utils/test-utils';
@@ -15,14 +12,7 @@ describe('Cache Service', () => {
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: [
-                CacheModule,
-                NestCacheModule.register({
-                    store: RedisStore,
-                    host: Config.REDIS.HOST,
-                    port: Config.REDIS.PORT
-                })
-            ]
+            imports: [CacheModule]
         }).compile();
 
         const app = await TestUtils.createTestApplication(module);

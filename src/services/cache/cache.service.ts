@@ -1,17 +1,15 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { IGetData } from './types/IGetData';
-import { ISetData } from './types/ISetData';
 
 @Injectable()
 export class CacheService {
     constructor(@Inject(CACHE_MANAGER) private readonly _cacheManager: Cache) {}
 
-    public async get(data: IGetData): Promise<string | Object> {
-        throw new Error('Not implemented');
+    public async get(key: string): Promise<string | Object> {
+        return await this._cacheManager.get(key);
     }
 
-    public async set(data: ISetData): Promise<string | Object> {
-        throw new Error('Not implemented');
+    public async set(key: string, value: string | Object): Promise<void> {
+        await this._cacheManager.set(key, value);
     }
 }

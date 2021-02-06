@@ -1,5 +1,5 @@
 import * as RedisStore from 'cache-manager-redis-store';
-import { CacheModule } from '@nestjs/common';
+import { CacheModule as NestCacheModule } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { Config } from '../../common/config';
 import { CacheService } from '../cache/cache.service';
@@ -7,6 +7,7 @@ import { Cache } from 'cache-manager';
 import { TestUtils } from '../../common/utils/test-utils';
 import { Constants } from '../../common/constants';
 import { random } from 'faker';
+import { CacheModule } from '../cache/cache.module';
 
 describe('Cache Service', () => {
     let cacheManager: Cache;
@@ -16,7 +17,7 @@ describe('Cache Service', () => {
         const module = await Test.createTestingModule({
             imports: [
                 CacheModule,
-                CacheModule.register({
+                NestCacheModule.register({
                     store: RedisStore,
                     host: Config.REDIS.HOST,
                     port: Config.REDIS.PORT
@@ -33,7 +34,7 @@ describe('Cache Service', () => {
     describe('Get', () => {
         describe('When key does not exist', () => {
             it('Should return null', async () => {
-                const result = await cacheService.get({ key: 'key' });
+                const result = await cacheService.get(random.alphaNumeric(10));
                 expect(result).toBeNull();
             });
         });
@@ -44,8 +45,7 @@ describe('Cache Service', () => {
                 const value = random.alphaNumeric(10);
 
                 await cacheManager.set(key, value);
-
-                const result = await cacheService.get({ key });
+                const result = await cacheService.get(key);
 
                 expect(result).toEqual(value);
             });
@@ -57,8 +57,7 @@ describe('Cache Service', () => {
                 const value = { field: random.alphaNumeric(10) };
 
                 await cacheManager.set(key, value);
-
-                const result = await cacheService.get({ key });
+                const result = await cacheService.get(key);
 
                 expect(result).toEqual(value);
             });
@@ -71,8 +70,7 @@ describe('Cache Service', () => {
                 const key = random.alphaNumeric(10);
                 const value = random.alphaNumeric(10);
 
-                await cacheService.set({ key, value });
-
+                await cacheService.set(key, value);
                 const result = await cacheManager.get(key);
 
                 expect(result).toEqual(value);
@@ -84,8 +82,7 @@ describe('Cache Service', () => {
                 const key = random.alphaNumeric(10);
                 const value = { field: random.alphaNumeric(10) };
 
-                await cacheService.set({ key, value });
-
+                await cacheService.set(key, value);
                 const result = await cacheManager.get(key);
 
                 expect(result).toEqual(value);

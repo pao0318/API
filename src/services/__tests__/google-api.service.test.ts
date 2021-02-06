@@ -2,6 +2,7 @@ import { GoogleApiService } from '../google-api/google-api.service';
 import { random } from 'faker';
 import { IBookData } from '../google-api/types/IBookData';
 import { Constants } from '../../common/constants';
+import { generateGoogleBooksApiResponse } from './helpers';
 
 describe('Google API Service', () => {
     const httpService = { performGetRequest: jest.fn() };
@@ -149,30 +150,3 @@ describe('Google API Service', () => {
         });
     });
 });
-
-const generateGoogleBooksApiResponse = (values: { isAuthor: boolean; isDescription: boolean; isImage: boolean }) => {
-    const fakeValues = {
-        title: random.word(),
-        author: values.isAuthor ? random.word() : null,
-        description: values.isDescription ? random.word() : null,
-        image: values.isImage ? random.word() : null
-    };
-
-    return {
-        fakeValues: fakeValues,
-        fakeResponse: {
-            items: [
-                {
-                    volumeInfo: {
-                        title: fakeValues.title,
-                        authors: [fakeValues.author],
-                        description: fakeValues.description,
-                        imageLinks: {
-                            thumbnail: fakeValues.image
-                        }
-                    }
-                }
-            ]
-        }
-    };
-};

@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
+import { generateConfirmationCode } from '../../common/helpers/generate-confirmation-code';
+import { PrismaService } from '../../database/prisma.service';
+import { IEmailService } from '../../services/email/interfaces/IEmailService';
 import { EmailConfirmationMail } from '../../services/email/mails/email-confirmation-mail';
 import { PasswordResetMail } from '../../services/email/mails/password-reset-mail';
-import { EventService } from '../../services/event/event.service';
-import { SendConfirmationMailEvent } from '../../services/event/events/send-confirmation-mail-event';
 import { ValidationService } from '../../services/validation/validation.service';
 import { SendEmailConfirmationMailRequestDto } from './dto/send-email-confirmation-mail-request.dto';
 import { SendPasswordResetMailRequestDto } from './dto/send-password-reset-mail-request.dto';
@@ -11,8 +12,9 @@ import { SendPasswordResetMailRequestDto } from './dto/send-password-reset-mail-
 @Injectable()
 export class MailService {
     constructor(
-        @Inject(Constants.DEPENDENCY.EVENT_SERVICE) private readonly _eventService: EventService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
+        @Inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService,
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService
     ) {}
 
     public async sendEmailConfirmationMail(body: SendEmailConfirmationMailRequestDto): Promise<void> {
@@ -22,12 +24,11 @@ export class MailService {
 
         this._validationService.throwIfAccountIsAlreadyConfirmed(user);
 
-        this._eventService.handle(
-            new SendConfirmationMailEvent({
-                id: user.id,
-                mail: new EmailConfirmationMail(user.email, {}),
-            }),
-        );
+        const confirmationCode = generateConfirmationCode();
+
+        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id } });
+
+        await this._emailService.sendMail(new EmailConfirmationMail(user.email, { code: confirmationCode.code }));
     }
 
     public async sendPasswordResetMail(body: SendPasswordResetMailRequestDto): Promise<void> {
@@ -37,11 +38,10 @@ export class MailService {
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        this._eventService.handle(
-            new SendConfirmationMailEvent({
-                id: user.id,
-                mail: new PasswordResetMail(user.email, {}),
-            }),
-        );
+        const confirmationCode = generateConfirmationCode();
+
+        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id } });
+
+        await this._emailService.sendMail(new PasswordResetMail(user.email, { code: confirmationCode.code }));
     }
 }

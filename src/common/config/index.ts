@@ -1,6 +1,7 @@
 import { DotenvParseOutput, parse } from 'dotenv';
 import { join } from 'path';
 import { readFileSync } from 'fs';
+import { logger } from '../utils/logger/logger';
 
 class ConfigManager {
     private readonly _environmentalConfig = process.env;
@@ -60,7 +61,7 @@ class ConfigManager {
             const path = join(__dirname, '../../../env', `${process.env.NODE_ENV}.env`);
             return parse(readFileSync(path));
         } catch (error) {
-            console.log('File config not found');
+            logger.info('File config not found');
         }
     }
 }

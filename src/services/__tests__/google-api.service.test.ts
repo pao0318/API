@@ -36,7 +36,7 @@ describe('Google API Service', () => {
                 let book: IBookData;
 
                 beforeAll(async () => {
-                    cacheService.get = jest.fn().mockResolvedValueOnce(Constants.CACHE.GOOGLE_API_NOT_AVAILABLE);
+                    cacheService.get = jest.fn().mockResolvedValueOnce(Constants.REDIS.GOOGLE_API_NOT_AVAILABLE);
 
                     httpService.performGetRequest = jest.fn();
 

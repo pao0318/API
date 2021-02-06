@@ -1,6 +1,5 @@
-import { ConfigValidator } from '../config-validator';
 import { random, internet } from 'faker';
-import { Config } from '../../config';
+import { testConfig } from './helpers';
 
 describe('Config validator - validate method', () => {
     const config = {
@@ -39,7 +38,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -55,7 +54,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -70,7 +69,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -85,7 +84,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -100,7 +99,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -115,7 +114,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -130,7 +129,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -145,7 +144,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -160,7 +159,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -175,7 +174,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -190,7 +189,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -205,7 +204,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -220,7 +219,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -235,7 +234,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -250,7 +249,7 @@ describe('Config validator - validate method', () => {
         });
 
         it('Should call process.exit with code 1', async () => {
-            await checkConfig(config);
+            await testConfig(config);
         });
 
         afterAll(() => {
@@ -261,19 +260,7 @@ describe('Config validator - validate method', () => {
 
     describe('When all variables are valid', () => {
         it('Should not call process.exit', async () => {
-            await checkConfig(config, false);
+            await testConfig(config, false);
         });
     });
 });
-
-async function checkConfig(config: typeof Config, isCalled: boolean = true): Promise<void> {
-    const mockedExit = jest.spyOn(process, 'exit').mockImplementation((number) => number as never);
-
-    await ConfigValidator.validate(config);
-
-    if (isCalled) {
-        expect(mockedExit).toHaveBeenCalledWith(1);
-    } else {
-        expect(mockedExit).not.toHaveBeenCalled();
-    }
-}

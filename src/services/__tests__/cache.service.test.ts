@@ -1,28 +1,94 @@
+import * as RedisStore from 'cache-manager-redis-store';
+import { CacheModule } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { TestUtils } from '../../common/utils/test-utils';
+import { Config } from '../../common/config';
 import { CacheService } from '../cache/cache.service';
+import { Cache } from 'cache-manager';
+import { TestUtils } from '../../common/utils/test-utils';
+import { Constants } from '../../common/constants';
+import { random } from 'faker';
 
 describe('Cache Service', () => {
-    const cacheManager = { get: jest.fn(), set: jest.fn() };
-    const cacheService = new CacheService(cacheManager as any);
+    let cacheManager: Cache;
+    let cacheService: CacheService;
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: []
+            imports: [
+                CacheModule,
+                CacheModule.register({
+                    store: RedisStore,
+                    host: Config.REDIS.HOST,
+                    port: Config.REDIS.PORT
+                })
+            ]
         }).compile();
 
-        // app = await TestUtils.createTestApplication(module);
-        // databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
+        const app = await TestUtils.createTestApplication(module);
+
+        cacheManager = await app.resolve(Constants.DEPENDENCY.CACHE_MANAGER);
+        cacheService = await app.resolve(Constants.DEPENDENCY.CACHE_SERVICE);
     });
 
     describe('Get', () => {
-        describe('When fromJson property is false', () => {
-            it('Should return plain string', async () => {
-                cacheManager.get = jest.fn().mockResolvedValueOnce('value');
-
+        describe('When key does not exist', () => {
+            it('Should return null', async () => {
                 const result = await cacheService.get({ key: 'key' });
+                expect(result).toBeNull();
+            });
+        });
 
-                expect(result).toEqual('value');
+        describe('When the value is a string', () => {
+            it('Should return plain string', async () => {
+                const key = random.alphaNumeric(10);
+                const value = random.alphaNumeric(10);
+
+                await cacheManager.set(key, value);
+
+                const result = await cacheService.get({ key });
+
+                expect(result).toEqual(value);
+            });
+        });
+
+        describe('When the value is an object', () => {
+            it('Should return an object', async () => {
+                const key = random.alphaNumeric(10);
+                const value = { field: random.alphaNumeric(10) };
+
+                await cacheManager.set(key, value);
+
+                const result = await cacheService.get({ key });
+
+                expect(result).toEqual(value);
+            });
+        });
+    });
+
+    describe('Set', () => {
+        describe('When the value is a string', () => {
+            it('Should set the value as a string', async () => {
+                const key = random.alphaNumeric(10);
+                const value = random.alphaNumeric(10);
+
+                await cacheService.set({ key, value });
+
+                const result = await cacheManager.get(key);
+
+                expect(result).toEqual(value);
+            });
+        });
+
+        describe('When the value is an object', () => {
+            it('Should set the value as an object', async () => {
+                const key = random.alphaNumeric(10);
+                const value = { field: random.alphaNumeric(10) };
+
+                await cacheService.set({ key, value });
+
+                const result = await cacheManager.get(key);
+
+                expect(result).toEqual(value);
             });
         });
     });

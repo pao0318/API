@@ -1,9 +1,7 @@
-import { Body, Controller, HttpCode, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, HttpCode, Post, Put, Req, UploadedFile } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { Request } from 'express';
 import { UserService } from './user.service';
-import { TokenGuard } from '../../common/guards/token.guard';
 import { IFile } from '../../services/file/interfaces/IFile';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';

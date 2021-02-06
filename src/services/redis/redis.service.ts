@@ -29,4 +29,8 @@ export class RedisService {
             await this._redisCacheClient.set(data.key, value as string);
         }
     }
+
+    public async clearCache(): Promise<void> {
+        await this._redisCacheClient.flushall();
+    }
 }

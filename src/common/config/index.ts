@@ -60,7 +60,12 @@ class ConfigManager {
             const path = join(__dirname, '../../../env', `${process.env.NODE_ENV}.env`);
             return parse(readFileSync(path));
         } catch (error) {
-            console.log('File config not found');
+            if (process.env.NODE_ENV === 'test' && process.env.CI !== 'true') {
+                console.log('In order to run the tests, you need to specify the test.env file');
+                process.exit(0);
+            }
+
+            console.log('File config not found. Skipping...');
         }
     }
 }

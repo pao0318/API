@@ -21,6 +21,10 @@ describe('Redis Service', () => {
         redisService = await app.resolve(Constants.DEPENDENCY.REDIS_SERVICE);
     });
 
+    afterAll(async () => {
+        await TestUtils.dropRedis(redisService);
+    });
+
     describe('Get', () => {
         describe('When key does not exist', () => {
             it('Should return null', async () => {

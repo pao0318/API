@@ -8,9 +8,11 @@ import { PrismaService } from '../database/prisma.service';
 import { BookModule } from '../routes/book/book.module';
 import { ITokenService } from '../services/token/types/ITokenService';
 import { AccessToken } from '../services/token/tokens/access-token';
+import { RedisService } from '../services/redis/redis.service';
 
 describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
     let databaseService: PrismaService;
+    let redisService: RedisService;
     let app: INestApplication;
     let token: string;
 
@@ -21,6 +23,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
 
         app = await TestUtils.createTestApplication(module);
         databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
+        redisService = await app.resolve(Constants.DEPENDENCY.REDIS_SERVICE);
 
         const tokenService = (await app.resolve(Constants.DEPENDENCY.TOKEN_SERVICE)) as ITokenService;
         const user = await TestUtils.createUserInDatabase(databaseService);
@@ -30,6 +33,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
 
     afterAll(async () => {
         await TestUtils.dropDatabase(databaseService);
+        await TestUtils.dropRedis(redisService);
         await app.close();
     });
 

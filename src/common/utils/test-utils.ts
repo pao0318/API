@@ -7,6 +7,7 @@ import { TestingModule } from '@nestjs/testing';
 import { PrismaClient, User } from '@prisma/client';
 import { IUserCreateInput } from '../../database/types/IUserCreateInput';
 import { ValidationPipe } from '../pipes/validation.pipe';
+import { RedisService } from '../../services/redis/redis.service';
 
 export class TestUtils {
     public static async dropDatabase(database: PrismaClient): Promise<void> {
@@ -23,6 +24,14 @@ export class TestUtils {
             database.review.deleteMany(),
             database.user.deleteMany()
         ]);
+    }
+
+    public static async dropRedis(redisService: RedisService): Promise<void> {
+        if (Config.APP.MODE !== 'test') {
+            console.log('ERROR: You can drop redis only in the testing environment');
+        }
+
+        await redisService.clearCache();
     }
 
     public static async closeDatabase(database: PrismaClient): Promise<void> {

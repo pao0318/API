@@ -1,5 +1,6 @@
 import { random } from 'faker';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const generateGoogleBooksApiResponse = (values: { isAuthor: boolean; isDescription: boolean; isImage: boolean }) => {
     const fakeValues = {
         title: random.word(),

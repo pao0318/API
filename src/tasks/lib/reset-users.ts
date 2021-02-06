@@ -10,7 +10,7 @@ export class ResetUsersTask {
 
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     public async handle(): Promise<void> {
-        const users = await this._databaseService.user.findMany({ where: { isConfirmed: false, joinedAt: {} } });
+        const users = await this._databaseService.user.findMany({ where: { isConfirmed: false } });
 
         await this._deleteUsers(users);
 

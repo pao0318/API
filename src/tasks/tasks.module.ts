@@ -3,6 +3,6 @@ import { PrismaService } from '../database/prisma.service';
 import { ResetUsersTask } from './lib/reset-users';
 
 @Module({
-    providers: [ResetUsersTask, PrismaService],
+    providers: [ResetUsersTask, PrismaService]
 })
 export class TasksModule {}

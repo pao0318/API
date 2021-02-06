@@ -1,25 +1,25 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { UrlBuilder } from '../../common/utils/url-builder';
-import { CacheService } from '../cache/cache.service';
 import { IHttpService } from '../http/types/IHttpService';
+import { RedisService } from '../redis/redis.service';
 import { IBookData } from './types/IBookData';
 
 @Injectable()
 export class GoogleApiService {
     constructor(
         @Inject(Constants.DEPENDENCY.HTTP_SERVICE) private readonly _httpService: IHttpService,
-        @Inject(Constants.DEPENDENCY.CACHE_SERVICE) private readonly _cacheService: CacheService
+        @Inject(Constants.DEPENDENCY.REDIS_SERVICE) private readonly _redisService: RedisService
     ) {}
 
     public async getBookByIsbn(isbn: string): Promise<IBookData | null> {
-        const cachedBook = await this._cacheService.get(`${Constants.CACHE.GOOGLE_API_PREFIX}:${isbn}`);
+        const cachedBook = await this._redisService.get({ key: `${Constants.REDIS.GOOGLE_API_PREFIX}:${isbn}` });
         if (cachedBook) return this._returnBookDataBasedOnCache(cachedBook);
 
         const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByIsbnUrl(isbn), this._getCompressionHeaders());
 
         if (response.data.totalItems === 0) {
-            await this._saveBookDataToCache(isbn, Constants.CACHE.GOOGLE_API_NOT_AVAILABLE);
+            await this._saveBookDataToCache(isbn, Constants.REDIS.GOOGLE_API_NOT_AVAILABLE);
             return null;
         }
 
@@ -30,12 +30,16 @@ export class GoogleApiService {
     }
 
     private _returnBookDataBasedOnCache(cachedBook: string | Object): IBookData | null {
-        if (cachedBook === Constants.CACHE.GOOGLE_API_NOT_AVAILABLE) return null;
+        if (cachedBook === Constants.REDIS.GOOGLE_API_NOT_AVAILABLE) return null;
         return cachedBook as IBookData;
     }
 
     private async _saveBookDataToCache(isbn: string, bookData: string | Object): Promise<void> {
-        await this._cacheService.set(`${Constants.CACHE.GOOGLE_API_PREFIX}:${isbn}`, bookData);
+        await this._redisService.set({
+            key: `${Constants.REDIS.GOOGLE_API_PREFIX}:${isbn}`,
+            value: bookData,
+            expiresIn: Constants.REDIS.GOOGLE_API_EXPIRATION_TIME
+        });
     }
 
     private _getCompressionHeaders() {

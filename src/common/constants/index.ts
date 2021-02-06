@@ -1,4 +1,4 @@
-import { Cache } from './cache';
+import { Redis } from './redis';
 import { DefaultException } from './default-exception';
 import { Dependency } from './dependency';
 import { Endpoint } from './endpoint';
@@ -11,7 +11,7 @@ import { Time } from './time';
 import { Url } from './url';
 
 export const Constants = {
-    CACHE: Cache,
+    REDIS: Redis,
     DEFAULT_EXCEPTION: DefaultException,
     DEPENDENCY: Dependency,
     ENDPOINT: Endpoint,

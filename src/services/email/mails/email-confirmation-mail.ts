@@ -1,4 +1,4 @@
-import { IEmailConfirmationMailContext } from '../interfaces/IEmailConfirmationMailContext';
+import { IEmailConfirmationMailContext } from '../types/IEmailConfirmationMailContext';
 import { Mail } from './mail';
 
 export class EmailConfirmationMail extends Mail {

@@ -1,4 +1,4 @@
-import { ITokenPayload } from '../interfaces/ITokenPayload';
+import { ITokenPayload } from '../types/ITokenPayload';
 
 export class Token {
     public static readonly secret: string;

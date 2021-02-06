@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { IAccessTokenPayload } from '../../services/token/interfaces/IAccessTokenPayload';
-import { ITokenService } from '../../services/token/interfaces/ITokenService';
+import { IAccessTokenPayload } from '../../services/token/types/IAccessTokenPayload';
+import { ITokenService } from '../../services/token/types/ITokenService';
 import { AccessToken } from '../../services/token/tokens/access-token';
 import { ValidationService } from '../../services/validation/validation.service';
 import { Constants } from '../constants';
@@ -9,7 +9,7 @@ import { Constants } from '../constants';
 export class TokenGuard implements CanActivate {
     constructor(
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService
     ) {}
 
     public async canActivate(context: ExecutionContext): Promise<boolean> {

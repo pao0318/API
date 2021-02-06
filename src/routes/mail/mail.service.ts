@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { generateConfirmationCode } from '../../common/helpers/generate-confirmation-code';
 import { PrismaService } from '../../database/prisma.service';
-import { IEmailService } from '../../services/email/interfaces/IEmailService';
+import { IEmailService } from '../../services/email/types/IEmailService';
 import { EmailConfirmationMail } from '../../services/email/mails/email-confirmation-mail';
 import { PasswordResetMail } from '../../services/email/mails/password-reset-mail';
 import { ValidationService } from '../../services/validation/validation.service';

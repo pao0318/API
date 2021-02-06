@@ -1,5 +1,5 @@
 import { Config } from '../../config';
-import { ILogger } from './interfaces/ILogger';
+import { ILogger } from './types/ILogger';
 import { ConsoleLogger } from './loggers/console-logger';
 import { FileLogger } from './loggers/file-logger';
 

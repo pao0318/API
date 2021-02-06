@@ -2,14 +2,14 @@ import * as sharp from 'sharp';
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { InvalidImageFormatException } from '../../common/exceptions/invalid-image-format.exception';
-import { ICloudProvider } from './interfaces/ICloudProvider';
-import { IFile } from './interfaces/IFile';
+import { ICloudProvider } from './types/ICloudProvider';
+import { IFile } from './types/IFile';
 
 @Injectable()
 export class FileService {
     constructor(
         @Inject(Constants.DEPENDENCY.CLOUD_PROVIDER)
-        private readonly _cloudProvider: ICloudProvider,
+        private readonly _cloudProvider: ICloudProvider
     ) {}
 
     public async uploadAvatar(image: IFile): Promise<string> {

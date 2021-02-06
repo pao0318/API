@@ -13,13 +13,13 @@ import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.ex
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { UserNotFoundException } from '../../common/exceptions/user-not-found-exception';
 import { PrismaService } from '../../database/prisma.service';
-import { IHashService } from '../hash/interfaces/IHashService';
+import { IHashService } from '../hash/types/IHashService';
 
 @Injectable()
 export class ValidationService {
     constructor(
         @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
-        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService,
+        @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService
     ) {}
 
     public async getUserByEmailOrThrow(email: string, exception: BaseException = new EmailNotFoundException()): Promise<User> {
@@ -41,7 +41,7 @@ export class ValidationService {
     public async getConfirmationCodeOrThrow(
         id: string,
         code: string,
-        exception: BaseException = new InvalidConfirmationCodeException(),
+        exception: BaseException = new InvalidConfirmationCodeException()
     ): Promise<ConfirmationCode> {
         const confirmationCode = await this._databaseService.confirmationCode.findUnique({ where: { userId: id } });
 

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { UrlBuilder } from '../../common/utils/url-builder';
-import { IHttpService } from '../http/interfaces/IHttpService';
-import { IBookData } from './interfaces/IBookData';
+import { IHttpService } from '../http/types/IHttpService';
+import { IBookData } from './types/IBookData';
 
 @Injectable()
 export class GoogleApiService {
@@ -19,7 +19,7 @@ export class GoogleApiService {
     private _getCompressionHeaders() {
         return {
             'Accept-Encoding': 'gzip',
-            'User-Agent': 'node-api (gzip)',
+            'User-Agent': 'node-api (gzip)'
         };
     }
 
@@ -28,7 +28,7 @@ export class GoogleApiService {
             title: data.volumeInfo.title,
             author: data.volumeInfo.authors ? data.volumeInfo.authors[0] : null,
             description: data.volumeInfo.description || null,
-            image: data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default.jpg',
+            image: data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default.jpg'
         };
     }
 }

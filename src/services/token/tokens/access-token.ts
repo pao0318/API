@@ -1,5 +1,5 @@
 import { Config } from '../../../common/config';
-import { IAccessTokenPayload } from '../interfaces/IAccessTokenPayload';
+import { IAccessTokenPayload } from '../types/IAccessTokenPayload';
 import { Token } from './token';
 
 export class AccessToken extends Token {

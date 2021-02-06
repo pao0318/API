@@ -13,6 +13,7 @@
     "start:prod": "tsc && pm2 start ecosystem.config.yml --env production",
     "start:db": "bash ./scripts/start-db.sh",
     "start:redis": "bash ./scripts/start-redis.sh",
+    "start:redis:admin": "bash ./scripts/start-redis-admin.sh",
     "start:db:admin": "npx prisma studio",
     "prisma:update": "npx prisma introspect && npx prisma generate",
     "prisma:migrate:dev": "npx prisma migrate dev --preview-feature",

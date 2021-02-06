@@ -48,6 +48,7 @@ export class TestUtils {
         app.use(cookieParser());
 
         await app.init();
+
         return app;
     }
 }

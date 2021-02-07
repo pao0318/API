@@ -28,7 +28,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         const tokenService = (await app.resolve(Constants.DEPENDENCY.TOKEN_SERVICE)) as ITokenService;
         const user = await TestUtils.createUserInDatabase(databaseService);
 
-        token = await tokenService.generate(new AccessToken({ id: user.id, email: user.email }));
+        token = await tokenService.generate(new AccessToken({ id: user.id, email: user.email, version: user.tokenVersion }));
     });
 
     afterAll(async () => {
@@ -43,7 +43,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         beforeAll(async () => {
             response = await request(app.getHttpServer())
                 .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813443'))
-                .set('Cookie', [`authorization=${token}`]);
+                .set({ authorization: token });
         });
 
         it('Should return status code 200', () => {
@@ -67,7 +67,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         beforeAll(async () => {
             response = await request(app.getHttpServer())
                 .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813444'))
-                .set('Cookie', [`authorization=${token}`]);
+                .set({ authorization: token });
         });
 
         it('Should return status code 404', () => {
@@ -81,7 +81,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         beforeAll(async () => {
             response = await request(app.getHttpServer())
                 .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '978142681344'))
-                .set('Cookie', [`authorization=${token}`]);
+                .set({ authorization: token });
         });
 
         it('Should return status code 404', () => {

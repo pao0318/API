@@ -20,6 +20,7 @@ model User {
     phoneNumber         String?     @unique
     personalInterests   Genre[]
     accountType         AccountType @default(REGULAR)
+    tokenVersion        Int         @default(1)
 
     chats               Chat[]
     ownedBooks          Book[]      @relation("ownedBooks")

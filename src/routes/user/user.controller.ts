@@ -13,7 +13,7 @@ import { AlreadyConfirmedAccountException } from '../../common/exceptions/alread
 import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 import { ExpiredConfirmationCodeException } from '../../common/exceptions/expired-confirmation-code.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
-import { CookieAuth } from '../../common/decorators/cookie-auth.decorator';
+import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
 import { FileUpload } from '../../common/decorators/file-upload.decorator';
 
 @ApiTags('user')
@@ -24,7 +24,7 @@ export class UserController {
     @Put(Constants.ENDPOINT.USER.AVATAR.UPDATE)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @FileUpload()
-    @CookieAuth()
+    @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Avatar has been changed successfullly' })
     public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
         await this._userService.updateAvatar(image, request.user.id);

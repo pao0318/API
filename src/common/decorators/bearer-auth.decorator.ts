@@ -1,8 +1,8 @@
 import { applyDecorators, UseGuards } from '@nestjs/common';
-import { ApiCookieAuth } from '@nestjs/swagger';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { TokenGuard } from '../guards/token.guard';
 import { DecoratorComposition } from './types/DecoratorComposition';
 
-export function CookieAuth(): DecoratorComposition {
-    return applyDecorators(ApiCookieAuth(), UseGuards(TokenGuard));
+export function BearerAuth(): DecoratorComposition {
+    return applyDecorators(ApiBearerAuth(), UseGuards(TokenGuard));
 }

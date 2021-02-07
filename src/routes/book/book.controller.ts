@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Constants } from '../../common/constants';
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';

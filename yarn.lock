@@ -695,6 +695,14 @@
     optional "0.1.4"
     tslib "2.1.0"
 
+"@nestjs/websockets@^7.6.11":
+  version "7.6.11"
+  resolved "https://registry.yarnpkg.com/@nestjs/websockets/-/websockets-7.6.11.tgz#f990ca1be4065c1ff1be16696523b5f656a81ef2"
+  integrity sha512-oXjMJwEig78ysAgE/d0x2YkVy8BwfPi4JgQMoUnDap72YwhYiVjtgtxS1WhJqXMf6YXeFWcnXlc5aqyhVV5Miw==
+  dependencies:
+    iterare "1.2.1"
+    tslib "2.1.0"
+
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"

@@ -16,7 +16,7 @@ export class SocketStateAdapter extends IoAdapter implements WebSocketAdapter {
         this._server = super.createIOServer(port, options);
 
         this._server.use(async (socket: IAuthenticatedSocket, next) => {
-            const token = socket.handshake.query.token || socket.handshake.headers.authorization;
+            const token = socket.handshake.query?.token || socket.handshake.headers?.authorization;
 
             if (!token) {
                 socket.auth = null;

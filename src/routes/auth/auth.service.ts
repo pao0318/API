@@ -49,10 +49,15 @@ export class AuthService {
         const token = await this._tokenService.generate(
             new AccessToken({
                 id: user.id,
-                email: user.email
+                email: user.email,
+                version: user.tokenVersion
             })
         );
 
         return { token };
+    }
+
+    public async logout(id: string, tokenVersion: number): Promise<void> {
+        await this._databaseService.user.update({ where: { id }, data: { tokenVersion: tokenVersion + 1 } });
     }
 }

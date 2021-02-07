@@ -14,9 +14,13 @@ export class TokenGuard implements CanActivate {
 
     public async canActivate(context: ExecutionContext): Promise<boolean> {
         const token = this._getTokenFromContext(context);
+
         const payload = await this._getPayloadFromToken(token);
 
-        await this._validationService.getUserByIdOrThrow(payload.id);
+        const user = await this._validationService.getUserByIdOrThrow(payload.id);
+
+        if (user.tokenVersion !== payload.version) throw new UnauthorizedException();
+
         this._assignUserDataToRequest(context, payload);
 
         return true;

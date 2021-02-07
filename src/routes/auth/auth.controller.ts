@@ -10,6 +10,7 @@ import { InvalidAccountTypeException } from '../../common/exceptions/invalid-acc
 import { InvalidCredentialsException } from '../../common/exceptions/invalid-credentials.exception';
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
+import { LoginResponseDto } from './dto/login-response.dto';
 
 @ApiTags('auth')
 @Controller('/')
@@ -28,9 +29,8 @@ export class AuthController {
     @HttpCode(Constants.STATUS_CODE.OK)
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'User has logged in successfully' })
     @ExceptionResponses([InvalidAccountTypeException, InvalidCredentialsException, UnconfirmedAccountException])
-    public async login(@Res() response: Response, @Body() body: LoginRequestDto): Promise<void> {
-        const token = await this._authService.login(body);
-        response.cookie('authorization', token, { httpOnly: true });
+    public async login(@Body() body: LoginRequestDto): Promise<LoginResponseDto> {
+        return await this._authService.login(body);
     }
 
     @Post(Constants.ENDPOINT.AUTH.LOGOUT)

@@ -11,6 +11,7 @@ import { AccessToken } from '../../services/token/tokens/access-token';
 import { ValidationService } from '../../services/validation/validation.service';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { RegisterRequestDto } from './dto/register-request.dto';
+import { LoginResponseDto } from './dto/login-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -36,7 +37,7 @@ export class AuthService {
         await this._emailService.sendMail(new EmailConfirmationMail(user.email, { code: confirmationCode.code }));
     }
 
-    public async login(body: LoginRequestDto): Promise<string> {
+    public async login(body: LoginRequestDto): Promise<LoginResponseDto> {
         const user = await this._validationService.getUserByEmailOrThrow(body.email, new InvalidCredentialsException());
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
@@ -45,11 +46,13 @@ export class AuthService {
 
         this._validationService.throwIfAccountIsNotConfirmed(user);
 
-        return await this._tokenService.generate(
+        const token = await this._tokenService.generate(
             new AccessToken({
                 id: user.id,
                 email: user.email
             })
         );
+
+        return { token };
     }
 }

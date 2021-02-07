@@ -51,4 +51,13 @@ export class RedisService {
             map(({ message }) => JSON.parse(message))
         );
     }
+
+    public async publish(channel: string, value: unknown): Promise<number> {
+        return new Promise((resolve, reject) => {
+            return this._redisPublisherClient.publish(channel, JSON.stringify(value), (error, response) => {
+                if (error) return reject(error);
+                return resolve(response);
+            });
+        });
+    }
 }

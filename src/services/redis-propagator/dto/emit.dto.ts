@@ -1,4 +1,4 @@
-export class RedisSocketEventEmitDto {
-    public readonly event: string;
-    public readonly data: unknown;
+export class RedisSocketEventEmitDto implements Readonly<RedisSocketEventEmitDto> {
+    public event: string;
+    public data: unknown;
 }

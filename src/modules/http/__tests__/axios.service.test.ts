@@ -1,4 +1,4 @@
-import { AxiosService } from '../http/axios.service';
+import { AxiosService } from '../axios.service';
 
 describe('Axios Service', () => {
     describe('Perform get request', () => {

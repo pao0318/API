@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
-import { TestUtils } from '../../common/utils/test-utils';
-import { Constants } from '../../common/constants';
+import { TestUtils } from '../../../common/utils/test-utils';
+import { Constants } from '../../../common/constants';
 import { random } from 'faker';
-import { RedisModule } from '../redis/redis.module';
-import { RedisClient } from '../redis/types/RedisClient';
-import { RedisService } from '../redis/redis.service';
+import { RedisModule } from '../redis.module';
+import { RedisClient } from '../types/RedisClient';
+import { RedisService } from '../redis.service';
 
 describe('Redis Service', () => {
     let redisClient: RedisClient;

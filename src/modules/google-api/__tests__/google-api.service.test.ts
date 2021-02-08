@@ -1,7 +1,7 @@
-import { GoogleApiService } from '../google-api/google-api.service';
+import { GoogleApiService } from '../google-api.service';
 import { random } from 'faker';
-import { IBookData } from '../google-api/types/IBookData';
-import { Constants } from '../../common/constants';
+import { IBookData } from '../types/IBookData';
+import { Constants } from '../../../common/constants';
 import { generateGoogleBooksApiResponse } from './helpers';
 
 describe('Google API Service', () => {

@@ -1,3 +1,3 @@
 export const getRandomElementFromArray = <T>(array: T[]): T => {
-    throw new Error('Not implemented');
+    return array[Math.floor(Math.random() * array.length)];
 };

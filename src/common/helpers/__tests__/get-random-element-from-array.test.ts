@@ -3,12 +3,12 @@ import { getRandomElementFromArray } from '../get-random-element-from-array';
 
 describe('Get random element from array', () => {
     describe('When an array has zero elements', () => {
-        it('Should return null', () => {
+        it('Should return undefined', () => {
             const array = [];
 
             const randomElement = getRandomElementFromArray(array);
 
-            expect(randomElement).toBeNull();
+            expect(randomElement).toBeUndefined();
         });
     });
 

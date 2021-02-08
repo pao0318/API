@@ -1,5 +1,4 @@
 import { INestApplication } from '@nestjs/common';
-import { loadAdapters } from './adapters';
 import { loadCloudinary } from './cloudinary';
 import { loadConfig } from './config';
 import { loadExceptionListeners } from './exception-listeners';
@@ -17,8 +16,6 @@ export const setupLoaders = (app: INestApplication): void => {
     loadGlobalFilters(app);
 
     loadMiddlewares(app);
-
-    loadAdapters(app);
 
     loadCloudinary();
 };

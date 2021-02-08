@@ -4,7 +4,6 @@
 * Typescript
 * PostgreSQL
 * Redis
-* Websockets
 
 ## Running on docker
 ****

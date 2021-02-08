@@ -14,14 +14,6 @@ const RedisFactory = (): RedisClient => {
 export const RedisProviders = [
     {
         useFactory: RedisFactory,
-        provide: Constants.DEPENDENCY.REDIS_CACHE_CLIENT
-    },
-    {
-        useFactory: RedisFactory,
-        provide: Constants.DEPENDENCY.REDIS_PUBLISHER_CLIENT
-    },
-    {
-        useFactory: RedisFactory,
-        provide: Constants.DEPENDENCY.REDIS_SUBSCRIBER_CLIENT
+        provide: Constants.DEPENDENCY.REDIS_CLIENT
     }
 ] as Provider[];

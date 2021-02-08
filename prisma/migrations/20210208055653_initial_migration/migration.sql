@@ -18,6 +18,8 @@ CREATE TABLE "User" (
     "phoneNumber" TEXT,
     "personalInterests" "Genre"[],
     "accountType" "AccountType" NOT NULL DEFAULT E'REGULAR',
+    "tokenVersion" INTEGER NOT NULL DEFAULT 1,
+    "rating" DECIMAL(65,30) NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -28,24 +30,6 @@ CREATE TABLE "ConfirmationCode" (
     "code" TEXT NOT NULL,
     "expiresAt" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-
-    PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Chat" (
-    "id" TEXT NOT NULL,
-
-    PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Message" (
-    "id" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "sentAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" TEXT NOT NULL,
-    "chatId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -80,7 +64,7 @@ CREATE TABLE "Book" (
 );
 
 -- CreateTable
-CREATE TABLE "Review" (
+CREATE TABLE "BookReview" (
     "id" TEXT NOT NULL,
     "isbn" TEXT NOT NULL,
     "content" TEXT NOT NULL,
@@ -91,9 +75,14 @@ CREATE TABLE "Review" (
 );
 
 -- CreateTable
-CREATE TABLE "_ChatToUser" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+CREATE TABLE "UserReview" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "rating" DECIMAL(65,30) NOT NULL,
+    "userId" TEXT NOT NULL,
+    "reviewerId" TEXT NOT NULL,
+
+    PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -111,20 +100,8 @@ CREATE UNIQUE INDEX "ConfirmationCode.userId_unique" ON "ConfirmationCode"("user
 -- CreateIndex
 CREATE UNIQUE INDEX "BookData.isbn_unique" ON "BookData"("isbn");
 
--- CreateIndex
-CREATE UNIQUE INDEX "_ChatToUser_AB_unique" ON "_ChatToUser"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_ChatToUser_B_index" ON "_ChatToUser"("B");
-
 -- AddForeignKey
 ALTER TABLE "ConfirmationCode" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Message" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Message" ADD FOREIGN KEY ("chatId") REFERENCES "Chat"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Book" ADD FOREIGN KEY ("ownedById") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -133,10 +110,10 @@ ALTER TABLE "Book" ADD FOREIGN KEY ("ownedById") REFERENCES "User"("id") ON DELE
 ALTER TABLE "Book" ADD FOREIGN KEY ("borrowedById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "BookReview" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ChatToUser" ADD FOREIGN KEY ("A") REFERENCES "Chat"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserReview" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ChatToUser" ADD FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserReview" ADD FOREIGN KEY ("reviewerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

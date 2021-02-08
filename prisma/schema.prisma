@@ -21,7 +21,7 @@ model User {
     personalInterests   Genre[]
     accountType         AccountType     @default(REGULAR)
     tokenVersion        Int             @default(1)
-    rating              Float
+    rating              Float?
 
     ownedBooks          Book[]          @relation("ownedBooks")
     borrowedBooks       Book[]          @relation("borrowedBooks")

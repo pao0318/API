@@ -19,7 +19,7 @@ CREATE TABLE "User" (
     "personalInterests" "Genre"[],
     "accountType" "AccountType" NOT NULL DEFAULT E'REGULAR',
     "tokenVersion" INTEGER NOT NULL DEFAULT 1,
-    "rating" DECIMAL(65,30) NOT NULL,
+    "rating" DECIMAL(65,30),
 
     PRIMARY KEY ("id")
 );

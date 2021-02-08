@@ -6,6 +6,6 @@ import { ValidationService } from './validation.service';
 @Module({
     imports: [HashModule],
     providers: [ValidationService, PrismaService],
-    exports: [ValidationService],
+    exports: [ValidationService]
 })
 export class ValidationModule {}

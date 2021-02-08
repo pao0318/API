@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ValidationModule } from '../../services/validation/validation.module';
+import { ValidationModule } from '../validation/validation.module';
 import { PrismaService } from '../../database/prisma.service';
 import { MailService } from './mail.service';
 import { MailController } from './mail.controller';
-import { EmailModule } from '../../services/email/email.module';
+import { EmailModule } from '../email/email.module';
 
 @Module({
     imports: [EmailModule, ValidationModule],

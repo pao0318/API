@@ -3,6 +3,6 @@ import { JwtTokenService } from './jwt.service';
 
 @Module({
     providers: [JwtTokenService],
-    exports: [JwtTokenService],
+    exports: [JwtTokenService]
 })
 export class TokenModule {}

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { GoogleApiModule } from '../../services/google-api/google-api.module';
-import { TokenModule } from '../../services/token/token.module';
-import { ValidationModule } from '../../services/validation/validation.module';
+import { GoogleApiModule } from '../google-api/google-api.module';
+import { TokenModule } from '../token/token.module';
+import { ValidationModule } from '../validation/validation.module';
 import { BookController } from './book.controller';
 import { BookService } from './book.service';
 
@@ -9,6 +9,6 @@ import { BookService } from './book.service';
     imports: [GoogleApiModule, ValidationModule, TokenModule],
     providers: [BookService],
     controllers: [BookController],
-    exports: [BookService],
+    exports: [BookService]
 })
 export class BookModule {}

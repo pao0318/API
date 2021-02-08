@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FileService } from '../../services/file/file.service';
+import { FileService } from '../file/file.service';
 import { Constants } from '../../common/constants';
-import { IFile } from '../../services/file/types/IFile';
+import { IFile } from '../file/types/IFile';
 import { PrismaService } from '../../database/prisma.service';
-import { ValidationService } from '../../services/validation/validation.service';
-import { IHashService } from '../../services/hash/types/IHashService';
+import { ValidationService } from '../validation/validation.service';
+import { IHashService } from '../hash/types/IHashService';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
 

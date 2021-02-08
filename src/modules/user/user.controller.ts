@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, Post, Put, Req, UploadedFile } from '@nestj
 import { Constants } from '../../common/constants';
 import { Request } from 'express';
 import { UserService } from './user.service';
-import { IFile } from '../../services/file/types/IFile';
+import { IFile } from '../file/types/IFile';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';

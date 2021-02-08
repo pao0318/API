@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { EmailModule } from '../../services/email/email.module';
-import { HashModule } from '../../services/hash/hash.module';
-import { TokenModule } from '../../services/token/token.module';
-import { ValidationModule } from '../../services/validation/validation.module';
+import { EmailModule } from '../email/email.module';
+import { HashModule } from '../hash/hash.module';
+import { TokenModule } from '../token/token.module';
+import { ValidationModule } from '../validation/validation.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 

@@ -17,7 +17,7 @@ describe('Redis Service', () => {
 
         const app = await TestUtils.createTestApplication(module);
 
-        redisClient = await app.resolve(Constants.DEPENDENCY.REDIS_CACHE_CLIENT);
+        redisClient = await app.resolve(Constants.DEPENDENCY.REDIS_CLIENT);
         redisService = await app.resolve(Constants.DEPENDENCY.REDIS_SERVICE);
     });
 

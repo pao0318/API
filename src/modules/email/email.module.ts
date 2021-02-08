@@ -3,6 +3,6 @@ import { NodemailerEmailService } from './nodemailer.service';
 
 @Module({
     providers: [NodemailerEmailService],
-    exports: [NodemailerEmailService],
+    exports: [NodemailerEmailService]
 })
 export class EmailModule {}

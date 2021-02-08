@@ -5,7 +5,7 @@ import { Constants } from '../../common/constants';
 import { PrismaService } from '../prisma.service';
 import { IUserCreateInput } from '../types/IUserCreateInput';
 import { sleep } from '../../common/helpers/sleep';
-import { IHashService } from '../../services/hash/types/IHashService';
+import { IHashService } from '../../modules/hash/types/IHashService';
 
 @Injectable()
 export class UserSeeder {

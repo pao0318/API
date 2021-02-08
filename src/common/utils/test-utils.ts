@@ -7,7 +7,7 @@ import { TestingModule } from '@nestjs/testing';
 import { PrismaClient, User } from '@prisma/client';
 import { IUserCreateInput } from '../../database/types/IUserCreateInput';
 import { ValidationPipe } from '../pipes/validation.pipe';
-import { RedisService } from '../../services/redis/redis.service';
+import { RedisService } from '../../modules/redis/redis.service';
 
 export class TestUtils {
     public static async dropDatabase(database: PrismaClient): Promise<void> {
@@ -18,10 +18,9 @@ export class TestUtils {
         await Promise.all([
             database.book.deleteMany(),
             database.bookData.deleteMany(),
-            database.chat.deleteMany(),
             database.confirmationCode.deleteMany(),
-            database.message.deleteMany(),
-            database.review.deleteMany(),
+            database.userReview.deleteMany(),
+            database.bookReview.deleteMany(),
             database.user.deleteMany()
         ]);
     }

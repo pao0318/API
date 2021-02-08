@@ -5,10 +5,10 @@ import { Response } from 'supertest';
 import { Constants } from '../common/constants';
 import { TestUtils } from '../common/utils/test-utils';
 import { PrismaService } from '../database/prisma.service';
-import { BookModule } from '../routes/book/book.module';
-import { ITokenService } from '../services/token/types/ITokenService';
-import { AccessToken } from '../services/token/tokens/access-token';
-import { RedisService } from '../services/redis/redis.service';
+import { BookModule } from '../modules/book/book.module';
+import { ITokenService } from '../modules/token/types/ITokenService';
+import { AccessToken } from '../modules/token/tokens/access-token';
+import { RedisService } from '../modules/redis/redis.service';
 
 describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
     let databaseService: PrismaService;

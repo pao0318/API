@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { IAccessTokenPayload } from '../../services/token/types/IAccessTokenPayload';
-import { ITokenService } from '../../services/token/types/ITokenService';
-import { AccessToken } from '../../services/token/tokens/access-token';
-import { ValidationService } from '../../services/validation/validation.service';
+import { IAccessTokenPayload } from '../../modules/token/types/IAccessTokenPayload';
+import { ITokenService } from '../../modules/token/types/ITokenService';
+import { AccessToken } from '../../modules/token/tokens/access-token';
+import { ValidationService } from '../../modules/validation/validation.service';
 import { Constants } from '../constants';
 
 @Injectable()

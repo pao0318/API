@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { HttpModule } from '../http/http.module';
-import { RedisModule } from '../redis/redis.module';
+import { HttpModule } from '../../http/http.module';
+import { RedisModule } from '../../redis/redis.module';
 import { GoogleApiService } from './google-api.service';
 
 @Module({

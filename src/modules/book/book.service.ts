@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
-import { GoogleApiService } from '../google-api/google-api.service';
+import { GoogleApiService } from './api/google-api.service';
 import { ValidationService } from '../validation/validation.service';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
 

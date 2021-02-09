@@ -14,7 +14,7 @@ import { AlreadyConfirmedAccountException } from '../../common/exceptions/alread
 export class MailController {
     constructor(private readonly _mailService: MailService) {}
 
-    @Post(Constants.ENDPOINT.MAIL.EMAIL_CONFIRMATION)
+    @Post(Constants.ENDPOINT.MAIL.CONFIRIM_EMAIL)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Mail has been sent succesfully' })
     @ExceptionResponses([EmailNotFoundException, InvalidAccountTypeException, AlreadyConfirmedAccountException])
@@ -22,7 +22,7 @@ export class MailController {
         await this._mailService.sendEmailConfirmationMail(body);
     }
 
-    @Post(Constants.ENDPOINT.MAIL.PASSWORD_RESET)
+    @Post(Constants.ENDPOINT.MAIL.RESET_PASSWORD)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Mail has been sent succesfully' })
     @ExceptionResponses([EmailNotFoundException, InvalidAccountTypeException, AlreadyConfirmedAccountException])

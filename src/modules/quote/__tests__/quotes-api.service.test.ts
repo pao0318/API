@@ -1,4 +1,4 @@
-import { QuotesApiService } from '../quotes-api.service';
+import { QuotesApiService } from '../api/quotes-api.service';
 import { IQuote } from '../types/IQuote';
 import { generateFakeQuote } from './helpers';
 

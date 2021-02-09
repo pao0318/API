@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Constants } from '../../common/constants';
-import { getRandomElementFromArray } from '../../common/helpers/get-random-element-from-array';
-import { logger } from '../../common/utils/logger/logger';
-import { IHttpService } from '../http/types/IHttpService';
-import { IQuote } from './types/IQuote';
+import { Constants } from '../../../common/constants';
+import { getRandomElementFromArray } from '../../../common/helpers/get-random-element-from-array';
+import { logger } from '../../../common/utils/logger/logger';
+import { IHttpService } from '../../http/types/IHttpService';
+import { IQuote } from '../types/IQuote';
 
 @Injectable()
 export class QuotesApiService {

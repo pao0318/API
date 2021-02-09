@@ -1,4 +1,4 @@
-import { GoogleApiService } from '../google-api.service';
+import { GoogleApiService } from '../api/google-api.service';
 import { random } from 'faker';
 import { IBookData } from '../types/IBookData';
 import { Constants } from '../../../common/constants';

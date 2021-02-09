@@ -37,6 +37,22 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         await app.close();
     });
 
+    describe('When the user is not authorized', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            response = await request(app.getHttpServer()).get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN);
+        });
+
+        it('Should return status code 401', () => {
+            expect(response.status).toEqual(401);
+        });
+
+        it(`Should return errro id ${Constants.EXCEPTION.UNAUTHORIZED}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.UNAUTHORIZED);
+        });
+    });
+
     describe('When the Google API contains the provided isbn', () => {
         let response: Response;
 

@@ -19,7 +19,7 @@ describe('Quote Api Service', () => {
 
             it('Should assign quotes to the class variable', () => {
                 /* @ts-ignore */
-                expect(quotesApiService._quotes).toEqual(quotes);
+                expect(quoteApiService._quotes).toEqual(quotes);
             });
 
             it('Should return a random quote', () => {
@@ -35,7 +35,7 @@ describe('Quote Api Service', () => {
                 httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: [] });
 
                 /* @ts-ignore */
-                quotesApiService._quotes = quotes;
+                quoteApiService._quotes = quotes;
 
                 randomQuote = await quoteApiService.getRandomQuote();
             });

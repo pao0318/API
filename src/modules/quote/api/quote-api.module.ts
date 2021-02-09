@@ -1,4 +1,5 @@
-import { HttpModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { HttpModule } from '../../http/http.module';
 import { QuoteApiService } from './quote-api.service';
 
 @Module({

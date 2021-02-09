@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
+import { TokenGuardModule } from '../../common/guards/token.guard.module';
 import { PrismaService } from '../../database/prisma.service';
 import { FileModule } from '../file/file.module';
 import { HashModule } from '../hash/hash.module';
-import { TokenModule } from '../token/token.module';
 import { ValidationModule } from '../validation/validation.module';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 @Module({
-    imports: [FileModule, TokenModule, ValidationModule, HashModule],
+    imports: [FileModule, ValidationModule, HashModule, TokenGuardModule],
     providers: [UserService, PrismaService],
     controllers: [UserController]
 })

@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Constants } from '../../common/constants';
-import { UrlBuilder } from '../../common/utils/url-builder';
-import { IHttpService } from '../http/types/IHttpService';
-import { RedisService } from '../redis/redis.service';
-import { IBookData } from './types/IBookData';
+import { Constants } from '../../../common/constants';
+import { UrlBuilder } from '../../../common/utils/url-builder';
+import { IHttpService } from '../../http/types/IHttpService';
+import { RedisService } from '../../redis/redis.service';
+import { IBookData } from '../types/IBookData';
 
 @Injectable()
 export class GoogleApiService {

@@ -4,25 +4,27 @@ export const Endpoint = {
         LOGIN_EMAIL: '/auth/email',
         LOGIN_GOOGLE: '/auth/google',
         LOGIN_FACEBOOK: '/auth/facebook',
-        LOGOUT: '/auth/logout',
+        LOGOUT: '/auth/logout'
     },
     BOOK: {
-        CREATE: '/book',
-        GET_DATA_BY_ISBN: '/book/data/isbn/:isbn',
+        GET_DATA_BY_ISBN: '/book/data/isbn/:isbn'
     },
     MAIL: {
-        EMAIL_CONFIRMATION: '/mail/email-confirmation',
-        PASSWORD_RESET: '/mail/password-reset',
+        CONFIRIM_EMAIL: '/mail/email-confirmation',
+        RESET_PASSWORD: '/mail/password-reset'
     },
     USER: {
         AVATAR: {
-            UPDATE: '/user/avatar',
+            UPDATE: '/user/avatar'
         },
         EMAIL: {
-            CONFIRM: '/user/email',
+            CONFIRM: '/user/email'
         },
         PASSWORD: {
-            UPDATE: '/user/password',
-        },
+            UPDATE: '/user/password'
+        }
     },
+    QUOTE: {
+        GET: '/quote'
+    }
 } as const;

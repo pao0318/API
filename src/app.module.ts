@@ -7,8 +7,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { BookModule } from './modules/book/book.module';
 import { MailModule } from './modules/mail/mail.module';
 import { UserModule } from './modules/user/user.module';
+import { QuoteModule } from './modules/quote/quote.module';
 
 @Module({
-    imports: [AuthModule, BookModule, MailModule, UserModule, ScheduleModule.forRoot(), SeederModule, CommandModule, TasksModule]
+    imports: [AuthModule, BookModule, MailModule, UserModule, QuoteModule, ScheduleModule.forRoot(), SeederModule, CommandModule, TasksModule]
 })
 export class AppModule {}

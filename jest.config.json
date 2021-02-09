@@ -9,5 +9,5 @@
     "verbose": true,
     "testEnvironment": "node",
     "timers": "fake",
-    "modulePathIgnorePatterns": ["helpers"]
+    "modulePathIgnorePatterns": ["__tests__/helpers"]
 }

@@ -1,9 +1,9 @@
 import { HttpModule, Module } from '@nestjs/common';
-import { QuotesApiService } from './quotes-api.service';
+import { QuoteApiService } from './quote-api.service';
 
 @Module({
     imports: [HttpModule],
-    providers: [QuotesApiService],
-    exports: [QuotesApiService]
+    providers: [QuoteApiService],
+    exports: [QuoteApiService]
 })
 export class QuoteApiModule {}

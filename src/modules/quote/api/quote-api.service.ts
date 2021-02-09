@@ -6,7 +6,7 @@ import { IHttpService } from '../../http/types/IHttpService';
 import { IQuote } from '../types/IQuote';
 
 @Injectable()
-export class QuotesApiService {
+export class QuoteApiService {
     private _quotes: IQuote[] = [];
 
     constructor(@Inject(Constants.DEPENDENCY.HTTP_SERVICE) private readonly _httpService: IHttpService) {}

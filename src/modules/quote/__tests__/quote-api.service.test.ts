@@ -1,10 +1,10 @@
-import { QuotesApiService } from '../api/quotes-api.service';
+import { QuoteApiService } from '../api/quote-api.service';
 import { IQuote } from '../types/IQuote';
 import { generateFakeQuote } from './helpers';
 
-describe('Quotes Api Service', () => {
+describe('Quote Api Service', () => {
     const httpService = { performGetRequest: jest.fn() };
-    const quotesApiService = new QuotesApiService(httpService as any);
+    const quoteApiService = new QuoteApiService(httpService as any);
 
     describe('Get random quote', () => {
         describe('When quotes have not been fetched yet', () => {
@@ -14,7 +14,7 @@ describe('Quotes Api Service', () => {
             beforeAll(async () => {
                 httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: quotes });
 
-                randomQuote = await quotesApiService.getRandomQuote();
+                randomQuote = await quoteApiService.getRandomQuote();
             });
 
             it('Should assign quotes to the class variable', () => {
@@ -37,7 +37,7 @@ describe('Quotes Api Service', () => {
                 /* @ts-ignore */
                 quotesApiService._quotes = quotes;
 
-                randomQuote = await quotesApiService.getRandomQuote();
+                randomQuote = await quoteApiService.getRandomQuote();
             });
 
             it('Should not call http service', () => {

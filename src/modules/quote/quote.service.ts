@@ -7,7 +7,7 @@ import { GetQuoteResponseDto } from './dto/get-quote-response.dto';
 export class QuoteService {
     constructor(@Inject(Constants.DEPENDENCY.QUOTE_API_SERVICE) private readonly _quoteApiService: QuoteApiService) {}
 
-    public async get(): Promise<GetQuoteResponseDto> {
+    public async getQuote(): Promise<GetQuoteResponseDto> {
         throw new Error('Not implemented');
         // return await this._quoteApiService.getRandomQuote();
     }

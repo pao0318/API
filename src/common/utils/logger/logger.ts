@@ -7,17 +7,17 @@ export class Logger {
     constructor(private readonly _consoleLogger: ILogger, private readonly _fileLogger: ILogger) {}
 
     public info(message: string): void {
-        if (this._inTestingEnvironment()) return;
-
-        this._consoleLogger.info(message);
+        if (!this._inTestingEnvironment()) {
+            this._consoleLogger.info(message);
+        }
 
         this._fileLogger.info(message);
     }
 
     public error(message: string): void {
-        if (this._inTestingEnvironment()) return;
-
-        this._consoleLogger.error(message);
+        if (!this._inTestingEnvironment()) {
+            this._consoleLogger.error(message);
+        }
 
         this._fileLogger.error(message);
     }

@@ -1,9 +1,10 @@
-import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { IAccessTokenPayload } from '../../modules/token/types/IAccessTokenPayload';
 import { ITokenService } from '../../modules/token/types/ITokenService';
 import { AccessToken } from '../../modules/token/tokens/access-token';
 import { ValidationService } from '../../modules/validation/validation.service';
 import { Constants } from '../constants';
+import { UnauthorizedException } from '../exceptions/unauthorized.exception';
 
 @Injectable()
 export class TokenGuard implements CanActivate {

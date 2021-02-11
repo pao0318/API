@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, Put, Req, UploadedFile } from '@nestjs/common';
+import { Body, Controller, HttpCode, Patch, Post, Req, UploadedFile } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { Request } from 'express';
 import { UserService } from './user.service';
@@ -15,20 +15,12 @@ import { ExpiredConfirmationCodeException } from '../../common/exceptions/expire
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
 import { FileUpload } from '../../common/decorators/file-upload.decorator';
+import { UpdateLocationRequestDto } from './dto/update-location-request.dto';
 
 @ApiTags('user')
 @Controller('/')
 export class UserController {
     constructor(private readonly _userService: UserService) {}
-
-    @Put(Constants.ENDPOINT.USER.AVATAR.UPDATE)
-    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
-    @FileUpload()
-    @BearerAuth()
-    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Avatar has been changed successfullly' })
-    public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
-        await this._userService.updateAvatar(image, request.user.id);
-    }
 
     @Post(Constants.ENDPOINT.USER.EMAIL.CONFIRM)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
@@ -44,7 +36,7 @@ export class UserController {
         await this._userService.confirmEmail(body);
     }
 
-    @Post(Constants.ENDPOINT.USER.PASSWORD.UPDATE)
+    @Patch(Constants.ENDPOINT.USER.PASSWORD.UPDATE)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Password has been changed successfully' })
     @ExceptionResponses([
@@ -56,5 +48,22 @@ export class UserController {
     ])
     public async resetPassword(@Body() body: ResetPasswordRequestDto): Promise<void> {
         await this._userService.resetPassword(body);
+    }
+
+    @Patch(Constants.ENDPOINT.USER.AVATAR.UPDATE)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    @FileUpload()
+    @BearerAuth()
+    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Avatar has been changed successfullly' })
+    public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
+        await this._userService.updateAvatar(image, request.user.id);
+    }
+
+    @Patch(Constants.ENDPOINT.USER.PASSWORD.UPDATE)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    @BearerAuth()
+    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Location has been changed successfully' })
+    public async updateLocation(@Req() request: Request, @Body() body: UpdateLocationRequestDto): Promise<void> {
+        await this._userService.updateLocation(request.user.id, body);
     }
 }

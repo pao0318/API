@@ -23,9 +23,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13-alpine
+        image: kartoza/postgis:9.6-2.4
         env:
+          POSTGRES_USER: root
           POSTGRES_PASSWORD: password
+          ALLOW_IP_RANGE: 0.0.0.0/0
         ports:
           - 5432:5432
         options: >-

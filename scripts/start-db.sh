@@ -14,7 +14,6 @@ echo "Removing old container [$CONTAINER] and starting new fresh instance of [$C
   -e POSTGRES_USER=root \
   -e ALLOW_IP_RANGE=0.0.0.0/0 \
   -p 5432:5432  \
-  -v pg_data:/var/lib/postgresql \
   -v /database/postgres:/var/lib/postgresql/data \
   -d kartoza/postgis:9.6-2.4 \
 

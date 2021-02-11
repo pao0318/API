@@ -7,4 +7,6 @@ export interface IBookCreateInput {
     genre: Genre;
     image: string;
     ownedById: string;
+    latitude: number;
+    longitude: number;
 }

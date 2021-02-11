@@ -1,5 +1,4 @@
 import * as request from 'supertest';
-import * as faker from 'faker';
 import { Response } from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
@@ -69,15 +68,14 @@ describe(`PATCH ${Constants.ENDPOINT.USER.LOCATION.UPDATE}`, () => {
     });
 
     describe('When input is valid', () => {
-        const locationData = { latitude: faker.random.float(90), longitude: faker.random.float(180) };
+        const locationData = { latitude: 67.3173104, longitude: -150.3194815 };
         let response: Response;
-        let updatedUser: User & { geolocation: string };
+        let updatedUser: User;
 
         beforeAll(async () => {
             response = await request(app.getHttpServer()).patch(Constants.ENDPOINT.USER.LOCATION.UPDATE).send(locationData).set({ authorization: token });
 
-            const users = await databaseService.$queryRaw('SELECT (latitude, longitude, geolocation) FROM "User" WHERE id = $1', [user.id]);
-            updatedUser = users.rows[0];
+            updatedUser = await databaseService.user.findUnique({ where: { id: user.id } });
         });
 
         it('Should return status code 204', () => {
@@ -90,10 +88,6 @@ describe(`PATCH ${Constants.ENDPOINT.USER.LOCATION.UPDATE}`, () => {
 
         it('Should update longitude in the database', () => {
             expect(updatedUser.longitude).toEqual(locationData.longitude);
-        });
-
-        it('Should update geolocation in the database', () => {
-            expect(updatedUser.geolocation).toBeDefined();
         });
     });
 });

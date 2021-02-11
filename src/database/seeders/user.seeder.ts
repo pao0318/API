@@ -20,7 +20,7 @@ export class UserSeeder {
     @Command({
         command: 'seed:user',
         describe: 'Create new user',
-        autoExit: true
+        autoExit: false
     })
     public async run(): Promise<void> {
         this._generateFakeData();

@@ -59,8 +59,7 @@ export class UserService {
     }
 
     public async updateLocation(userId: string, body: UpdateLocationRequestDto): Promise<void> {
-        throw new Error('Not implemented');
-        // await this._databaseService.updateUserGeolocation(body.latitude, body.longitude, userId);
+        await this._databaseService.updateUserGeolocation(body.latitude, body.longitude, userId);
     }
 
     private async _removeOldAvatar(id: string): Promise<void> {

@@ -59,7 +59,7 @@ export class UserController {
         await this._userService.updateAvatar(image, request.user.id);
     }
 
-    @Patch(Constants.ENDPOINT.USER.PASSWORD.UPDATE)
+    @Patch(Constants.ENDPOINT.USER.LOCATION.UPDATE)
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Location has been changed successfully' })

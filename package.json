@@ -17,6 +17,7 @@
     "prisma:update": "npx prisma introspect && npx prisma generate",
     "prisma:migrate:dev": "npx prisma migrate dev --preview-feature",
     "prisma:migrate:deploy": "npx prisma migrate deploy --preview-feature",
+    "prisma:migrate:reset": "npx prisma migrate reset --preview-feature",
     "start:metrics": "bash ./scripts/start-metrics.sh",
     "start:docker": "npx prisma generate && npx prisma migrate deploy --preview-feature && yarn build && yarn start:dev",
     "seed:user": "nestjs-command seed:user",

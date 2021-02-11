@@ -30,7 +30,9 @@ export class BookSeeder {
             description: random.word(),
             genre: random.arrayElement(Object.values(Genre)),
             isbn: random.uuid(),
-            image: random.word()
+            image: random.word(),
+            latitude: random.number({ min: -90, max: 90 }),
+            longitude: random.number({ min: -180, max: 180 })
         };
     }
 

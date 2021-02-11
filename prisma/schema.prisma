@@ -22,6 +22,8 @@ model User {
     accountType         AccountType     @default(REGULAR)
     tokenVersion        Int             @default(1)
     rating              Float?
+    latitude            Float?
+    longitude           Float?
 
     ownedBooks          Book[]          @relation("ownedBooks")
     borrowedBooks       Book[]          @relation("borrowedBooks")
@@ -58,6 +60,8 @@ model Book {
     rating              Float?
     googleRating        Float?
     addedAt             DateTime    @default(now())
+    latitude            Float
+    longitude           Float
 
     ownedBy             User        @relation("ownedBooks", fields: [ownedById], references: [id])
     ownedById           String      

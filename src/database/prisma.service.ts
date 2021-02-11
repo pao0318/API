@@ -15,4 +15,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     public async onModuleDestroy(): Promise<void> {
         await this.$disconnect();
     }
+
+    public async updateUserGeolocation(latitude: number, longitude: number, userId: string): Promise<void> {
+        await this
+            .$executeRaw`UPDATE "User" SET latitude = ${latitude}::FLOAT, longitude = ${longitude}::FLOAT, geolocation=St_SetSRID(ST_MakePoint(${longitude}::FLOAT,${latitude}::FLOAT), 4326) WHERE id = ${userId}`;
+    }
 }

@@ -11,6 +11,8 @@ export class ExceptionFilter implements Filter {
     private _message: string = Constants.DEFAULT_EXCEPTION.MESSAGE;
 
     public catch(exception: unknown, host: ArgumentsHost): void {
+        console.log(exception);
+
         const ctx = host.switchToHttp();
 
         const response = ctx.getResponse<Response>();

@@ -20,6 +20,8 @@ CREATE TABLE "User" (
     "accountType" "AccountType" NOT NULL DEFAULT E'REGULAR',
     "tokenVersion" INTEGER NOT NULL DEFAULT 1,
     "rating" DECIMAL(65,30),
+    "latitude" DECIMAL(65,30),
+    "longitude" DECIMAL(65,30),
 
     PRIMARY KEY ("id")
 );
@@ -57,6 +59,8 @@ CREATE TABLE "Book" (
     "rating" DECIMAL(65,30),
     "googleRating" DECIMAL(65,30),
     "addedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "latitude" DECIMAL(65,30) NOT NULL,
+    "longitude" DECIMAL(65,30) NOT NULL,
     "ownedById" TEXT NOT NULL,
     "borrowedById" TEXT,
 
@@ -117,3 +121,6 @@ ALTER TABLE "UserReview" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON D
 
 -- AddForeignKey
 ALTER TABLE "UserReview" ADD FOREIGN KEY ("reviewerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- CUSTOM: Configure postgis
+ALTER TABLE "User" ADD COLUMN geolocation geometry(point, 4326);

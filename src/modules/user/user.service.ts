@@ -7,6 +7,7 @@ import { ValidationService } from '../validation/validation.service';
 import { IHashService } from '../hash/types/IHashService';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
+import { UpdateLocationRequestDto } from './dto/update-location-request.dto';
 
 @Injectable()
 export class UserService {
@@ -55,6 +56,10 @@ export class UserService {
         await this._removeOldAvatar(userId);
 
         await this._databaseService.user.update({ where: { id: userId }, data: { avatar: `${imageName}.jpg` } });
+    }
+
+    public async updateLocation(userId: string, body: UpdateLocationRequestDto): Promise<void> {
+        await this._databaseService.updateUserGeolocation(body.latitude, body.longitude, userId);
     }
 
     private async _removeOldAvatar(id: string): Promise<void> {

@@ -22,6 +22,9 @@ export const Endpoint = {
         },
         PASSWORD: {
             UPDATE: '/user/password'
+        },
+        LOCATION: {
+            UPDATE: '/user/location'
         }
     },
     QUOTE: {

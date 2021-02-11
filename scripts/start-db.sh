@@ -12,9 +12,9 @@ echo "Removing old container [$CONTAINER] and starting new fresh instance of [$C
   docker run --name $CONTAINER \
   -e POSTGRES_PASSWORD=password \
   -e POSTGRES_USER=root \
+  -e POSTGRES_DBNAME=easter_api \
   -e ALLOW_IP_RANGE=0.0.0.0/0 \
   -p 5432:5432  \
-  -v /database/postgres:/var/lib/postgresql/data \
   -d kartoza/postgis:9.6-2.4 \
 
 echo -e "${GREEN_COLOR}[$CONTAINER] has started successfully!${NO_COLOR}";

@@ -123,5 +123,4 @@ ALTER TABLE "UserReview" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON D
 ALTER TABLE "UserReview" ADD FOREIGN KEY ("reviewerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- CUSTOM: Configure postgis
-CREATE EXTENSION postgis;
 ALTER TABLE "User" ADD COLUMN geolocation geometry(point, 4326);

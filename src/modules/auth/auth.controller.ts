@@ -11,7 +11,6 @@ import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
-import { Request } from 'express';
 import { IAuthorizedRequest } from './types/IAuthorizedRequest';
 
 @ApiTags('auth')

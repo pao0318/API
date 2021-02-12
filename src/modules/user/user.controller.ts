@@ -1,6 +1,5 @@
 import { Body, Controller, HttpCode, Patch, Post, Req, UploadedFile } from '@nestjs/common';
 import { Constants } from '../../common/constants';
-import { Request } from 'express';
 import { UserService } from './user.service';
 import { IFile } from '../file/types/IFile';
 import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';

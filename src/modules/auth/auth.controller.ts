@@ -11,7 +11,7 @@ import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
-import { Request } from 'express';
+import { IAuthorizedRequest } from './types/IAuthorizedRequest';
 
 @ApiTags('auth')
 @Controller('/')
@@ -38,7 +38,7 @@ export class AuthController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'User has logged out successfully' })
-    public async logout(@Req() request: Request): Promise<void> {
+    public async logout(@Req() request: IAuthorizedRequest): Promise<void> {
         await this._authService.logout(request.user.id, request.user.version);
     }
 }

@@ -10,6 +10,6 @@ import { UserModule } from './modules/user/user.module';
 import { QuoteModule } from './modules/quote/quote.module';
 
 @Module({
-    imports: [AuthModule, BookModule, MailModule, UserModule, QuoteModule, ScheduleModule.forRoot(), SeederModule, CommandModule, TasksModule]
+    imports: [CommandModule, AuthModule, BookModule, MailModule, UserModule, QuoteModule, ScheduleModule.forRoot(), SeederModule, TasksModule]
 })
 export class AppModule {}

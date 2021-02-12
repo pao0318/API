@@ -16,6 +16,7 @@ import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
 import { FileUpload } from '../../common/decorators/file-upload.decorator';
 import { UpdateLocationRequestDto } from './dto/update-location-request.dto';
+import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 
 @ApiTags('user')
 @Controller('/')
@@ -55,7 +56,7 @@ export class UserController {
     @FileUpload()
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Avatar has been changed successfullly' })
-    public async updateAvatar(@Req() request: Request, @UploadedFile() image: IFile): Promise<void> {
+    public async updateAvatar(@Req() request: IAuthorizedRequest, @UploadedFile() image: IFile): Promise<void> {
         await this._userService.updateAvatar(image, request.user.id);
     }
 
@@ -63,7 +64,7 @@ export class UserController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Location has been changed successfully' })
-    public async updateLocation(@Req() request: Request, @Body() body: UpdateLocationRequestDto): Promise<void> {
+    public async updateLocation(@Req() request: IAuthorizedRequest, @Body() body: UpdateLocationRequestDto): Promise<void> {
         await this._userService.updateLocation(request.user.id, body);
     }
 }

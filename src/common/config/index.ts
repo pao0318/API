@@ -57,7 +57,7 @@ class ConfigManager {
 
     private _loadFileConfig(): DotenvParseOutput {
         try {
-            const path = join(__dirname, '../../../env', `${process.env.NODE_ENV}.env`);
+            const path = join(__dirname, '../../../env', `${process.env.NODE_ENV || 'development'}.env`);
             return parse(readFileSync(path));
         } catch (error) {
             if (process.env.NODE_ENV === 'test' && process.env.CI !== 'true') {

@@ -10,7 +10,7 @@ export class FileLogger implements ILogger {
             transports: [
                 new transports.File({
                     filename: join(__dirname, '../../../../../logs', 'application.log'),
-                    handleExceptions: true,
+                    handleExceptions: false,
                     maxsize: 5242880,
                     maxFiles: 5
                 })

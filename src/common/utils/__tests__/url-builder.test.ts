@@ -19,10 +19,11 @@ describe('Url Builder', () => {
     describe('Build get book by title url', () => {
         it('Should return the url with an applied context', () => {
             const title = random.word();
+            const quantity = random.number(10);
 
-            const expected = `${Constants.URL.GOOGLE_BOOKS_API}?q=${title}&key=${Config.AUTH.GOOGLE_BOOKS_API_KEY}`;
+            const expected = `${Constants.URL.GOOGLE_BOOKS_API}?q=intitle:${title}&maxResults=${quantity}&key=${Config.AUTH.GOOGLE_BOOKS_API_KEY}`;
 
-            const actual = UrlBuilder.buildGetBookByTitleUrl(title);
+            const actual = UrlBuilder.buildGetBookByTitleUrl({ title, quantity });
 
             expect(actual).toEqual(expected);
         });

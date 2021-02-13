@@ -30,6 +30,7 @@ export class GoogleApiService {
     }
 
     public async getBookDataByTitle(title: string): Promise<IBookData[]> {
+        // const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByTitleUrl({ title: title, quantity: 3 }), this._getCompressionHeaders());
         throw new Error('Not implemented');
     }
 

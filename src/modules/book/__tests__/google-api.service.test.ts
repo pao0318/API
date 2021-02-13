@@ -150,5 +150,29 @@ describe('Google API Service', () => {
         });
     });
 
-    describe('Get book data by title', () => {});
+    describe('Get book data by title', () => {
+        describe('When books associated with the provided title exist', () => {
+            const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: true, isImage: true });
+
+            beforeAll(() => {
+                httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] } });
+            });
+
+            it('Should return an array with the found books', async () => {
+                const books = await googleApiService.getBookDataByTitle(random.word());
+                expect(books[0]).toEqual(fakeValues);
+            });
+        });
+
+        describe('When books associated with the provided title do not exist', () => {
+            beforeAll(() => {
+                httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { totalItems: 0 } });
+            });
+
+            it('Should return an empty array', async () => {
+                const books = await googleApiService.getBookDataByTitle(random.word());
+                expect(books).toHaveLength(0);
+            });
+        });
+    });
 });

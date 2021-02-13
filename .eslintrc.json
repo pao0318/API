@@ -23,6 +23,7 @@
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "sonarjs/no-duplicate-string": "off"
+        "sonarjs/no-duplicate-string": "off",
+        "sonarjs/prefer-immediate-return": "off"
     }
 }

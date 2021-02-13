@@ -1,5 +1,5 @@
 import * as cookieParser from 'cookie-parser';
-import { internet } from 'faker';
+import { internet, random } from 'faker';
 import { Config } from '../config';
 import { INestApplication } from '@nestjs/common';
 import { ExceptionFilter } from '../filters/exception.filter';
@@ -45,7 +45,13 @@ export class TestUtils {
     }
 
     public static async createUserInDatabase(database: PrismaClient): Promise<User> {
-        return await database.user.create({ data: this.generateFakeUserData() });
+        return await database.user.create({
+            data: {
+                ...this.generateFakeUserData(),
+                latitude: random.number({ min: -90, max: 90 }),
+                longitude: random.number({ min: -180, max: 180 })
+            }
+        });
     }
 
     public static async createTestApplication(module: TestingModule): Promise<INestApplication> {

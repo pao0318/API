@@ -9,7 +9,7 @@ describe('Google API Service', () => {
     const cacheService = { get: jest.fn(), set: jest.fn() };
     const googleApiService = new GoogleApiService(httpService as any, cacheService as any);
 
-    describe('Get book by isbn', () => {
+    describe('Get book data by isbn', () => {
         describe('When ISBN exists in the cache', () => {
             describe('When the data is available', () => {
                 const { fakeValues } = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: true, isImage: true });
@@ -149,4 +149,6 @@ describe('Google API Service', () => {
             });
         });
     });
+
+    describe('Get book data by title', () => {});
 });

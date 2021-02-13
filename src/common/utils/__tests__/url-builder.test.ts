@@ -15,4 +15,16 @@ describe('Url Builder', () => {
             expect(actual).toEqual(expected);
         });
     });
+
+    describe('Build get book by title url', () => {
+        it('Should return the url with an applied context', () => {
+            const title = random.word();
+
+            const expected = `${Constants.URL.GOOGLE_BOOKS_API}?q=${title}&key=${Config.AUTH.GOOGLE_BOOKS_API_KEY}`;
+
+            const actual = UrlBuilder.buildGetBookByIsbnUrl(title);
+
+            expect(actual).toEqual(expected);
+        });
+    });
 });

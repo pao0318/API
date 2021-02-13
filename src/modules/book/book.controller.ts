@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Req } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Constants } from '../../common/constants';
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
@@ -36,7 +36,7 @@ export class BookController {
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'Book has been created successfully' })
     @ExceptionResponses([IsbnNotFoundException])
-    public async createBook(@Req() request: IAuthorizedRequest, body: CreateBookRequestDto): Promise<void> {
+    public async createBook(@Req() request: IAuthorizedRequest, @Body() body: CreateBookRequestDto): Promise<void> {
         await this._bookService.createBook(body, request.user.id);
     }
 }

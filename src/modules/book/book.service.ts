@@ -23,6 +23,7 @@ export class BookService {
     }
 
     public async getBookDataByTitle(title: string): Promise<BookDataResponseDto[]> {
-        throw new Error('Not implemented');
+        const books = await this._googleApiService.getBooksDataByTitle(title);
+        return books;
     }
 }

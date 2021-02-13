@@ -66,8 +66,8 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
             expect(response.body.length).toEqual(3);
 
             expect(response.body[0].title).toEqual('Flowers');
-            expect(response.body[1].title).toEqual('The sentiment of flowers; or, Language of flora, by R. Tyas');
-            expect(response.body[2].title).toEqual('The Flowers Personified');
+            expect(response.body[1].title).toEqual('Pretty Flowers Easy Color Book');
+            expect(response.body[2].title).toEqual('When the Flowers Died');
         });
     });
 

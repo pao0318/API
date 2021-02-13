@@ -31,7 +31,7 @@ export class GoogleApiService {
 
     public async getBooksDataByTitle(title: string): Promise<IBookData[]> {
         const response = await this._httpService.performGetRequest(
-            UrlBuilder.buildGetBooksByTitleUrl({ title: title, quantity: 3 }),
+            UrlBuilder.buildGetBooksByTitleUrl({ title: title, quantity: 40 }),
             this._getCompressionHeaders()
         );
 
@@ -39,10 +39,10 @@ export class GoogleApiService {
             return [];
         }
 
-        const books = this._removeBooksWithoutIsbn(response.data.items);
-        const booksData = books.map((item: Record<string, unknown>) => this._mapResponseToBookData(item));
+        const books = response.data.items.map((item: Record<string, unknown>) => this._mapResponseToBookData(item));
+        const booksWithIsbn = books.filter((book: IBookData) => book.isbn !== null).slice(0, 3);
 
-        return booksData;
+        return booksWithIsbn;
     }
 
     private _returnBookDataBasedOnCache(cachedBook: string | Object): IBookData | null {
@@ -68,13 +68,18 @@ export class GoogleApiService {
     private _mapResponseToBookData(data: Record<string, any>): IBookData {
         return {
             title: data.volumeInfo.title,
-            author: data.volumeInfo.authors.length > 0 ? (data.volumeInfo.authors[0].length > 1 ? data.volumeInfo.authors[0] : null) : null,
+            author: this._bookContainsAuthor(data) ? data.volumeInfo.authors[0] : null,
             description: data.volumeInfo.description || null,
-            image: data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default.jpg'
+            image: data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default.jpg',
+            isbn: this._bookContainsIsbn(data) ? data.volumeInfo.industryIdentifiers[0].identifier : null
         };
     }
 
-    private _removeBooksWithoutIsbn(books: Record<string, any>[]): Record<string, any>[] {
-        return books.filter((book) => book.volumeInfo.industryIdentifiers && book.volumeInfo.industryIdentifiers[0].type === 'ISBN_13');
+    private _bookContainsIsbn(book: Record<string, any>): boolean {
+        return book.volumeInfo.industryIdentifiers && book.volumeInfo.industryIdentifiers[0].type === 'ISBN_13';
+    }
+
+    private _bookContainsAuthor(book: Record<string, any>): boolean {
+        return book.volumeInfo.authors && book.volumeInfo.authors[0].length > 1;
     }
 }

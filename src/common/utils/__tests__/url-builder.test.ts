@@ -22,7 +22,7 @@ describe('Url Builder', () => {
 
             const expected = `${Constants.URL.GOOGLE_BOOKS_API}?q=${title}&key=${Config.AUTH.GOOGLE_BOOKS_API_KEY}`;
 
-            const actual = UrlBuilder.buildGetBookByIsbnUrl(title);
+            const actual = UrlBuilder.buildGetBookByTitleUrl(title);
 
             expect(actual).toEqual(expected);
         });

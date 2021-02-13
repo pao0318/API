@@ -7,6 +7,6 @@ export class UrlBuilder {
     }
 
     public static buildGetBookByTitleUrl(title: string): string {
-        return '';
+        return `${Constants.URL.GOOGLE_BOOKS_API}?q=${title}&key=${Config.AUTH.GOOGLE_BOOKS_API_KEY}`;
     }
 }

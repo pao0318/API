@@ -60,6 +60,7 @@ model Book {
     author              String?
     genre               Genre
     language            Language
+    pages               Int?
     image               String
     rating              Float?
     addedAt             DateTime    @default(now())

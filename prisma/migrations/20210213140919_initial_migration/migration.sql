@@ -62,6 +62,7 @@ CREATE TABLE "Book" (
     "author" TEXT,
     "genre" "Genre" NOT NULL,
     "language" "Language" NOT NULL,
+    "pages" INTEGER,
     "image" TEXT NOT NULL,
     "rating" DECIMAL(65,30),
     "addedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

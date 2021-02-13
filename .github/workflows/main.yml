@@ -25,7 +25,7 @@ jobs:
       postgres:
         image: kartoza/postgis:9.6-2.4
         volumes:
-          - ./prisma/sql:/sql
+          - /prisma/sql:/sql
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: password

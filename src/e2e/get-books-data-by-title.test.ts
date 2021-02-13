@@ -49,23 +49,43 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
         });
     });
 
-    // describe('When books associated with the provided title exist', () => {
-    //     let response: Response;
+    describe('When books associated with the provided title exist', () => {
+        let response: Response;
 
-    //     beforeAll(async () => {
-    //         response = await request(app.getHttpServer()).get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE.replace(':title', )).set({ authorization: token });
-    //     });
+        beforeAll(async () => {
+            response = await request(app.getHttpServer())
+                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE.replace(':title', 'flowers'))
+                .set({ authorization: token });
+        });
 
-    //     it('Should return status code 200', () => {
-    //         expect(response.status).toEqual(200);
-    //     });
+        it('Should return status code 200', () => {
+            expect(response.status).toEqual(200);
+        });
 
-    //     it(`Should return errro id ${Constants.EXCEPTION.UNAUTHORIZED}`, () => {
-    //         expect(response.body.error.id).toEqual(Constants.EXCEPTION.UNAUTHORIZED);
-    //     });
-    // });
+        it(`Should return an array with the books data`, () => {
+            expect(response.body.length).toEqual(3);
 
-    // describe('When books associated with the provided title do not exist', () => {
+            expect(response.body[0].title).toEqual('Flowers');
+            expect(response.body[1].title).toEqual('The sentiment of flowers; or, Language of flora, by R. Tyas');
+            expect(response.body[2].title).toEqual('The Flowers Personified');
+        });
+    });
 
-    // });
+    describe('When books associated with the provided title do not exist', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            response = await request(app.getHttpServer())
+                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE.replace(':title', 'fajoughashogj'))
+                .set({ authorization: token });
+        });
+
+        it('Should return status code 200', () => {
+            expect(response.status).toEqual(200);
+        });
+
+        it(`Should return an empty array`, () => {
+            expect(response.body.length).toEqual(0);
+        });
+    });
 });

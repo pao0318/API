@@ -8,6 +8,8 @@ import { PrismaService } from '../database/prisma.service';
 import { BookModule } from '../modules/book/book.module';
 import { AccessToken } from '../modules/token/tokens/access-token';
 import { ITokenService } from '../modules/token/types/ITokenService';
+import { random } from 'faker';
+import { Genre } from '@prisma/client';
 
 describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
     let databaseService: PrismaService;
@@ -69,7 +71,10 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.CREATE).send({ isbn: '9781291578011' }).set({ authorization: token });
+            response = await request(app.getHttpServer())
+                .post(Constants.ENDPOINT.BOOK.CREATE)
+                .send({ isbn: '9781291578011', genre: random.arrayElement(Object.values(Genre)) })
+                .set({ authorization: token });
         });
 
         it('Should return status code 404', () => {
@@ -86,7 +91,10 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.CREATE).send({ isbn }).set({ authorization: token });
+            response = await request(app.getHttpServer())
+                .post(Constants.ENDPOINT.BOOK.CREATE)
+                .send({ isbn, genre: random.arrayElement(Object.values(Genre)) })
+                .set({ authorization: token });
         });
 
         it('Should return status code 201', () => {
@@ -95,7 +103,7 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
 
         it('Should create book in the database', async () => {
             const book = await databaseService.book.findFirst({ where: { isbn } });
-            expect(book).toEqual(isbn);
+            expect(book.isbn).toEqual(isbn);
         });
     });
 });

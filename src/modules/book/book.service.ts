@@ -58,6 +58,6 @@ export class BookService {
             sp: Language.SPANISH
         };
 
-        return languages[language];
+        return languages[language.toString()];
     }
 }

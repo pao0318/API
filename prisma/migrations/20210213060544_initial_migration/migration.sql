@@ -2,6 +2,9 @@
 CREATE TYPE "Genre" AS ENUM ('ACTION', 'ADVENTURE', 'BIOGRAPHY', 'BUSINESS', 'CHILDRENS', 'COOKING', 'CRIME', 'DRAMA', 'DICTIONARY', 'ENCYKLOPEDIA', 'GUIDE', 'FAIRYTALE', 'FANTASY', 'HEALTH', 'HISTORICAL', 'HUMOR', 'HORROR', 'JOURNAL', 'MATH', 'ROMANCE', 'PHILOSOPHY', 'RELIGION', 'SCIENCE_FICTION', 'SELF_DEVELOPMENT', 'SPORTS', 'TRAVEL', 'WESTERN');
 
 -- CreateEnum
+CREATE TYPE "Language" AS ENUM ('ENGLISH', 'GERMAN', 'FRENCH', 'SPANISH');
+
+-- CreateEnum
 CREATE TYPE "AccountType" AS ENUM ('REGULAR', 'GOOGLE', 'FACEBOOK');
 
 -- CreateTable
@@ -41,8 +44,10 @@ CREATE TABLE "BookData" (
     "id" TEXT NOT NULL,
     "isbn" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
+    "description" TEXT,
+    "author" TEXT,
     "genre" "Genre" NOT NULL,
+    "language" "Language" NOT NULL,
     "image" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
@@ -53,8 +58,10 @@ CREATE TABLE "Book" (
     "id" TEXT NOT NULL,
     "isbn" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
+    "description" TEXT,
+    "author" TEXT,
     "genre" "Genre" NOT NULL,
+    "language" "Language" NOT NULL,
     "image" TEXT NOT NULL,
     "rating" DECIMAL(65,30),
     "googleRating" DECIMAL(65,30),
@@ -121,6 +128,3 @@ ALTER TABLE "UserReview" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON D
 
 -- AddForeignKey
 ALTER TABLE "UserReview" ADD FOREIGN KEY ("reviewerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- CUSTOM: Configure postgis
-ALTER TABLE "User" ADD COLUMN geolocation geometry(point, 4326);

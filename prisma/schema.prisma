@@ -45,8 +45,10 @@ model BookData {
     id                  String      @id @default(uuid())
     isbn                String      @unique
     title               String
-    description         String
+    description         String?
+    author              String?
     genre               Genre
+    language            Language
     image               String
 }
 
@@ -54,8 +56,10 @@ model Book {
     id                  String      @id @default(uuid())
     isbn                String      
     title               String
-    description         String
+    description         String?
+    author              String?
     genre               Genre
+    language            Language
     image               String
     rating              Float?
     googleRating        Float?
@@ -120,6 +124,13 @@ enum Genre {
     SPORTS
     TRAVEL
     WESTERN
+}
+
+enum Language {
+    ENGLISH
+    GERMAN
+    FRENCH
+    SPANISH
 }
 
 enum AccountType {

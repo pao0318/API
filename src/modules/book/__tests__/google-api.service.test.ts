@@ -95,6 +95,26 @@ describe('Google API Service', () => {
                     });
                 });
 
+                describe('When author has less than 2 characters', () => {
+                    const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: false, isDescription: true, isImage: true });
+
+                    beforeAll(() => {
+                        cacheService.set = jest.fn();
+                        httpService.performGetRequest = jest
+                            .fn()
+                            .mockResolvedValueOnce({ data: { items: [{ ...fakeResponse, volumeInfo: { ...fakeResponse.volumeInfo, authors: ['.'] } }] } });
+                    });
+
+                    it('Should return correct payload', async () => {
+                        const book = await googleApiService.getBookByIsbn(random.uuid());
+                        expect(book).toEqual(fakeValues);
+                    });
+
+                    it('Should call set method on the cache service', () => {
+                        expect(cacheService.set).toHaveBeenCalled();
+                    });
+                });
+
                 describe('When description does not exist', () => {
                     const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: false, isDescription: false, isImage: true });
 
@@ -172,6 +192,35 @@ describe('Google API Service', () => {
             it('Should return an empty array', async () => {
                 const books = await googleApiService.getBooksDataByTitle(random.word());
                 expect(books).toHaveLength(0);
+            });
+        });
+
+        describe('When books associated with the provided title exist and isbn is not found', () => {
+            const apiResponseWithIsbn = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: true, isImage: true });
+            const apiResponseWithoutIsbn = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: true, isImage: true });
+
+            beforeAll(() => {
+                httpService.performGetRequest = jest.fn().mockResolvedValueOnce({
+                    data: {
+                        items: [
+                            apiResponseWithIsbn.fakeResponse,
+                            {
+                                ...apiResponseWithoutIsbn.fakeResponse,
+                                volumeInfo: {
+                                    ...apiResponseWithIsbn.fakeResponse.volumeInfo,
+                                    industryIdentifiers: undefined
+                                }
+                            }
+                        ]
+                    }
+                });
+            });
+
+            it('Should remove books without isbn and return an array with the rest', async () => {
+                const books = await googleApiService.getBooksDataByTitle(random.word());
+
+                expect(books).toHaveLength(1);
+                expect(books[0]).toEqual(apiResponseWithIsbn.fakeValues);
             });
         });
     });

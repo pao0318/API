@@ -39,8 +39,10 @@ export class GoogleApiService {
             return [];
         }
 
-        const books = response.data.items.map((item: Record<string, unknown>) => this._mapResponseToBookData(item));
-        return books;
+        const books = this._removeBooksWithoutIsbn(response.data.items);
+        const booksData = books.map((item: Record<string, unknown>) => this._mapResponseToBookData(item));
+
+        return booksData;
     }
 
     private _returnBookDataBasedOnCache(cachedBook: string | Object): IBookData | null {
@@ -66,9 +68,13 @@ export class GoogleApiService {
     private _mapResponseToBookData(data: Record<string, any>): IBookData {
         return {
             title: data.volumeInfo.title,
-            author: data.volumeInfo.authors ? data.volumeInfo.authors[0] : null,
+            author: data.volumeInfo.authors.length > 0 ? (data.volumeInfo.authors[0].length > 1 ? data.volumeInfo.authors[0] : null) : null,
             description: data.volumeInfo.description || null,
             image: data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default.jpg'
         };
+    }
+
+    private _removeBooksWithoutIsbn(books: Record<string, any>[]): Record<string, any>[] {
+        return books.filter((book) => book.volumeInfo.industryIdentifiers && book.volumeInfo.industryIdentifiers[0].type === 'ISBN_13');
     }
 }

@@ -14,11 +14,12 @@ export const generateGoogleBooksApiResponse = (values: { isAuthor: boolean; isDe
         fakeResponse: {
             volumeInfo: {
                 title: fakeValues.title,
-                authors: [fakeValues.author],
+                authors: fakeValues.author ? [fakeValues.author] : [],
                 description: fakeValues.description,
                 imageLinks: {
                     thumbnail: fakeValues.image
-                }
+                },
+                industryIdentifiers: [{ type: 'ISBN_13' }]
             }
         }
     };

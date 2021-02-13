@@ -8,7 +8,8 @@ export const Endpoint = {
     },
     BOOK: {
         GET_DATA_BY_ISBN: '/book/data/isbn/:isbn',
-        GET_DATA_BY_TITLE: '/book/data/title/:title'
+        GET_DATA_BY_TITLE: '/book/data/title/:title',
+        CREATE: '/book'
     },
     MAIL: {
         CONFIRIM_EMAIL: '/mail/email-confirmation',

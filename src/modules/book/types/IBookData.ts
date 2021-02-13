@@ -4,4 +4,6 @@ export interface IBookData {
     description: string | null;
     image: string;
     isbn: string;
+    language: string;
+    pages: number | null;
 }

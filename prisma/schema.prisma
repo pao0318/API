@@ -62,7 +62,6 @@ model Book {
     language            Language
     image               String
     rating              Float?
-    googleRating        Float?
     addedAt             DateTime    @default(now())
     latitude            Float
     longitude           Float

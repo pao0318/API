@@ -1,3 +1,3 @@
-export class CreateBookRequest implements Readonly<CreateBookRequest> {
+export class CreateBookRequestDto implements Readonly<CreateBookRequestDto> {
     public isbn: string;
 }

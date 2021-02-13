@@ -64,7 +64,6 @@ CREATE TABLE "Book" (
     "language" "Language" NOT NULL,
     "image" TEXT NOT NULL,
     "rating" DECIMAL(65,30),
-    "googleRating" DECIMAL(65,30),
     "addedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "latitude" DECIMAL(65,30) NOT NULL,
     "longitude" DECIMAL(65,30) NOT NULL,

@@ -71,7 +71,9 @@ export class GoogleApiService {
             author: this._bookContainsAuthor(data) ? data.volumeInfo.authors[0] : null,
             description: data.volumeInfo.description || null,
             image: data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default.jpg',
-            isbn: this._bookContainsIsbn(data) ? data.volumeInfo.industryIdentifiers[0].identifier : null
+            isbn: this._bookContainsIsbn(data) ? data.volumeInfo.industryIdentifiers[0].identifier : null,
+            language: data.volumeInfo.language,
+            pages: data.volumeInfo.pageCount ? data.volumeInfo.pageCount : null
         };
     }
 

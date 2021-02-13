@@ -24,8 +24,6 @@ jobs:
     services:
       postgres:
         image: kartoza/postgis:9.6-2.4
-        volumes:
-          - /prisma/sql:/sql
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: password
@@ -51,6 +49,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Log prisma dir
+      run: cd ./prisma/sql && ls
+
     - name: Install yarn
       run: sudo npm install -g yarn
 
@@ -61,7 +62,7 @@ jobs:
       run: yarn prisma:migrate:deploy
 
     - name: Apply external SQL scripts
-      run: docker exec $(sudo docker ps -q --filter ancestor=kartoza/postgis:9.6-2.4) /bin/sh -c 'psql -u root -d easter_api </sql/postgis.sql'
+      run: cat ./prisma/sql/postgis.sql | sudo docker exec -i $(sudo docker ps -q --filter ancestor=kartoza/postgis:9.6-2.4) psql -U root -d easter_api
 
     - name: Build application
       run: yarn build

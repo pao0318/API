@@ -53,6 +53,24 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         });
     });
 
+    describe('When input is invalid', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            response = await request(app.getHttpServer())
+                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '978142681344'))
+                .set({ authorization: token });
+        });
+
+        it('Should return status code 400', () => {
+            expect(response.status).toEqual(400);
+        });
+
+        it(`Should return error id ${Constants.EXCEPTION.INVALID_INPUT}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_INPUT);
+        });
+    });
+
     describe('When the Google API contains the provided isbn', () => {
         let response: Response;
 
@@ -84,20 +102,6 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         beforeAll(async () => {
             response = await request(app.getHttpServer())
                 .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813444'))
-                .set({ authorization: token });
-        });
-
-        it('Should return status code 404', () => {
-            expect(response.status).toEqual(404);
-        });
-    });
-
-    describe('When the provided isbn is invalid', () => {
-        let response: Response;
-
-        beforeAll(async () => {
-            response = await request(app.getHttpServer())
-                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '978142681344'))
                 .set({ authorization: token });
         });
 

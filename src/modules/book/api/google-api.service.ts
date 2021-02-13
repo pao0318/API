@@ -29,10 +29,13 @@ export class GoogleApiService {
         return book;
     }
 
-    public async getBookDataByTitle(title: string): Promise<IBookData[]> {
-        const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByTitleUrl({ title: title, quantity: 3 }), this._getCompressionHeaders());
+    public async getBooksDataByTitle(title: string): Promise<IBookData[]> {
+        const response = await this._httpService.performGetRequest(
+            UrlBuilder.buildGetBooksByTitleUrl({ title: title, quantity: 3 }),
+            this._getCompressionHeaders()
+        );
 
-        if(response.data.totalItems === 0) {
+        if (response.data.totalItems === 0) {
             return [];
         }
 

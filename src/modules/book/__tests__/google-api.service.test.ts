@@ -64,7 +64,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] } });
                     });
 
                     it('Should return correct payload', async () => {
@@ -82,7 +82,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] } });
                     });
 
                     it('Should return correct payload', async () => {
@@ -100,7 +100,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] } });
                     });
 
                     it('Should return correct payload', async () => {
@@ -118,7 +118,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] } });
                     });
 
                     it('Should return correct payload', async () => {
@@ -150,7 +150,7 @@ describe('Google API Service', () => {
         });
     });
 
-    describe('Get book data by title', () => {
+    describe('Get books data by title', () => {
         describe('When books associated with the provided title exist', () => {
             const { fakeValues, fakeResponse } = generateGoogleBooksApiResponse({ isAuthor: true, isDescription: true, isImage: true });
 
@@ -159,7 +159,7 @@ describe('Google API Service', () => {
             });
 
             it('Should return an array with the found books', async () => {
-                const books = await googleApiService.getBookDataByTitle(random.word());
+                const books = await googleApiService.getBooksDataByTitle(random.word());
                 expect(books[0]).toEqual(fakeValues);
             });
         });
@@ -170,7 +170,7 @@ describe('Google API Service', () => {
             });
 
             it('Should return an empty array', async () => {
-                const books = await googleApiService.getBookDataByTitle(random.word());
+                const books = await googleApiService.getBooksDataByTitle(random.word());
                 expect(books).toHaveLength(0);
             });
         });

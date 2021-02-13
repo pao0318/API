@@ -1,8 +1,8 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { MailService } from './mail.service';
-import { SendEmailConfirmationMailRequestDto } from './dto/send-email-confirmation-mail-request.dto';
-import { SendPasswordResetMailRequestDto } from './dto/send-password-reset-mail-request.dto';
+import { SendEmailConfirmationMailBodyDto } from './dto/send-email-confirmation-mail-body.dto';
+import { SendPasswordResetMailBodyDto } from './dto/send-password-reset-mail-body.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
 import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
@@ -18,7 +18,7 @@ export class MailController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Mail has been sent succesfully' })
     @ExceptionResponses([EmailNotFoundException, InvalidAccountTypeException, AlreadyConfirmedAccountException])
-    public async sendAccountConfirmationMail(@Body() body: SendEmailConfirmationMailRequestDto): Promise<void> {
+    public async sendAccountConfirmationMail(@Body() body: SendEmailConfirmationMailBodyDto): Promise<void> {
         await this._mailService.sendEmailConfirmationMail(body);
     }
 
@@ -26,7 +26,7 @@ export class MailController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Mail has been sent succesfully' })
     @ExceptionResponses([EmailNotFoundException, InvalidAccountTypeException, AlreadyConfirmedAccountException])
-    public async sendResetPasswordConfirmationMail(@Body() body: SendPasswordResetMailRequestDto): Promise<void> {
+    public async sendResetPasswordConfirmationMail(@Body() body: SendPasswordResetMailBodyDto): Promise<void> {
         await this._mailService.sendPasswordResetMail(body);
     }
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
 
-export class RegisterRequestDto implements Readonly<RegisterRequestDto> {
+export class RegisterBodyDto implements Readonly<RegisterBodyDto> {
     @ApiProperty({ minLength: 3, maxLength: 64 })
     @IsString()
     @MinLength(3)

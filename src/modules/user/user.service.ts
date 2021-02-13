@@ -5,9 +5,9 @@ import { IFile } from '../file/types/IFile';
 import { PrismaService } from '../../database/prisma.service';
 import { ValidationService } from '../validation/validation.service';
 import { IHashService } from '../hash/types/IHashService';
-import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
-import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
-import { UpdateLocationRequestDto } from './dto/update-location-request.dto';
+import { ConfirmEmailBodyDto } from './dto/confirm-email-body.dto';
+import { ResetPasswordBodyDto } from './dto/reset-password-body.dto';
+import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
 
 @Injectable()
 export class UserService {
@@ -18,7 +18,7 @@ export class UserService {
         @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService
     ) {}
 
-    public async confirmEmail(body: ConfirmEmailRequestDto): Promise<void> {
+    public async confirmEmail(body: ConfirmEmailBodyDto): Promise<void> {
         const user = await this._validationService.getUserByEmailOrThrow(body.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
@@ -34,7 +34,7 @@ export class UserService {
         await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
     }
 
-    public async resetPassword(body: ResetPasswordRequestDto): Promise<void> {
+    public async resetPassword(body: ResetPasswordBodyDto): Promise<void> {
         const user = await this._validationService.getUserByEmailOrThrow(body.email);
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);
@@ -58,7 +58,7 @@ export class UserService {
         await this._databaseService.user.update({ where: { id: userId }, data: { avatar: `${imageName}.jpg` } });
     }
 
-    public async updateLocation(userId: string, body: UpdateLocationRequestDto): Promise<void> {
+    public async updateLocation(userId: string, body: UpdateLocationBodyDto): Promise<void> {
         await this._databaseService.updateUserGeolocation(body.latitude, body.longitude, userId);
     }
 

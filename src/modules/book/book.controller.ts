@@ -7,7 +7,7 @@ import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.ex
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 import { BookService } from './book.service';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
-import { CreateBookRequestDto } from './dto/create-book-request.dto';
+import { CreateBookBodyDto } from './dto/create-book-body.dto';
 import { GetBookDataByIsbnParamsDto } from './dto/get-book-data-by-isbn-params.dto';
 import { GetBooksDataByTitleParamsDto } from './dto/get-books-data-by-title-params.dto';
 
@@ -38,7 +38,7 @@ export class BookController {
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'Book has been created successfully' })
     @ExceptionResponses([IsbnNotFoundException])
-    public async createBook(@Req() request: IAuthorizedRequest, @Body() body: CreateBookRequestDto): Promise<void> {
+    public async createBook(@Req() request: IAuthorizedRequest, @Body() body: CreateBookBodyDto): Promise<void> {
         await this._bookService.createBook(body, request.user.id);
     }
 }

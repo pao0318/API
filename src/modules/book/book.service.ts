@@ -3,7 +3,7 @@ import { Constants } from '../../common/constants';
 import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
 import { GoogleApiService } from './api/google-api.service';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
-import { CreateBookRequestDto } from './dto/create-book-request.dto';
+import { CreateBookBodyDto } from './dto/create-book-body.dto';
 import { PrismaService } from '../../database/prisma.service';
 import { Language } from '@prisma/client';
 
@@ -27,7 +27,7 @@ export class BookService {
         return books.map((book) => BookDataResponseDto.fromBookData(book));
     }
 
-    public async createBook(body: CreateBookRequestDto, userId: string): Promise<void> {
+    public async createBook(body: CreateBookBodyDto, userId: string): Promise<void> {
         const book = await this._googleApiService.getBookByIsbn(body.isbn);
 
         if (!book) throw new IsbnNotFoundException();

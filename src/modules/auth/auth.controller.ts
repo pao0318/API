@@ -1,8 +1,8 @@
 import { Body, Controller, HttpCode, Post, Req } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { AuthService } from './auth.service';
-import { RegisterRequestDto } from './dto/register-request.dto';
-import { LoginRequestDto } from './dto/login-request.dto';
+import { RegisterBodyDto } from './dto/register-body.dto';
+import { LoginBodyDto } from './dto/login-body.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DuplicateEmailException } from '../../common/exceptions/duplicate-email.exception';
 import { InvalidAccountTypeException } from '../../common/exceptions/invalid-account-type.exception';
@@ -22,7 +22,7 @@ export class AuthController {
     @HttpCode(Constants.STATUS_CODE.CREATED)
     @ApiResponse({ status: Constants.STATUS_CODE.CREATED, description: 'User has registered successfully', type: LoginResponseDto })
     @ExceptionResponses([DuplicateEmailException])
-    public async register(@Body() body: RegisterRequestDto): Promise<void> {
+    public async register(@Body() body: RegisterBodyDto): Promise<void> {
         await this._authService.register(body);
     }
 
@@ -30,7 +30,7 @@ export class AuthController {
     @HttpCode(Constants.STATUS_CODE.OK)
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'User has logged in successfully' })
     @ExceptionResponses([InvalidAccountTypeException, InvalidCredentialsException, UnconfirmedAccountException])
-    public async login(@Body() body: LoginRequestDto): Promise<LoginResponseDto> {
+    public async login(@Body() body: LoginBodyDto): Promise<LoginResponseDto> {
         return await this._authService.login(body);
     }
 

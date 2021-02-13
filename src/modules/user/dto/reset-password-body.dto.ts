@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
 
-export class ResetPasswordRequestDto implements Readonly<ResetPasswordRequestDto> {
+export class ResetPasswordBodyDto implements Readonly<ResetPasswordBodyDto> {
     @ApiProperty({ minLength: 3, maxLength: 64 })
     @IsString()
     @MinLength(3)

@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, Patch, Post, Req, UploadedFile } from '@nes
 import { Constants } from '../../common/constants';
 import { UserService } from './user.service';
 import { IFile } from '../file/types/IFile';
-import { ConfirmEmailRequestDto } from './dto/confirm-email-request.dto';
-import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
+import { ConfirmEmailBodyDto } from './dto/confirm-email-body.dto';
+import { ResetPasswordBodyDto } from './dto/reset-password-body.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
 import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
@@ -14,7 +14,7 @@ import { ExpiredConfirmationCodeException } from '../../common/exceptions/expire
 import { UnconfirmedAccountException } from '../../common/exceptions/unconfirmed-account.exception';
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
 import { FileUpload } from '../../common/decorators/file-upload.decorator';
-import { UpdateLocationRequestDto } from './dto/update-location-request.dto';
+import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 
 @ApiTags('user')
@@ -32,7 +32,7 @@ export class UserController {
         InvalidConfirmationCodeException,
         ExpiredConfirmationCodeException
     ])
-    public async confirmEmail(@Body() body: ConfirmEmailRequestDto): Promise<void> {
+    public async confirmEmail(@Body() body: ConfirmEmailBodyDto): Promise<void> {
         await this._userService.confirmEmail(body);
     }
 
@@ -46,7 +46,7 @@ export class UserController {
         InvalidConfirmationCodeException,
         ExpiredConfirmationCodeException
     ])
-    public async resetPassword(@Body() body: ResetPasswordRequestDto): Promise<void> {
+    public async resetPassword(@Body() body: ResetPasswordBodyDto): Promise<void> {
         await this._userService.resetPassword(body);
     }
 
@@ -63,7 +63,7 @@ export class UserController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Location has been changed successfully' })
-    public async updateLocation(@Req() request: IAuthorizedRequest, @Body() body: UpdateLocationRequestDto): Promise<void> {
+    public async updateLocation(@Req() request: IAuthorizedRequest, @Body() body: UpdateLocationBodyDto): Promise<void> {
         await this._userService.updateLocation(request.user.id, body);
     }
 }

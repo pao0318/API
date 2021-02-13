@@ -20,4 +20,12 @@ export class BookController {
     public async getBookDataByIsbn(@Param('isbn') isbn: string): Promise<BookDataResponseDto> {
         return await this._bookService.getBookDataByIsbn(isbn);
     }
+
+    @Get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE)
+    @HttpCode(Constants.STATUS_CODE.OK)
+    @BearerAuth()
+    @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'The book data has been retrieved successfully' })
+    public async getBookDataByTitle(@Param('title') title: string): Promise<BookDataResponseDto[]> {
+        return await this._bookService.getBookDataByTitle(title);
+    }
 }

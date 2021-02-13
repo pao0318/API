@@ -21,4 +21,8 @@ export class BookService {
 
         return book;
     }
+
+    public async getBookDataByTitle(title: string): Promise<BookDataResponseDto[]> {
+        throw new Error('Not implemented');
+    }
 }

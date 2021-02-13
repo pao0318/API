@@ -29,6 +29,10 @@ export class GoogleApiService {
         return book;
     }
 
+    public async getBookDataByTitle(title: string): Promise<IBookData[]> {
+        throw new Error('Not implemented');
+    }
+
     private _returnBookDataBasedOnCache(cachedBook: string | Object): IBookData | null {
         if (cachedBook === Constants.REDIS.GOOGLE_API_NOT_AVAILABLE) return null;
         return cachedBook as IBookData;

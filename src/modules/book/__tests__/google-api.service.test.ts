@@ -64,7 +64,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
                     });
 
                     it('Should return correct payload', async () => {
@@ -82,7 +82,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
                     });
 
                     it('Should return correct payload', async () => {
@@ -100,7 +100,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
                     });
 
                     it('Should return correct payload', async () => {
@@ -118,7 +118,7 @@ describe('Google API Service', () => {
 
                     beforeAll(() => {
                         cacheService.set = jest.fn();
-                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: fakeResponse });
+                        httpService.performGetRequest = jest.fn().mockResolvedValueOnce({ data: { items: [fakeResponse] }});
                     });
 
                     it('Should return correct payload', async () => {

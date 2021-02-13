@@ -30,8 +30,14 @@ export class GoogleApiService {
     }
 
     public async getBookDataByTitle(title: string): Promise<IBookData[]> {
-        // const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByTitleUrl({ title: title, quantity: 3 }), this._getCompressionHeaders());
-        throw new Error('Not implemented');
+        const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByTitleUrl({ title: title, quantity: 3 }), this._getCompressionHeaders());
+
+        if(response.data.totalItems === 0) {
+            return [];
+        }
+
+        const books = response.data.items.map((item: Record<string, unknown>) => this._mapResponseToBookData(item));
+        return books;
     }
 
     private _returnBookDataBasedOnCache(cachedBook: string | Object): IBookData | null {

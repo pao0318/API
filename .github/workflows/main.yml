@@ -51,6 +51,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Log containers
+      run: docker container ls
+      
     - name: Install yarn
       run: sudo npm install -g yarn
 

@@ -49,9 +49,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Log prisma dir
-      run: cd ./prisma/sql && ls
-
     - name: Install yarn
       run: sudo npm install -g yarn
 

@@ -83,10 +83,6 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
 
         it(`Should return an array with the books data`, () => {
             expect(response.body.length).toEqual(3);
-
-            expect(response.body[0].title).toEqual('Flowers');
-            expect(response.body[1].title).toEqual('Pretty Flowers Easy Color Book');
-            expect(response.body[2].title).toEqual('When the Flowers Died');
         });
     });
 

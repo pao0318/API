@@ -11,7 +11,7 @@ class TestRegisterBodyDto extends RegisterBodyDto {
     }
 }
 
-describe('Login Body Dto', () => {
+describe('Register Body Dto', () => {
     describe('When email does not exist', () => {
         it('Should return an validation error', async () => {
             const body = new TestRegisterBodyDto({ password: random.alphaNumeric(10) });

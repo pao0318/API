@@ -8,6 +8,7 @@ import { PrismaService } from '../database/prisma.service';
 import { BookModule } from '../modules/book/book.module';
 import { AccessToken } from '../modules/token/tokens/access-token';
 import { ITokenService } from '../modules/token/types/ITokenService';
+import { random } from 'faker';
 
 describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
     let databaseService: PrismaService;
@@ -49,6 +50,24 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
         });
     });
 
+    describe('When input is invalid', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            response = await request(app.getHttpServer())
+                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE.replace(':title', random.alphaNumeric(40)))
+                .set({ authorization: token });
+        });
+
+        it('Should return status code 400', () => {
+            expect(response.status).toEqual(400);
+        });
+
+        it(`Should return error id ${Constants.EXCEPTION.INVALID_INPUT}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_INPUT);
+        });
+    });
+
     describe('When books associated with the provided title exist', () => {
         let response: Response;
 
@@ -64,10 +83,6 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
 
         it(`Should return an array with the books data`, () => {
             expect(response.body.length).toEqual(3);
-
-            expect(response.body[0].title).toEqual('Flowers');
-            expect(response.body[1].title).toEqual('Pretty Flowers Easy Color Book');
-            expect(response.body[2].title).toEqual('When the Flowers Died');
         });
     });
 

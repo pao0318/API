@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
 
-export class SendEmailConfirmationMailRequestDto implements Readonly<SendEmailConfirmationMailRequestDto> {
+export class SendPasswordResetMailBodyDto implements Readonly<SendPasswordResetMailBodyDto> {
     @ApiProperty({ minLength: 3, maxLength: 64 })
     @IsString()
     @MinLength(3)

@@ -9,8 +9,8 @@ import { IHashService } from '../hash/types/IHashService';
 import { ITokenService } from '../token/types/ITokenService';
 import { AccessToken } from '../token/tokens/access-token';
 import { ValidationService } from '../validation/validation.service';
-import { LoginRequestDto } from './dto/login-request.dto';
-import { RegisterRequestDto } from './dto/register-request.dto';
+import { LoginBodyDto } from './dto/login-body.dto';
+import { RegisterBodyDto } from './dto/register-body.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class AuthService {
         @Inject(Constants.DEPENDENCY.EMAIL_SERVICE) private readonly _emailService: IEmailService
     ) {}
 
-    public async register(body: RegisterRequestDto): Promise<void> {
+    public async register(body: RegisterBodyDto): Promise<void> {
         await this._validationService.throwIfEmailAlreadyExists(body.email);
 
         const hashedPassword = await this._hashService.generateHash(body.password);
@@ -37,7 +37,7 @@ export class AuthService {
         await this._emailService.sendMail(new EmailConfirmationMail(user.email, { code: confirmationCode.code }));
     }
 
-    public async login(body: LoginRequestDto): Promise<LoginResponseDto> {
+    public async login(body: LoginBodyDto): Promise<LoginResponseDto> {
         const user = await this._validationService.getUserByEmailOrThrow(body.email, new InvalidCredentialsException());
 
         this._validationService.throwIfUserHasSocialMediaAccount(user);

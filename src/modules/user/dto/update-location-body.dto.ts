@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, Min, Max } from 'class-validator';
 
-export class UpdateLocationRequestDto implements Readonly<UpdateLocationRequestDto> {
+export class UpdateLocationBodyDto implements Readonly<UpdateLocationBodyDto> {
     @ApiProperty({ minimum: -90, maximum: 90 })
     @IsNumber()
     @Min(-90)

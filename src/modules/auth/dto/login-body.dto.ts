@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
 
-export class LoginRequestDto implements Readonly<LoginRequestDto> {
+export class LoginBodyDto implements Readonly<LoginBodyDto> {
     @ApiProperty({ minLength: 3, maxLength: 64 })
     @IsString()
     @MinLength(3)

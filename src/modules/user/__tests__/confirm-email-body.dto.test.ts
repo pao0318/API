@@ -14,7 +14,7 @@ class TestConfirmEmailBodyDto extends ConfirmEmailBodyDto {
 describe('Confirm Email Body Dto', () => {
     describe('When email does not exist', () => {
         it('Should return an validation error', async () => {
-            const body = new TestConfirmEmailBodyDto({});
+            const body = new TestConfirmEmailBodyDto({ code: random.alphaNumeric(6) });
 
             const errors = await validate(body);
 

@@ -8,6 +8,7 @@ import { IHashService } from '../hash/types/IHashService';
 import { ConfirmEmailBodyDto } from './dto/confirm-email-body.dto';
 import { ResetPasswordBodyDto } from './dto/reset-password-body.dto';
 import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
+import { UpdatePreferenceBodyDto } from './dto/update-preference-body.dto';
 
 @Injectable()
 export class UserService {
@@ -62,7 +63,10 @@ export class UserService {
         await this._databaseService.updateUserGeolocation(body.latitude, body.longitude, userId);
     }
 
-    // public async updatePreference(userId: string, body: )
+    public async updatePreference(userId: string, body: UpdatePreferenceBodyDto): Promise<void> {
+        throw new Error('Not implemented');
+    }
+
     private async _removeOldAvatar(id: string): Promise<void> {
         const user = await this._databaseService.user.findUnique({ where: { id } });
 

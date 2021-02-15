@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Patch, Post, Req, UploadedFile } from '@nestjs/common';
+import { Body, Controller, HttpCode, Patch, Post, Put, Req, UploadedFile } from '@nestjs/common';
 import { Constants } from '../../common/constants';
 import { UserService } from './user.service';
 import { IFile } from '../file/types/IFile';
@@ -16,6 +16,7 @@ import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
 import { FileUpload } from '../../common/decorators/file-upload.decorator';
 import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
+import { UpdatePreferenceBodyDto } from './dto/update-preference-body.dto';
 
 @ApiTags('user')
 @Controller('/')
@@ -65,5 +66,13 @@ export class UserController {
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Location has been changed successfully' })
     public async updateLocation(@Req() request: IAuthorizedRequest, @Body() body: UpdateLocationBodyDto): Promise<void> {
         await this._userService.updateLocation(request.user.id, body);
+    }
+
+    @Put(Constants.ENDPOINT.USER.PREFERENCE.UPDATE)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    @BearerAuth()
+    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Preference has been updated successfully' })
+    public async updatePreference(@Req() request: IAuthorizedRequest, @Body() body: UpdatePreferenceBodyDto): Promise<void> {
+        await this._userService.updatePreference(request.user.id, body);
     }
 }

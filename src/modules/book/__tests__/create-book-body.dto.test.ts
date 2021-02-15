@@ -14,7 +14,7 @@ class TestCreateBookBodyDto extends CreateBookBodyDto {
 
 describe('Create Book Body Dto', () => {
     describe('When isbn does not exist', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestCreateBookBodyDto({ genre: random.arrayElement(Object.values(Genre)) });
 
             const errors = await validate(body);
@@ -24,7 +24,7 @@ describe('Create Book Body Dto', () => {
     });
 
     describe('When isbn is not a string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestCreateBookBodyDto({ isbn: false, genre: random.arrayElement(Object.values(Genre)) });
 
@@ -35,7 +35,7 @@ describe('Create Book Body Dto', () => {
     });
 
     describe('When isbn is not a numeric string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestCreateBookBodyDto({ isbn: random.word(), genre: random.arrayElement(Object.values(Genre)) });
 
             const errors = await validate(body);
@@ -45,7 +45,7 @@ describe('Create Book Body Dto', () => {
     });
 
     describe('When isbn has less than 13 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestCreateBookBodyDto({ isbn: '75101086', genre: random.arrayElement(Object.values(Genre)) });
 
             const errors = await validate(body);
@@ -55,7 +55,7 @@ describe('Create Book Body Dto', () => {
     });
 
     describe('When isbn has more than 13 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestCreateBookBodyDto({ isbn: '751010865981710686161', genre: random.arrayElement(Object.values(Genre)) });
 
             const errors = await validate(body);
@@ -65,7 +65,7 @@ describe('Create Book Body Dto', () => {
     });
 
     describe('When genre is not a string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestCreateBookBodyDto({ isbn: '7853079263849', genre: [false] });
 
@@ -76,7 +76,7 @@ describe('Create Book Body Dto', () => {
     });
 
     describe('When genre is not a valid enum', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestCreateBookBodyDto({ isbn: '7853079263849', genre: random.word() });
 

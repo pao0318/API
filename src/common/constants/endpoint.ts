@@ -27,6 +27,9 @@ export const Endpoint = {
         },
         LOCATION: {
             UPDATE: '/user/location'
+        },
+        PREFERENCE: {
+            UPDATE: '/user/preference'
         }
     },
     QUOTE: {

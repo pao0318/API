@@ -62,6 +62,7 @@ export class UserService {
         await this._databaseService.updateUserGeolocation(body.latitude, body.longitude, userId);
     }
 
+    // public async updatePreference(userId: string, body: )
     private async _removeOldAvatar(id: string): Promise<void> {
         const user = await this._databaseService.user.findUnique({ where: { id } });
 

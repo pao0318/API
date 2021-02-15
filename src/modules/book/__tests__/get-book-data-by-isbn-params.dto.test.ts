@@ -12,7 +12,7 @@ class TestGetBookDataByIsbnParamsDto extends GetBookDataByIsbnParamsDto {
 
 describe('Get Book Data by ISBN Params Dto', () => {
     describe('When isbn does not exist', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestGetBookDataByIsbnParamsDto({});
 
             const errors = await validate(body);
@@ -22,7 +22,7 @@ describe('Get Book Data by ISBN Params Dto', () => {
     });
 
     describe('When isbn is not a string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestGetBookDataByIsbnParamsDto({ isbn: false });
 
@@ -33,7 +33,7 @@ describe('Get Book Data by ISBN Params Dto', () => {
     });
 
     describe('When isbn is not a numeric string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestGetBookDataByIsbnParamsDto({ isbn: random.word() });
 
             const errors = await validate(body);
@@ -43,7 +43,7 @@ describe('Get Book Data by ISBN Params Dto', () => {
     });
 
     describe('When isbn has less than 13 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestGetBookDataByIsbnParamsDto({ isbn: '75101086' });
 
             const errors = await validate(body);
@@ -53,7 +53,7 @@ describe('Get Book Data by ISBN Params Dto', () => {
     });
 
     describe('When isbn has more than 13 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestGetBookDataByIsbnParamsDto({ isbn: '751010865981710686161' });
 
             const errors = await validate(body);

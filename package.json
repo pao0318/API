@@ -17,6 +17,7 @@
     "prisma:update": "npx prisma introspect && npx prisma generate",
     "prisma:migrate:dev": "npx prisma migrate dev --preview-feature",
     "prisma:migrate:deploy": "npx prisma migrate deploy --preview-feature",
+    "prisma:apply:sql": "cat ./prisma/sql/postgis.sql | sudo docker exec -i $(sudo docker ps -q --filter ancestor=kartoza/postgis:9.6-2.4) psql -U root -d easter_api",
     "start:docker": "npx prisma generate && npx prisma migrate deploy --preview-feature && yarn build && yarn start:dev",
     "seed:user": "nestjs-command seed:user",
     "test": "yarn test:unit && yarn test:e2e",

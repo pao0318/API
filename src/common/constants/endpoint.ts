@@ -22,11 +22,14 @@ export const Endpoint = {
         EMAIL: {
             CONFIRM: '/user/email'
         },
-        PASSWORD: {
-            UPDATE: '/user/password'
+        IDENTITY: {
+            UPDATE: '/user/identity'
         },
         LOCATION: {
             UPDATE: '/user/location'
+        },
+        PASSWORD: {
+            UPDATE: '/user/password'
         },
         PREFERENCE: {
             UPDATE: '/user/preference'

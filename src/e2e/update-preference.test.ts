@@ -56,7 +56,7 @@ describe(`PUT ${Constants.ENDPOINT.USER.PREFERENCE.UPDATE}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer()).patch(Constants.ENDPOINT.USER.PREFERENCE.UPDATE).set({ authorization: token });
+            response = await request(app.getHttpServer()).put(Constants.ENDPOINT.USER.PREFERENCE.UPDATE).set({ authorization: token });
         });
 
         it('Should return status code 400', () => {

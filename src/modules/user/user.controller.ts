@@ -17,6 +17,7 @@ import { FileUpload } from '../../common/decorators/file-upload.decorator';
 import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 import { UpdatePreferenceBodyDto } from './dto/update-preference-body.dto';
+import { UpdateIdentityBodyDto } from './dto/update-identity-body.dto';
 
 @ApiTags('user')
 @Controller('/')
@@ -74,5 +75,13 @@ export class UserController {
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Preference has been updated successfully' })
     public async updatePreference(@Req() request: IAuthorizedRequest, @Body() body: UpdatePreferenceBodyDto): Promise<void> {
         await this._userService.updatePreference(request.user.id, body);
+    }
+
+    @Put(Constants.ENDPOINT.USER.IDENTITY.UPDATE)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    @BearerAuth()
+    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Identity has been updated successfully' })
+    public async updateIdentity(@Req() request: IAuthorizedRequest, @Body() body: UpdateIdentityBodyDto): Promise<void> {
+        await this._userService.updateIdentity(request.user.id, body);
     }
 }

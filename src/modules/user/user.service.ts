@@ -64,7 +64,7 @@ export class UserService {
     }
 
     public async updatePreference(userId: string, body: UpdatePreferenceBodyDto): Promise<void> {
-        throw new Error('Not implemented');
+        await this._databaseService.preference.upsert({ where: { userId }, update: body, create: { ...body, userId } });
     }
 
     private async _removeOldAvatar(id: string): Promise<void> {

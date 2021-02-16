@@ -69,24 +69,48 @@ describe(`PUT ${Constants.ENDPOINT.USER.PREFERENCE.UPDATE}`, () => {
     });
 
     describe('When input is valid', () => {
-        const preferenceData = { book: random.alphaNumeric(10), author: random.alphaNumeric(10), genres: [random.arrayElement(Object.values(Genre))] };
-        let response: Response;
-        let updatedPreference: Preference;
+        describe('When preference does not exist', () => {
+            const preferenceData = { book: random.alphaNumeric(10), author: random.alphaNumeric(10), genres: [random.arrayElement(Object.values(Genre))] };
+            let response: Response;
+            let updatedPreference: Preference;
 
-        beforeAll(async () => {
-            response = await request(app.getHttpServer()).put(Constants.ENDPOINT.USER.PREFERENCE.UPDATE).send(preferenceData).set({ authorization: token });
+            beforeAll(async () => {
+                response = await request(app.getHttpServer()).put(Constants.ENDPOINT.USER.PREFERENCE.UPDATE).send(preferenceData).set({ authorization: token });
 
-            updatedPreference = await databaseService.preference.findUnique({ where: { userId: user.id } });
+                updatedPreference = await databaseService.preference.findUnique({ where: { userId: user.id } });
+            });
+
+            it('Should return status code 204', () => {
+                expect(response.status).toEqual(204);
+            });
+
+            it('Should create preference in the database', () => {
+                expect(updatedPreference.book).toEqual(preferenceData.book);
+                expect(updatedPreference.author).toEqual(preferenceData.author);
+                expect(updatedPreference.genres).toEqual(preferenceData.genres);
+            });
         });
 
-        it('Should return status code 204', () => {
-            expect(response.status).toEqual(204);
-        });
+        describe('When preference already exists', () => {
+            const preferenceData = { book: random.alphaNumeric(10), author: random.alphaNumeric(10), genres: [random.arrayElement(Object.values(Genre))] };
+            let response: Response;
+            let updatedPreference: Preference;
 
-        it('Should update preference in the database', () => {
-            expect(updatedPreference.book).toEqual(preferenceData.book);
-            expect(updatedPreference.author).toEqual(preferenceData.author);
-            expect(updatedPreference.genres).toEqual(preferenceData.genres);
+            beforeAll(async () => {
+                response = await request(app.getHttpServer()).put(Constants.ENDPOINT.USER.PREFERENCE.UPDATE).send(preferenceData).set({ authorization: token });
+
+                updatedPreference = await databaseService.preference.findUnique({ where: { userId: user.id } });
+            });
+
+            it('Should return status code 204', () => {
+                expect(response.status).toEqual(204);
+            });
+
+            it('Should update preference in the database', () => {
+                expect(updatedPreference.book).toEqual(preferenceData.book);
+                expect(updatedPreference.author).toEqual(preferenceData.author);
+                expect(updatedPreference.genres).toEqual(preferenceData.genres);
+            });
         });
     });
 });

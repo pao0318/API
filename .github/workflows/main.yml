@@ -59,7 +59,7 @@ jobs:
       run: yarn prisma:migrate:deploy
 
     - name: Apply external SQL scripts
-      run: cat ./prisma/sql/postgis.sql | sudo docker exec -i $(sudo docker ps -q --filter ancestor=kartoza/postgis:9.6-2.4) psql -U root -d easter_api
+      run: yarn prisma:apply:sql
 
     - name: Build application
       run: yarn build

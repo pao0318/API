@@ -12,7 +12,7 @@ class TestGetBooksDataByTitleParamsDto extends GetBooksDataByTitleParamsDto {
 
 describe('Get Books Data by Title Params Dto', () => {
     describe('When title does not exist', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestGetBooksDataByTitleParamsDto({});
 
             const errors = await validate(body);
@@ -22,7 +22,7 @@ describe('Get Books Data by Title Params Dto', () => {
     });
 
     describe('When title is not a string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestGetBooksDataByTitleParamsDto({ title: 46 });
 
@@ -33,7 +33,7 @@ describe('Get Books Data by Title Params Dto', () => {
     });
 
     describe('When title has less than 1 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestGetBooksDataByTitleParamsDto({ title: '' });
 
             const errors = await validate(body);
@@ -43,7 +43,7 @@ describe('Get Books Data by Title Params Dto', () => {
     });
 
     describe('When title has more than 32 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestGetBooksDataByTitleParamsDto({ title: random.alphaNumeric(40) });
 
             const errors = await validate(body);

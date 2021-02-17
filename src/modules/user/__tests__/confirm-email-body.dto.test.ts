@@ -13,7 +13,7 @@ class TestConfirmEmailBodyDto extends ConfirmEmailBodyDto {
 
 describe('Confirm Email Body Dto', () => {
     describe('When email does not exist', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestConfirmEmailBodyDto({ code: random.alphaNumeric(6) });
 
             const errors = await validate(body);
@@ -23,7 +23,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When email is not a string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestConfirmEmailBodyDto({ email: 515151, code: random.alphaNumeric(6) });
 
@@ -34,7 +34,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When email has less than 3 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestConfirmEmailBodyDto({ email: random.alphaNumeric(2), code: random.alphaNumeric(6) });
 
             const errors = await validate(body);
@@ -44,7 +44,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When email has more than 64 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestConfirmEmailBodyDto({ email: random.alphaNumeric(70), code: random.alphaNumeric(6) });
 
             const errors = await validate(body);
@@ -54,7 +54,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When email has an invalid form', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestConfirmEmailBodyDto({ email: random.alphaNumeric(10), code: random.alphaNumeric(6) });
 
             const errors = await validate(body);
@@ -64,7 +64,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When code does not exist', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestConfirmEmailBodyDto({ email: internet.email() });
 
             const errors = await validate(body);
@@ -74,7 +74,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When code is not a string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestConfirmEmailBodyDto({ email: internet.email(), code: 416053 });
 
@@ -85,7 +85,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When code has less than 6 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestConfirmEmailBodyDto({ email: internet.email(), code: random.alphaNumeric(5) });
 
             const errors = await validate(body);
@@ -95,7 +95,7 @@ describe('Confirm Email Body Dto', () => {
     });
 
     describe('When code has more than 6 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestConfirmEmailBodyDto({ email: internet.email(), code: random.alphaNumeric(7) });
 
             const errors = await validate(body);

@@ -12,7 +12,7 @@ class TestSendEmailConfirmationMailBodyDto extends SendEmailConfirmationMailBody
 
 describe('Send Email Confirmation Mail Body Dto', () => {
     describe('When email does not exist', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestSendEmailConfirmationMailBodyDto({});
 
             const errors = await validate(body);
@@ -22,7 +22,7 @@ describe('Send Email Confirmation Mail Body Dto', () => {
     });
 
     describe('When email is not a string', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             //@ts-expect-error
             const body = new TestSendEmailConfirmationMailBodyDto({ email: 515151 });
 
@@ -33,7 +33,7 @@ describe('Send Email Confirmation Mail Body Dto', () => {
     });
 
     describe('When email has less than 3 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestSendEmailConfirmationMailBodyDto({ email: random.alphaNumeric(2) });
 
             const errors = await validate(body);
@@ -43,7 +43,7 @@ describe('Send Email Confirmation Mail Body Dto', () => {
     });
 
     describe('When email has more than 64 characters', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestSendEmailConfirmationMailBodyDto({ email: random.alphaNumeric(70) });
 
             const errors = await validate(body);
@@ -53,7 +53,7 @@ describe('Send Email Confirmation Mail Body Dto', () => {
     });
 
     describe('When email has an invalid form', () => {
-        it('Should return an validation error', async () => {
+        it('Should return a validation error', async () => {
             const body = new TestSendEmailConfirmationMailBodyDto({ email: random.alphaNumeric(10) });
 
             const errors = await validate(body);

@@ -69,7 +69,7 @@ describe(`PUT ${Constants.ENDPOINT.USER.IDENTITY.UPDATE}`, () => {
     });
 
     describe('When input is valid', () => {
-        let fakeData = { firstName: random.alphaNumeric(10), lastName: random.alphaNumeric(10) };
+        const fakeData = { firstName: random.alphaNumeric(10), lastName: random.alphaNumeric(10) };
         let response: Response;
         let updatedUser: User;
 

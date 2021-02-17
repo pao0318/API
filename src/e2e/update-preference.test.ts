@@ -11,6 +11,8 @@ import { ITokenService } from '../modules/token/types/ITokenService';
 import { UserModule } from '../modules/user/user.module';
 import { random } from 'faker';
 
+/* eslint sonarjs/no-identical-functions: 0 */
+
 describe(`PUT ${Constants.ENDPOINT.USER.PREFERENCE.UPDATE}`, () => {
     let databaseService: PrismaService;
     let app: INestApplication;

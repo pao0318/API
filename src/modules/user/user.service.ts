@@ -69,7 +69,7 @@ export class UserService {
     }
 
     public async updateIdentity(userId: string, body: UpdateIdentityBodyDto): Promise<void> {
-        throw new Error('Not implemented');
+        await this._databaseService.user.update({ where: { id: userId }, data: body });
     }
 
     private async _removeOldAvatar(id: string): Promise<void> {

@@ -16,7 +16,7 @@ import { GetBooksDataByTitleParamsDto } from './dto/get-books-data-by-title-para
 export class BookController {
     constructor(private readonly _bookService: BookService) {}
 
-    @Get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN)
+    @Get(Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN)
     @HttpCode(Constants.STATUS_CODE.OK)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'The book data has been retrieved successfully' })
@@ -25,7 +25,7 @@ export class BookController {
         return await this._bookService.getBookDataByIsbn(params.isbn);
     }
 
-    @Get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE)
+    @Get(Constants.ENDPOINT.BOOK.DATA.GET_BY_TITLE)
     @HttpCode(Constants.STATUS_CODE.OK)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'The book data has been retrieved successfully' })

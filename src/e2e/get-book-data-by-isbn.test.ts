@@ -10,7 +10,7 @@ import { ITokenService } from '../modules/token/types/ITokenService';
 import { AccessToken } from '../modules/token/tokens/access-token';
 import { RedisService } from '../modules/redis/redis.service';
 
-describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
+describe(`GET ${Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN}`, () => {
     let databaseService: PrismaService;
     let redisService: RedisService;
     let app: INestApplication;
@@ -41,7 +41,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer()).get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN);
+            response = await request(app.getHttpServer()).get(Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN);
         });
 
         it('Should return status code 401', () => {
@@ -58,7 +58,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
 
         beforeAll(async () => {
             response = await request(app.getHttpServer())
-                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '978142681344'))
+                .get(Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN.replace(':isbn', '978142681344'))
                 .set({ authorization: token });
         });
 
@@ -76,7 +76,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
 
         beforeAll(async () => {
             response = await request(app.getHttpServer())
-                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813443'))
+                .get(Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN.replace(':isbn', '9781426813443'))
                 .set({ authorization: token });
         });
 
@@ -101,7 +101,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN}`, () => {
 
         beforeAll(async () => {
             response = await request(app.getHttpServer())
-                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_ISBN.replace(':isbn', '9781426813444'))
+                .get(Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN.replace(':isbn', '9781426813444'))
                 .set({ authorization: token });
         });
 

@@ -46,6 +46,10 @@ export class BookService {
         });
     }
 
+    public async borrowBook(): Promise<void> {
+        throw new Error('Not implemented');
+    }
+
     private _mapLanguageAcronimToEnum(language: string): Language {
         const languages = {
             en: Language.ENGLISH,

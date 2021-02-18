@@ -6,6 +6,7 @@ import { BookDataResponseDto } from './dto/book-data-response.dto';
 import { CreateBookBodyDto } from './dto/create-book-body.dto';
 import { PrismaService } from '../../database/prisma.service';
 import { Language } from '@prisma/client';
+import { BorrowBookBodyDto } from './dto/borrow-book-body.dto';
 
 @Injectable()
 export class BookService {
@@ -46,7 +47,7 @@ export class BookService {
         });
     }
 
-    public async borrowBook(): Promise<void> {
+    public async borrowBook(body: BorrowBookBodyDto, userId: string): Promise<void> {
         throw new Error('Not implemented');
     }
 

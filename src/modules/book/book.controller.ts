@@ -7,6 +7,7 @@ import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.ex
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 import { BookService } from './book.service';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
+import { BorrowBookBodyDto } from './dto/borrow-book-body.dto';
 import { CreateBookBodyDto } from './dto/create-book-body.dto';
 import { GetBookDataByIsbnParamsDto } from './dto/get-book-data-by-isbn-params.dto';
 import { GetBooksDataByTitleParamsDto } from './dto/get-books-data-by-title-params.dto';
@@ -36,9 +37,17 @@ export class BookController {
     @Post(Constants.ENDPOINT.BOOK.CREATE)
     @HttpCode(Constants.STATUS_CODE.CREATED)
     @BearerAuth()
-    @ApiResponse({ status: Constants.STATUS_CODE.OK, description: 'Book has been created successfully' })
+    @ApiResponse({ status: Constants.STATUS_CODE.CREATED, description: 'Book has been created successfully' })
     @ExceptionResponses([IsbnNotFoundException])
     public async createBook(@Req() request: IAuthorizedRequest, @Body() body: CreateBookBodyDto): Promise<void> {
         await this._bookService.createBook(body, request.user.id);
+    }
+
+    @Post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    @BearerAuth()
+    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Borrow request has been sent successfully' })
+    public async borrowBook(@Req() request: IAuthorizedRequest, @Body() body: BorrowBookBodyDto): Promise<void> {
+        await this._bookService.borrowBook(body, request.user.id);
     }
 }

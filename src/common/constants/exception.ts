@@ -13,4 +13,5 @@ export enum Exception {
     USER_NOT_FOUND = 110,
     INVALID_IMAGE_FORMAT = 111,
     ISBN_NOT_FOUND = 112,
+    BOOK_NOT_FOUND = 113
 }

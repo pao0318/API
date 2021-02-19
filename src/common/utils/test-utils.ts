@@ -4,10 +4,11 @@ import { Config } from '../config';
 import { INestApplication } from '@nestjs/common';
 import { ExceptionFilter } from '../filters/exception.filter';
 import { TestingModule } from '@nestjs/testing';
-import { PrismaClient, User } from '@prisma/client';
+import { Book, Genre, Language, PrismaClient, User } from '@prisma/client';
 import { IUserCreateInput } from '../../database/types/IUserCreateInput';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { RedisService } from '../../modules/redis/redis.service';
+import { IBookCreateInput } from '../../database/types/IBookCreateInput';
 
 export class TestUtils {
     public static async dropDatabase(database: PrismaClient): Promise<void> {
@@ -44,6 +45,20 @@ export class TestUtils {
         };
     }
 
+    public static generateFakeBookData(userId: string): IBookCreateInput {
+        return {
+            isbn: random.alphaNumeric(13),
+            title: random.word(),
+            description: random.word(),
+            image: random.word(),
+            genre: random.arrayElement(Object.values(Genre)),
+            language: random.arrayElement(Object.values(Language)),
+            latitude: random.number({ min: -90, max: 90 }),
+            longitude: random.number({ min: -180, max: 180 }),
+            ownedById: userId
+        };
+    }
+
     public static async createUserInDatabase(database: PrismaClient): Promise<User> {
         return await database.user.create({
             data: {
@@ -52,6 +67,10 @@ export class TestUtils {
                 longitude: random.number({ min: -180, max: 180 })
             }
         });
+    }
+
+    public static async createBookInDatabase(database: PrismaClient, userId: string): Promise<Book> {
+        return await database.book.create({ data: this.generateFakeBookData(userId) });
     }
 
     public static async createTestApplication(module: TestingModule): Promise<INestApplication> {

@@ -9,11 +9,18 @@ import { BookModule } from '../modules/book/book.module';
 import { AccessToken } from '../modules/token/tokens/access-token';
 import { ITokenService } from '../modules/token/types/ITokenService';
 import { random } from 'faker';
+import { User } from '@prisma/client';
 
+/*
+ - You cannot request your own book
+ - Book is not available
+ - Successful scenario
+*/
 describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
     let databaseService: PrismaService;
     let app: INestApplication;
     let token: string;
+    let user: User;
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
@@ -24,8 +31,8 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
         databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
 
         const tokenService = (await app.resolve(Constants.DEPENDENCY.TOKEN_SERVICE)) as ITokenService;
-        const user = await TestUtils.createUserInDatabase(databaseService);
 
+        user = await TestUtils.createUserInDatabase(databaseService);
         token = await tokenService.generate(new AccessToken({ id: user.id, email: user.email, version: user.tokenVersion }));
     });
 
@@ -85,5 +92,41 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
         });
     });
 
-    describe('When the book has been already requested', () => {});
+    describe('When the book has been already requested', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            const tempUser = await TestUtils.createUserInDatabase(databaseService);
+            const book = await TestUtils.createBookInDatabase(databaseService, tempUser.id);
+            await databaseService.bookRequest.create({ data: { userId: user.id, bookId: book.id } });
+
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW).send({ id: book.id }).set({ authorization: token });
+        });
+
+        it('Should return status code 409', () => {
+            expect(response.status).toEqual(409);
+        });
+
+        it(`Should return error id ${Constants.EXCEPTION.BOOK_ALREADY_REQUESTED}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_ALREADY_REQUESTED);
+        });
+    });
+
+    describe('When the user is requesting his own book', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            const book = await TestUtils.createBookInDatabase(databaseService, user.id);
+
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW).send({ id: book.id }).set({ authorization: token });
+        });
+
+        it('Should return status code 409', () => {
+            expect(response.status).toEqual(409);
+        });
+
+        it(`Should return error id ${Constants.EXCEPTION.BOOK_ALREADY_REQUESTED}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_ALREADY_REQUESTED);
+        });
+    });
 });

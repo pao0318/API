@@ -12,7 +12,7 @@ import { random } from 'faker';
 import { User } from '@prisma/client';
 
 /*
- - Book is not available
+ - You have already borrowed this book
  - Successful scenario
 */
 describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
@@ -126,6 +126,26 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
 
         it(`Should return error id ${Constants.EXCEPTION.BOOK_OWNERSHIP}`, () => {
             expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_OWNERSHIP);
+        });
+    });
+
+    describe('When the book is not available', () => {
+        let response: Response;
+
+        beforeAll(async () => {
+            const tempUser = await TestUtils.createUserInDatabase(databaseService);
+            const book = await TestUtils.createBookInDatabase(databaseService, tempUser.id);
+            await databaseService.book.update({ where: { id: book.id }, data: { borrowedById: tempUser.id } });
+
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW).send({ id: book.id }).set({ authorization: token });
+        });
+
+        it('Should return status code 400', () => {
+            expect(response.status).toEqual(400);
+        });
+
+        it(`Should return error id ${Constants.EXCEPTION.BOOK_NOT_AVAILABLE}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_NOT_AVAILABLE);
         });
     });
 });

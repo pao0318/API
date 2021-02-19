@@ -89,6 +89,7 @@ model Book {
 
 model BookRequest {
     id                  String          @id @default(uuid())
+    requestedAt         DateTime        @default(now())
 
     user                User            @relation(fields: [userId], references: [id])
     userId              String

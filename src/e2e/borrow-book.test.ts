@@ -9,7 +9,7 @@ import { BookModule } from '../modules/book/book.module';
 import { AccessToken } from '../modules/token/tokens/access-token';
 import { ITokenService } from '../modules/token/types/ITokenService';
 import { random } from 'faker';
-import { User } from '@prisma/client';
+import { BookRequest, User } from '@prisma/client';
 
 /*
  - You have already borrowed this book
@@ -102,8 +102,8 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
             response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW).send({ id: book.id }).set({ authorization: token });
         });
 
-        it('Should return status code 409', () => {
-            expect(response.status).toEqual(409);
+        it('Should return status code 400', () => {
+            expect(response.status).toEqual(400);
         });
 
         it(`Should return error id ${Constants.EXCEPTION.BOOK_ALREADY_REQUESTED}`, () => {
@@ -146,6 +146,29 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
 
         it(`Should return error id ${Constants.EXCEPTION.BOOK_NOT_AVAILABLE}`, () => {
             expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_NOT_AVAILABLE);
+        });
+    });
+
+    describe('When the input is valid', () => {
+        let response: Response;
+        let bookRequest: BookRequest;
+
+        beforeAll(async () => {
+            const tempUser = await TestUtils.createUserInDatabase(databaseService);
+
+            const book = await TestUtils.createBookInDatabase(databaseService, tempUser.id);
+
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW).send({ id: book.id }).set({ authorization: token });
+
+            bookRequest = await databaseService.bookRequest.findFirst({ where: { userId: user.id, bookId: book.id } });
+        });
+
+        it('Should return status code 204', () => {
+            expect(response.status).toEqual(204);
+        });
+
+        it('Should create new book request in the database', () => {
+            expect(bookRequest.userId).toEqual(user.id);
         });
     });
 });

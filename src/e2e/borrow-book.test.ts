@@ -12,7 +12,6 @@ import { random } from 'faker';
 import { User } from '@prisma/client';
 
 /*
- - You cannot request your own book
  - Book is not available
  - Successful scenario
 */
@@ -121,12 +120,12 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
             response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW).send({ id: book.id }).set({ authorization: token });
         });
 
-        it('Should return status code 409', () => {
-            expect(response.status).toEqual(409);
+        it('Should return status code 400', () => {
+            expect(response.status).toEqual(400);
         });
 
-        it(`Should return error id ${Constants.EXCEPTION.BOOK_ALREADY_REQUESTED}`, () => {
-            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_ALREADY_REQUESTED);
+        it(`Should return error id ${Constants.EXCEPTION.BOOK_OWNERSHIP}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_OWNERSHIP);
         });
     });
 });

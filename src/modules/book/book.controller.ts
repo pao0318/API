@@ -48,6 +48,6 @@ export class BookController {
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'Borrow request has been sent successfully' })
     public async borrowBook(@Req() request: IAuthorizedRequest, @Body() body: BorrowBookBodyDto): Promise<void> {
-        await this._bookService.borrowBook(body, request.user.id);
+        await this._bookService.borrowBook(body, request.user);
     }
 }

@@ -65,6 +65,7 @@ export class BookService {
         const bookRequest = await this._databaseService.bookRequest.findFirst({ where: { userId: user.id, bookId: book.id } });
         if (bookRequest) throw new BookAlreadyRequestedException();
 
+        await this._databaseService.bookRequest.create({ data: { userId: user.id, bookId: book.id } });
         await this._emailService.sendMail(new BorrowRequestMail(user.email));
     }
 

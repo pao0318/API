@@ -7,7 +7,7 @@ export abstract class Mail {
     protected readonly _to: string;
     protected _context: IMailContext;
 
-    constructor(to: string, context: IMailContext) {
+    constructor(to: string, context?: IMailContext) {
         this._to = to;
         this._context = context;
     }
@@ -26,8 +26,10 @@ export abstract class Mail {
     }
 
     private _applyContext(template: string, context: IMailContext): string {
-        for (const key in context) {
-            template = template.replace(`{{ ${key} }}`, context[key.toString()]);
+        if (context) {
+            for (const key in context) {
+                template = template.replace(`{{ ${key} }}`, context[key.toString()]);
+            }
         }
 
         return template;

@@ -6,7 +6,6 @@ import { ExceptionResponses } from '../../common/decorators/exception-responses.
 import { BookNotAvailableException } from '../../common/exceptions/book-not-available.exception';
 import { BookNotFoundException } from '../../common/exceptions/book-not-found.exception';
 import { BookOwnershipException } from '../../common/exceptions/book-ownership.exception';
-import { ExchangeNotFoundException } from '../../common/exceptions/exchange-not-found.exception';
 import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 import { BookService } from './book.service';

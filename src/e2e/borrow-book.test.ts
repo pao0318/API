@@ -111,7 +111,7 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
         beforeAll(async () => {
             const tempUser = await TestUtils.createUserInDatabase(databaseService);
             const book = await TestUtils.createBookInDatabase(databaseService, tempUser.id);
-            await databaseService.book.update({ where: { id: book.id }, data: { borrowedById: tempUser.id } });
+            await databaseService.book.update({ where: { id: book.id }, data: { borrowerId: tempUser.id } });
 
             response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.EXCHANGE.BORROW).send({ id: book.id }).set({ authorization: token });
         });

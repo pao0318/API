@@ -15,6 +15,7 @@ import { IEmailService } from '../email/types/IEmailService';
 import { BorrowRequestMail } from '../email/mails/borrow-request-mail';
 import { IAccessTokenPayload } from '../token/types/IAccessTokenPayload';
 import { DeclineExchangeBodyDto } from './dto/decline-exchange-body.dto';
+import { InvalidRequestException } from '../../common/exceptions/invalid-request.exception';
 
 @Injectable()
 export class BookService {
@@ -47,7 +48,7 @@ export class BookService {
         await this._databaseService.book.create({
             data: {
                 ...book,
-                ownedById: user.id,
+                ownerId: user.id,
                 latitude: user.latitude,
                 longitude: user.longitude,
                 genre: body.genre,
@@ -60,8 +61,8 @@ export class BookService {
         const book = await this._databaseService.book.findUnique({ where: { id: body.id } });
 
         if (!book) throw new BookNotFoundException();
-        if (book.ownedById === user.id) throw new BookOwnershipException();
-        if (book.borrowedById !== null) throw new BookNotAvailableException();
+        if (book.ownerId === user.id) throw new BookOwnershipException();
+        if (book.borrowerId !== null) throw new BookNotAvailableException();
 
         const bookRequest = await this._databaseService.bookRequest.findFirst({ where: { userId: user.id, bookId: book.id } });
         if (bookRequest) throw new BookAlreadyRequestedException();
@@ -71,11 +72,12 @@ export class BookService {
     }
 
     public async declineExchange(body: DeclineExchangeBodyDto, userId: string): Promise<void> {
-        /* 
-         - exchange does not exist
-         - userId is not a owner of the exchange
-         - Remove the exchange in the database
-        */
+        const bookRequest = await this._databaseService.bookRequest.findUnique({ where: { id: body.id }, include: { book: true } });
+
+        if (!bookRequest) throw new InvalidRequestException();
+        if (bookRequest.book.ownerId !== userId) throw new InvalidRequestException();
+
+        await this._databaseService.bookRequest.delete({ where: { id: bookRequest.id } });
     }
 
     private _mapLanguageAcronimToEnum(language: string): Language {

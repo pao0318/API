@@ -55,7 +55,7 @@ export class TestUtils {
             language: random.arrayElement(Object.values(Language)),
             latitude: random.number({ min: -90, max: 90 }),
             longitude: random.number({ min: -180, max: 180 }),
-            ownedById: userId
+            ownerId: userId
         };
     }
 

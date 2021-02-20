@@ -68,7 +68,7 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.DECLINE}`, () => {
         });
     });
 
-    describe('When the exchange does not exist', () => {
+    describe('When the book request does not exist', () => {
         let response: Response;
 
         beforeAll(async () => {
@@ -91,8 +91,9 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.DECLINE}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            const book = await TestUtils.createBookInDatabase(databaseService, random.uuid());
-            const bookRequest = await databaseService.bookRequest.create({ data: { userId: random.uuid(), bookId: book.id } });
+            const tempUser = await TestUtils.createUserInDatabase(databaseService);
+            const book = await TestUtils.createBookInDatabase(databaseService, tempUser.id);
+            const bookRequest = await databaseService.bookRequest.create({ data: { userId: tempUser.id, bookId: book.id } });
 
             response = await request(app.getHttpServer())
                 .post(Constants.ENDPOINT.BOOK.EXCHANGE.DECLINE)
@@ -115,7 +116,8 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.DECLINE}`, () => {
 
         beforeAll(async () => {
             const book = await TestUtils.createBookInDatabase(databaseService, user.id);
-            const bookRequest = await databaseService.bookRequest.create({ data: { userId: random.uuid(), bookId: book.id } });
+            const tempUser = await TestUtils.createUserInDatabase(databaseService);
+            const bookRequest = await databaseService.bookRequest.create({ data: { userId: tempUser.id, bookId: book.id } });
 
             response = await request(app.getHttpServer())
                 .post(Constants.ENDPOINT.BOOK.EXCHANGE.DECLINE)

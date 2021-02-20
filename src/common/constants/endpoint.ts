@@ -12,7 +12,9 @@ export const Endpoint = {
             GET_BY_TITLE: '/book/data/title/:title'
         },
         EXCHANGE: {
-            BORROW: '/book/borrow'
+            ACCEPT: '/book/exchange/accept',
+            BORROW: '/book/exchange/borrow',
+            DECLINE: '/book/exchange/decline'
         },
         CREATE: '/book'
     },

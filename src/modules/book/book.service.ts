@@ -69,6 +69,14 @@ export class BookService {
         await this._emailService.sendMail(new BorrowRequestMail(user.email));
     }
 
+    public async declineExchange(userId: string): Promise<void> {
+        /* 
+         - exchange does not exist
+         - userId is not a owner of the exchange
+         - Remove the exchange in the database
+        */
+    }
+
     private _mapLanguageAcronimToEnum(language: string): Language {
         const languages = {
             en: Language.ENGLISH,

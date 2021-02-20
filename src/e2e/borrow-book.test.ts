@@ -11,10 +11,6 @@ import { ITokenService } from '../modules/token/types/ITokenService';
 import { random } from 'faker';
 import { BookRequest, User } from '@prisma/client';
 
-/*
- - You have already borrowed this book
- - Successful scenario
-*/
 describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
     let databaseService: PrismaService;
     let app: INestApplication;

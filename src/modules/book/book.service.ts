@@ -14,6 +14,7 @@ import { BookAlreadyRequestedException } from '../../common/exceptions/book-alre
 import { IEmailService } from '../email/types/IEmailService';
 import { BorrowRequestMail } from '../email/mails/borrow-request-mail';
 import { IAccessTokenPayload } from '../token/types/IAccessTokenPayload';
+import { DeclineExchangeBodyDto } from './dto/decline-exchange-body.dto';
 
 @Injectable()
 export class BookService {
@@ -69,7 +70,7 @@ export class BookService {
         await this._emailService.sendMail(new BorrowRequestMail(user.email));
     }
 
-    public async declineExchange(userId: string): Promise<void> {
+    public async declineExchange(body: DeclineExchangeBodyDto, userId: string): Promise<void> {
         /* 
          - exchange does not exist
          - userId is not a owner of the exchange

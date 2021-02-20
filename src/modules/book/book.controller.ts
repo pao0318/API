@@ -6,6 +6,7 @@ import { ExceptionResponses } from '../../common/decorators/exception-responses.
 import { BookNotAvailableException } from '../../common/exceptions/book-not-available.exception';
 import { BookNotFoundException } from '../../common/exceptions/book-not-found.exception';
 import { BookOwnershipException } from '../../common/exceptions/book-ownership.exception';
+import { ExchangeNotFoundException } from '../../common/exceptions/exchange-not-found.exception';
 import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 import { BookService } from './book.service';
@@ -60,6 +61,7 @@ export class BookController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'The exchange has been declined successfully' })
+    @ExceptionResponses([ExchangeNotFoundException])
     public async declineExchange(@Req() request: IAuthorizedRequest, @Body() body: DeclineExchangeBodyDto): Promise<void> {
         await this._bookService.declineExchange(body, request.user.id);
     }

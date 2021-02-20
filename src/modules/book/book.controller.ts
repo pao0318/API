@@ -61,7 +61,6 @@ export class BookController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'The exchange has been declined successfully' })
-    @ExceptionResponses([ExchangeNotFoundException])
     public async declineExchange(@Req() request: IAuthorizedRequest, @Body() body: DeclineExchangeBodyDto): Promise<void> {
         await this._bookService.declineExchange(body, request.user.id);
     }

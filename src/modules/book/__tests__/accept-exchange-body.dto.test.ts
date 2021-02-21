@@ -1,7 +1,6 @@
 import { validate } from 'class-validator';
 import { random } from 'faker';
 import { AcceptExchangeBodyDto } from '../dto/accept-exchange-body.dto';
-import { BorrowBookBodyDto } from '../dto/borrow-book-body.dto';
 
 class TestAcceptExchangeBodyDto extends AcceptExchangeBodyDto {
     constructor(data: { id?: string }) {

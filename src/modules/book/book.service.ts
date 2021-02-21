@@ -81,7 +81,15 @@ export class BookService {
         await this._databaseService.bookRequest.delete({ where: { id: bookRequest.id } });
     }
 
-    public async acceptExchange(body: AcceptExchangeBodyDto, userId: string) {}
+    public async acceptExchange(body: AcceptExchangeBodyDto, userId: string): Promise<void> {
+        const bookRequest = await this._databaseService.bookRequest.findUnique({ where: { id: body.id }, include: { book: true } });
+
+        if (!bookRequest) throw new InvalidRequestException();
+        if (bookRequest.book.ownerId !== userId) throw new InvalidRequestException();
+
+        await this._databaseService.book.update({ where: { id: bookRequest.bookId }, data: { borrowerId: bookRequest.userId } });
+        await this._databaseService.bookRequest.deleteMany({ where: { bookId: bookRequest.bookId } });
+    }
 
     private _mapLanguageAcronimToEnum(language: string): Language {
         const languages = {

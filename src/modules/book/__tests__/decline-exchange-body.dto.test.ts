@@ -1,6 +1,5 @@
 import { validate } from 'class-validator';
 import { random } from 'faker';
-import { BorrowBookBodyDto } from '../dto/borrow-book-body.dto';
 import { DeclineExchangeBodyDto } from '../dto/decline-exchange-body.dto';
 
 class TestDeclineExchangeBodyDto extends DeclineExchangeBodyDto {

@@ -16,6 +16,7 @@ import { BorrowRequestMail } from '../email/mails/borrow-request-mail';
 import { IAccessTokenPayload } from '../token/types/IAccessTokenPayload';
 import { DeclineExchangeBodyDto } from './dto/decline-exchange-body.dto';
 import { InvalidRequestException } from '../../common/exceptions/invalid-request.exception';
+import { AcceptExchangeBodyDto } from './dto/accept-exchange-body.dto';
 
 @Injectable()
 export class BookService {
@@ -80,7 +81,8 @@ export class BookService {
         await this._databaseService.bookRequest.delete({ where: { id: bookRequest.id } });
     }
 
-    // public async acceptExchange() {};
+    public async acceptExchange(body: AcceptExchangeBodyDto, userId: string) {}
+
     private _mapLanguageAcronimToEnum(language: string): Language {
         const languages = {
             en: Language.ENGLISH,

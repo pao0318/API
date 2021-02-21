@@ -9,6 +9,7 @@ import { BookOwnershipException } from '../../common/exceptions/book-ownership.e
 import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 import { BookService } from './book.service';
+import { AcceptExchangeBodyDto } from './dto/accept-exchange-body.dto';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
 import { BorrowBookBodyDto } from './dto/borrow-book-body.dto';
 import { CreateBookBodyDto } from './dto/create-book-body.dto';
@@ -62,5 +63,13 @@ export class BookController {
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'The exchange has been declined successfully' })
     public async declineExchange(@Req() request: IAuthorizedRequest, @Body() body: DeclineExchangeBodyDto): Promise<void> {
         await this._bookService.declineExchange(body, request.user.id);
+    }
+
+    @Post(Constants.ENDPOINT.BOOK.EXCHANGE.ACCEPT)
+    @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
+    @BearerAuth()
+    @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'The exchange has been accepted successfully' })
+    public async acceptExchange(@Req() request: IAuthorizedRequest, @Body() body: AcceptExchangeBodyDto): Promise<void> {
+        await this._bookService.acceptExchange(body, request.user.id);
     }
 }

@@ -80,6 +80,7 @@ export class BookService {
         await this._databaseService.bookRequest.delete({ where: { id: bookRequest.id } });
     }
 
+    // public async acceptExchange() {};
     private _mapLanguageAcronimToEnum(language: string): Language {
         const languages = {
             en: Language.ENGLISH,

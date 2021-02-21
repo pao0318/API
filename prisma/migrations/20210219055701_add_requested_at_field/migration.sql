@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "BookRequest" ADD COLUMN     "requestedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

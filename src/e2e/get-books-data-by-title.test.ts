@@ -10,7 +10,7 @@ import { AccessToken } from '../modules/token/tokens/access-token';
 import { ITokenService } from '../modules/token/types/ITokenService';
 import { random } from 'faker';
 
-describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
+describe(`GET ${Constants.ENDPOINT.BOOK.DATA.GET_BY_TITLE}`, () => {
     let databaseService: PrismaService;
     let app: INestApplication;
     let token: string;
@@ -38,7 +38,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer()).get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE);
+            response = await request(app.getHttpServer()).get(Constants.ENDPOINT.BOOK.DATA.GET_BY_TITLE);
         });
 
         it('Should return status code 401', () => {
@@ -55,7 +55,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
 
         beforeAll(async () => {
             response = await request(app.getHttpServer())
-                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE.replace(':title', random.alphaNumeric(40)))
+                .get(Constants.ENDPOINT.BOOK.DATA.GET_BY_TITLE.replace(':title', random.alphaNumeric(40)))
                 .set({ authorization: token });
         });
 
@@ -73,7 +73,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
 
         beforeAll(async () => {
             response = await request(app.getHttpServer())
-                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE.replace(':title', 'flowers'))
+                .get(Constants.ENDPOINT.BOOK.DATA.GET_BY_TITLE.replace(':title', 'flowers'))
                 .set({ authorization: token });
         });
 
@@ -91,7 +91,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE}`, () => {
 
         beforeAll(async () => {
             response = await request(app.getHttpServer())
-                .get(Constants.ENDPOINT.BOOK.GET_DATA_BY_TITLE.replace(':title', 'fajoughashogj'))
+                .get(Constants.ENDPOINT.BOOK.DATA.GET_BY_TITLE.replace(':title', 'fajoughashogj'))
                 .set({ authorization: token });
         });
 

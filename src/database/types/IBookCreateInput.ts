@@ -1,4 +1,4 @@
-import { Genre } from '@prisma/client';
+import { Genre, Language } from '@prisma/client';
 
 export interface IBookCreateInput {
     isbn: string;
@@ -6,7 +6,8 @@ export interface IBookCreateInput {
     description: string;
     genre: Genre;
     image: string;
-    ownedById: string;
+    ownerId: string;
     latitude: number;
     longitude: number;
+    language: Language;
 }

@@ -5,9 +5,9 @@ import { PrismaService } from '../../database/prisma.service';
 import { IEmailService } from '../email/types/IEmailService';
 import { EmailConfirmationMail } from '../email/mails/email-confirmation-mail';
 import { PasswordResetMail } from '../email/mails/password-reset-mail';
-import { ValidationService } from '../validation/validation.service';
 import { SendEmailConfirmationMailBodyDto } from './dto/send-email-confirmation-mail-body.dto';
 import { SendPasswordResetMailBodyDto } from './dto/send-password-reset-mail-body.dto';
+import { ValidationService } from '../validation/validation.service';
 
 @Injectable()
 export class MailService {
@@ -18,11 +18,11 @@ export class MailService {
     ) {}
 
     public async sendEmailConfirmationMail(body: SendEmailConfirmationMailBodyDto): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(body.email);
+        const user = await this._validationService.user.getUserByEmailOrThrow(body.email);
 
-        this._validationService.throwIfUserHasSocialMediaAccount(user);
+        this._validationService.user.throwIfUserHasSocialMediaAccount(user);
 
-        this._validationService.throwIfAccountIsAlreadyConfirmed(user);
+        this._validationService.user.throwIfAccountIsAlreadyConfirmed(user);
 
         const confirmationCode = generateConfirmationCode();
 
@@ -32,11 +32,11 @@ export class MailService {
     }
 
     public async sendPasswordResetMail(body: SendPasswordResetMailBodyDto): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(body.email);
+        const user = await this._validationService.user.getUserByEmailOrThrow(body.email);
 
-        this._validationService.throwIfUserHasSocialMediaAccount(user);
+        this._validationService.user.throwIfUserHasSocialMediaAccount(user);
 
-        this._validationService.throwIfAccountIsNotConfirmed(user);
+        this._validationService.user.throwIfAccountIsNotConfirmed(user);
 
         const confirmationCode = generateConfirmationCode();
 

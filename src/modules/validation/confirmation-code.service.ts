@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfirmationCode } from '@prisma/client';
 import { Constants } from '../../common/constants';
 import { BaseException } from '../../common/exceptions/base.exception';
@@ -6,6 +6,7 @@ import { ExpiredConfirmationCodeException } from '../../common/exceptions/expire
 import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 import { PrismaService } from '../../database/prisma.service';
 
+@Injectable()
 export class ConfirmationCodeValidationService {
     constructor(@Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService) {}
 

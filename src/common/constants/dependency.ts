@@ -8,9 +8,11 @@ export enum Dependency {
     HTTP_SERVICE = 'AxiosService',
     TOKEN_SERVICE = 'JwtTokenService',
     REDIS_SERVICE = 'RedisService',
-    VALIDATION_SERVICE = 'ValidationService',
     QUOTE_API_SERVICE = 'QuoteApiService',
 
     CLOUD_PROVIDER = 'CloudinaryProvider',
-    REDIS_CLIENT = 'REDIS_CLIENT'
+    REDIS_CLIENT = 'REDIS_CLIENT',
+
+    USER_VALIDATION_SERVICE = 'UserValidationService',
+    CONFIRMATION_CODE_VALIDATION_SERVICE = 'ConfirmationCodeValidationService'
 }

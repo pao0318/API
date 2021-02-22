@@ -9,14 +9,17 @@ import { ResetPasswordBodyDto } from './dto/reset-password-body.dto';
 import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
 import { UpdatePreferenceBodyDto } from './dto/update-preference-body.dto';
 import { UpdateIdentityBodyDto } from './dto/update-identity-body.dto';
-import { UserValidationService } from './validation.service';
+import { UserValidationService } from '../validation/user.service';
+import { ConfirmationCodeValidationService } from '../validation/confirmation-code.service';
 
 @Injectable()
 export class UserService {
     constructor(
         @Inject(Constants.DEPENDENCY.FILE_SERVICE) private readonly _fileService: FileService,
         @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _userValidationService: UserValidationService,
+        @Inject(Constants.DEPENDENCY.USER_VALIDATION_SERVICE) private readonly _userValidationService: UserValidationService,
+        @Inject(Constants.DEPENDENCY.CONFIRMATION_CODE_VALIDATION_SERVICE)
+        private readonly _confirmationCodeValidationService: ConfirmationCodeValidationService,
         @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService
     ) {}
 
@@ -27,9 +30,9 @@ export class UserService {
 
         this._userValidationService.throwIfAccountIsAlreadyConfirmed(user);
 
-        const confirmationCode = await this._userValidationService.getConfirmationCodeOrThrow(user.id, body.code);
+        const confirmationCode = await this._confirmationCodeValidationService.getConfirmationCodeOrThrow(user.id, body.code);
 
-        this._userValidationService.throwIfConfirmationCodeIsExpired(confirmationCode);
+        this._confirmationCodeValidationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
         await this._databaseService.user.update({ where: { id: user.id }, data: { isConfirmed: true } });
 
@@ -43,9 +46,9 @@ export class UserService {
 
         this._userValidationService.throwIfAccountIsNotConfirmed(user);
 
-        const confirmationCode = await this._userValidationService.getConfirmationCodeOrThrow(user.id, body.code);
+        const confirmationCode = await this._confirmationCodeValidationService.getConfirmationCodeOrThrow(user.id, body.code);
 
-        this._userValidationService.throwIfConfirmationCodeIsExpired(confirmationCode);
+        this._confirmationCodeValidationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
         await this._databaseService.user.update({ where: { id: user.id }, data: { password: await this._hashService.generateHash(body.password) } });
 

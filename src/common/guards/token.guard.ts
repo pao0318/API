@@ -2,9 +2,9 @@ import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/commo
 import { IAccessTokenPayload } from '../../modules/token/types/IAccessTokenPayload';
 import { ITokenService } from '../../modules/token/types/ITokenService';
 import { AccessToken } from '../../modules/token/tokens/access-token';
-import { ValidationService } from '../../modules/validation/validation.service';
 import { Constants } from '../constants';
 import { UnauthorizedException } from '../exceptions/unauthorized.exception';
+import { ValidationService } from '../../modules/validation/validation.service';
 
 @Injectable()
 export class TokenGuard implements CanActivate {
@@ -18,7 +18,7 @@ export class TokenGuard implements CanActivate {
 
         const payload = await this._getPayloadFromToken(token);
 
-        const user = await this._validationService.getUserByIdOrThrow(payload.id);
+        const user = await this._validationService.user.getUserByIdOrThrow(payload.id);
 
         if (user.tokenVersion !== payload.version) throw new UnauthorizedException();
 

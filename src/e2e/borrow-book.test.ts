@@ -78,12 +78,12 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
                 .set({ authorization: token });
         });
 
-        it('Should return status code 404', () => {
-            expect(response.status).toEqual(404);
+        it('Should return status code 400', () => {
+            expect(response.status).toEqual(400);
         });
 
-        it(`Should return error id ${Constants.EXCEPTION.BOOK_NOT_FOUND}`, () => {
-            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_NOT_FOUND);
+        it(`Should return error id ${Constants.EXCEPTION.INVALID_REQUEST}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_REQUEST);
         });
     });
 
@@ -100,8 +100,8 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
             expect(response.status).toEqual(400);
         });
 
-        it(`Should return error id ${Constants.EXCEPTION.BOOK_OWNERSHIP}`, () => {
-            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_OWNERSHIP);
+        it(`Should return error id ${Constants.EXCEPTION.INVALID_REQUEST}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_REQUEST);
         });
     });
 
@@ -120,8 +120,8 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
             expect(response.status).toEqual(400);
         });
 
-        it(`Should return error id ${Constants.EXCEPTION.BOOK_NOT_AVAILABLE}`, () => {
-            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_NOT_AVAILABLE);
+        it(`Should return error id ${Constants.EXCEPTION.INVALID_REQUEST}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_REQUEST);
         });
     });
 
@@ -140,8 +140,8 @@ describe(`POST ${Constants.ENDPOINT.BOOK.EXCHANGE.BORROW}`, () => {
             expect(response.status).toEqual(400);
         });
 
-        it(`Should return error id ${Constants.EXCEPTION.BOOK_ALREADY_REQUESTED}`, () => {
-            expect(response.body.error.id).toEqual(Constants.EXCEPTION.BOOK_ALREADY_REQUESTED);
+        it(`Should return error id ${Constants.EXCEPTION.INVALID_REQUEST}`, () => {
+            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_REQUEST);
         });
     });
 

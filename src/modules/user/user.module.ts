@@ -8,7 +8,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 @Module({
-    imports: [FileModule, ValidationModule, HashModule, TokenGuardModule],
+    imports: [FileModule, HashModule, TokenGuardModule, ValidationModule],
     providers: [UserService, PrismaService],
     controllers: [UserController]
 })

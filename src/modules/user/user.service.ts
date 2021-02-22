@@ -3,33 +3,33 @@ import { FileService } from '../file/file.service';
 import { Constants } from '../../common/constants';
 import { IFile } from '../file/types/IFile';
 import { PrismaService } from '../../database/prisma.service';
-import { ValidationService } from '../validation/validation.service';
 import { IHashService } from '../hash/types/IHashService';
 import { ConfirmEmailBodyDto } from './dto/confirm-email-body.dto';
 import { ResetPasswordBodyDto } from './dto/reset-password-body.dto';
 import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
 import { UpdatePreferenceBodyDto } from './dto/update-preference-body.dto';
 import { UpdateIdentityBodyDto } from './dto/update-identity-body.dto';
+import { UserValidationService } from './validation.service';
 
 @Injectable()
 export class UserService {
     constructor(
         @Inject(Constants.DEPENDENCY.FILE_SERVICE) private readonly _fileService: FileService,
         @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService,
+        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _userValidationService: UserValidationService,
         @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService
     ) {}
 
     public async confirmEmail(body: ConfirmEmailBodyDto): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(body.email);
+        const user = await this._userValidationService.getUserByEmailOrThrow(body.email);
 
-        this._validationService.throwIfUserHasSocialMediaAccount(user);
+        this._userValidationService.throwIfUserHasSocialMediaAccount(user);
 
-        this._validationService.throwIfAccountIsAlreadyConfirmed(user);
+        this._userValidationService.throwIfAccountIsAlreadyConfirmed(user);
 
-        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, body.code);
+        const confirmationCode = await this._userValidationService.getConfirmationCodeOrThrow(user.id, body.code);
 
-        this._validationService.throwIfConfirmationCodeIsExpired(confirmationCode);
+        this._userValidationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
         await this._databaseService.user.update({ where: { id: user.id }, data: { isConfirmed: true } });
 
@@ -37,15 +37,15 @@ export class UserService {
     }
 
     public async resetPassword(body: ResetPasswordBodyDto): Promise<void> {
-        const user = await this._validationService.getUserByEmailOrThrow(body.email);
+        const user = await this._userValidationService.getUserByEmailOrThrow(body.email);
 
-        this._validationService.throwIfUserHasSocialMediaAccount(user);
+        this._userValidationService.throwIfUserHasSocialMediaAccount(user);
 
-        this._validationService.throwIfAccountIsNotConfirmed(user);
+        this._userValidationService.throwIfAccountIsNotConfirmed(user);
 
-        const confirmationCode = await this._validationService.getConfirmationCodeOrThrow(user.id, body.code);
+        const confirmationCode = await this._userValidationService.getConfirmationCodeOrThrow(user.id, body.code);
 
-        this._validationService.throwIfConfirmationCodeIsExpired(confirmationCode);
+        this._userValidationService.throwIfConfirmationCodeIsExpired(confirmationCode);
 
         await this._databaseService.user.update({ where: { id: user.id }, data: { password: await this._hashService.generateHash(body.password) } });
 

@@ -3,9 +3,6 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Constants } from '../../common/constants';
 import { BearerAuth } from '../../common/decorators/bearer-auth.decorator';
 import { ExceptionResponses } from '../../common/decorators/exception-responses.decorator';
-import { BookNotAvailableException } from '../../common/exceptions/book-not-available.exception';
-import { BookNotFoundException } from '../../common/exceptions/book-not-found.exception';
-import { BookOwnershipException } from '../../common/exceptions/book-ownership.exception';
 import { IsbnNotFoundException } from '../../common/exceptions/isbn-not-found.exception';
 import { IAuthorizedRequest } from '../auth/types/IAuthorizedRequest';
 import { BookService } from './book.service';
@@ -52,7 +49,6 @@ export class BookController {
     @HttpCode(Constants.STATUS_CODE.NO_CONTENT)
     @BearerAuth()
     @ApiResponse({ status: Constants.STATUS_CODE.NO_CONTENT, description: 'The borrow request has been sent successfully' })
-    @ExceptionResponses([BookNotFoundException, BookOwnershipException, BookNotAvailableException])
     public async borrowBook(@Req() request: IAuthorizedRequest, @Body() body: BorrowBookBodyDto): Promise<void> {
         await this._bookService.borrowBook(body, request.user);
     }

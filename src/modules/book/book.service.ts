@@ -7,10 +7,6 @@ import { CreateBookBodyDto } from './dto/create-book-body.dto';
 import { PrismaService } from '../../database/prisma.service';
 import { Language } from '@prisma/client';
 import { BorrowBookBodyDto } from './dto/borrow-book-body.dto';
-import { BookNotFoundException } from '../../common/exceptions/book-not-found.exception';
-import { BookOwnershipException } from '../../common/exceptions/book-ownership.exception';
-import { BookNotAvailableException } from '../../common/exceptions/book-not-available.exception';
-import { BookAlreadyRequestedException } from '../../common/exceptions/book-already-requested.exception';
 import { IEmailService } from '../email/types/IEmailService';
 import { BorrowRequestMail } from '../email/mails/borrow-request-mail';
 import { IAccessTokenPayload } from '../token/types/IAccessTokenPayload';
@@ -61,12 +57,12 @@ export class BookService {
     public async borrowBook(body: BorrowBookBodyDto, user: IAccessTokenPayload): Promise<void> {
         const book = await this._databaseService.book.findUnique({ where: { id: body.id } });
 
-        if (!book) throw new BookNotFoundException();
-        if (book.ownerId === user.id) throw new BookOwnershipException();
-        if (book.borrowerId !== null) throw new BookNotAvailableException();
+        if (!book) throw new InvalidRequestException();
+        if (book.ownerId === user.id) throw new InvalidRequestException();
+        if (book.borrowerId !== null) throw new InvalidRequestException();
 
         const bookRequest = await this._databaseService.bookRequest.findFirst({ where: { userId: user.id, bookId: book.id } });
-        if (bookRequest) throw new BookAlreadyRequestedException();
+        if (bookRequest) throw new InvalidRequestException();
 
         await this._databaseService.bookRequest.create({ data: { userId: user.id, bookId: book.id } });
         await this._emailService.sendMail(new BorrowRequestMail(user.email));

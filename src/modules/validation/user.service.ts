@@ -19,24 +19,8 @@ export class UserValidationService {
         @Inject(Constants.DEPENDENCY.HASH_SERVICE) private readonly _hashService: IHashService
     ) {}
 
-    public async getUserByEmailOrThrow(email: string, exception: BaseException = new EmailNotFoundException()): Promise<User> {
-        const user = await this._databaseService.user.findUnique({ where: { email } });
-
-        if (!user) throw exception;
-
-        return user;
-    }
-
-    public async getUserByIdOrThrow(id: string, exception: BaseException = new UserNotFoundException()): Promise<User> {
-        const user = await this._databaseService.user.findUnique({ where: { id } });
-
-        if (!user) throw exception;
-
-        return user;
-    }
-
     public async throwIfEmailAlreadyExists(email: string, exception: BaseException = new DuplicateEmailException()): Promise<void> {
-        const user = await this._databaseService.user.findUnique({ where: { email } });
+        const user = await this._databaseService.user.findUnique({ where: { email }, select: {} });
         if (user) throw exception;
     }
 

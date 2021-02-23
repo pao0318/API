@@ -4,13 +4,13 @@ import { ITokenService } from '../../modules/token/types/ITokenService';
 import { AccessToken } from '../../modules/token/tokens/access-token';
 import { Constants } from '../constants';
 import { UnauthorizedException } from '../exceptions/unauthorized.exception';
-import { ValidationService } from '../../modules/validation/validation.service';
+import { PrismaService } from '../../database/prisma.service';
 
 @Injectable()
 export class TokenGuard implements CanActivate {
     constructor(
         @Inject(Constants.DEPENDENCY.TOKEN_SERVICE) private readonly _tokenService: ITokenService,
-        @Inject(Constants.DEPENDENCY.VALIDATION_SERVICE) private readonly _validationService: ValidationService
+        @Inject(Constants.DEPENDENCY.DATABASE_SERVICE) private readonly _databaseService: PrismaService
     ) {}
 
     public async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -18,7 +18,7 @@ export class TokenGuard implements CanActivate {
 
         const payload = await this._getPayloadFromToken(token);
 
-        const user = await this._validationService.user.getUserByIdOrThrow(payload.id);
+        const user = await this._databaseService.user.findUnique({ where: { id: payload.id }, select: { tokenVersion: true } });
 
         if (user.tokenVersion !== payload.version) throw new UnauthorizedException();
 

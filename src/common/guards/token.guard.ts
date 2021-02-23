@@ -20,7 +20,7 @@ export class TokenGuard implements CanActivate {
 
         const user = await this._databaseService.user.findUnique({ where: { id: payload.id }, select: { tokenVersion: true } });
 
-        if (user.tokenVersion !== payload.version) throw new UnauthorizedException();
+        if (!user || user.tokenVersion !== payload.version) throw new UnauthorizedException();
 
         this._assignUserDataToRequest(context, payload);
 

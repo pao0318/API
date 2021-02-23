@@ -5,6 +5,6 @@ import { TokenModule } from '../../modules/token/token.module';
 @Module({
     imports: [TokenModule],
     providers: [PrismaService],
-    exports: [TokenModule]
+    exports: [TokenModule, PrismaService]
 })
 export class TokenGuardModule {}

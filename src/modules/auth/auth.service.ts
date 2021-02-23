@@ -12,7 +12,6 @@ import { LoginBodyDto } from './dto/login-body.dto';
 import { RegisterBodyDto } from './dto/register-body.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { ValidationService } from '../validation/validation.service';
-import { EmailNotFoundException } from '../../common/exceptions/email-not-found.exception';
 
 @Injectable()
 export class AuthService {

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { PrismaService } from '../../database/prisma.service';
 import { TokenModule } from '../../modules/token/token.module';
-import { ValidationModule } from '../../modules/validation/validation.module';
 
 @Module({
-    imports: [TokenModule, ValidationModule],
-    exports: [TokenModule, ValidationModule]
+    imports: [TokenModule],
+    providers: [PrismaService],
+    exports: [TokenModule, PrismaService]
 })
 export class TokenGuardModule {}

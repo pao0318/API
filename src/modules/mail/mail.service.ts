@@ -18,7 +18,7 @@ export class MailService {
     ) {}
 
     public async sendEmailConfirmationMail(body: SendEmailConfirmationMailBodyDto): Promise<void> {
-        const user = await this._validationService.user.getUserByEmailOrThrow(body.email);
+        const user = await this._databaseService.user.findUnique({ where: { email: body.email }, select: { accountType: true, isConfirmed: true, id: true } });
 
         this._validationService.user.throwIfUserHasSocialMediaAccount(user);
 
@@ -26,13 +26,13 @@ export class MailService {
 
         const confirmationCode = generateConfirmationCode();
 
-        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id } });
+        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id }, select: null });
 
-        await this._emailService.sendMail(new EmailConfirmationMail(user.email, { code: confirmationCode.code }));
+        await this._emailService.sendMail(new EmailConfirmationMail(body.email, { code: confirmationCode.code }));
     }
 
     public async sendPasswordResetMail(body: SendPasswordResetMailBodyDto): Promise<void> {
-        const user = await this._validationService.user.getUserByEmailOrThrow(body.email);
+        const user = await this._databaseService.user.findUnique({ where: { email: body.email }, select: { accountType: true, isConfirmed: true, id: true } });
 
         this._validationService.user.throwIfUserHasSocialMediaAccount(user);
 
@@ -40,8 +40,8 @@ export class MailService {
 
         const confirmationCode = generateConfirmationCode();
 
-        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id } });
+        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id }, select: null });
 
-        await this._emailService.sendMail(new PasswordResetMail(user.email, { code: confirmationCode.code }));
+        await this._emailService.sendMail(new PasswordResetMail(body.email, { code: confirmationCode.code }));
     }
 }

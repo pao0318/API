@@ -10,6 +10,7 @@ import { UpdateLocationBodyDto } from './dto/update-location-body.dto';
 import { UpdatePreferenceBodyDto } from './dto/update-preference-body.dto';
 import { UpdateIdentityBodyDto } from './dto/update-identity-body.dto';
 import { ValidationService } from '../validation/validation.service';
+import { InvalidConfirmationCodeException } from '../../common/exceptions/invalid-confirmation-code.exception';
 
 @Injectable()
 export class UserService {
@@ -21,35 +22,43 @@ export class UserService {
     ) {}
 
     public async confirmEmail(body: ConfirmEmailBodyDto): Promise<void> {
-        const user = await this._validationService.user.getUserByEmailOrThrow(body.email);
+        const user = await this._databaseService.user.findUnique({ where: { email: body.email }, select: { accountType: true, isConfirmed: true, id: true } });
 
         this._validationService.user.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.user.throwIfAccountIsAlreadyConfirmed(user);
 
-        const confirmationCode = await this._validationService.confirmationCode.getConfirmationCodeOrThrow(user.id, body.code);
+        const confirmationCode = await this._databaseService.confirmationCode.findFirst({ where: { userId: user.id, code: body.code } });
+
+        if (!confirmationCode) throw new InvalidConfirmationCodeException();
 
         this._validationService.confirmationCode.throwIfConfirmationCodeIsExpired(confirmationCode);
 
-        await this._databaseService.user.update({ where: { id: user.id }, data: { isConfirmed: true } });
+        await this._databaseService.user.update({ where: { id: user.id }, data: { isConfirmed: true }, select: null });
 
-        await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
+        await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id }, select: null });
     }
 
     public async resetPassword(body: ResetPasswordBodyDto): Promise<void> {
-        const user = await this._validationService.user.getUserByEmailOrThrow(body.email);
+        const user = await this._databaseService.user.findUnique({ where: { email: body.email }, select: { accountType: true, isConfirmed: true, id: true } });
 
         this._validationService.user.throwIfUserHasSocialMediaAccount(user);
 
         this._validationService.user.throwIfAccountIsNotConfirmed(user);
 
-        const confirmationCode = await this._validationService.confirmationCode.getConfirmationCodeOrThrow(user.id, body.code);
+        const confirmationCode = await this._databaseService.confirmationCode.findFirst({ where: { userId: user.id, code: body.code } });
+
+        if (!confirmationCode) throw new InvalidConfirmationCodeException();
 
         this._validationService.confirmationCode.throwIfConfirmationCodeIsExpired(confirmationCode);
 
-        await this._databaseService.user.update({ where: { id: user.id }, data: { password: await this._hashService.generateHash(body.password) } });
+        await this._databaseService.user.update({
+            where: { id: user.id },
+            data: { password: await this._hashService.generateHash(body.password) },
+            select: null
+        });
 
-        await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id } });
+        await this._databaseService.confirmationCode.delete({ where: { id: confirmationCode.id }, select: null });
     }
 
     public async updateAvatar(image: IFile, userId: string): Promise<void> {
@@ -65,15 +74,15 @@ export class UserService {
     }
 
     public async updatePreference(userId: string, body: UpdatePreferenceBodyDto): Promise<void> {
-        await this._databaseService.preference.upsert({ where: { userId }, update: body, create: { ...body, userId } });
+        await this._databaseService.preference.upsert({ where: { userId }, update: body, create: { ...body, userId }, select: null });
     }
 
     public async updateIdentity(userId: string, body: UpdateIdentityBodyDto): Promise<void> {
-        await this._databaseService.user.update({ where: { id: userId }, data: body });
+        await this._databaseService.user.update({ where: { id: userId }, data: body, select: null });
     }
 
     private async _removeOldAvatar(id: string): Promise<void> {
-        const user = await this._databaseService.user.findUnique({ where: { id } });
+        const user = await this._databaseService.user.findUnique({ where: { id }, select: { avatar: true } });
 
         if (user.avatar === Constants.IMAGE.AVATAR.DEFAULT) return;
 

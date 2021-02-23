@@ -28,17 +28,22 @@ export class AuthService {
 
         const hashedPassword = await this._hashService.generateHash(body.password);
 
-        const user = await this._databaseService.user.create({ data: { ...body, password: hashedPassword } });
+        const user = await this._databaseService.user.create({ data: { ...body, password: hashedPassword }, select: { id: true } });
 
         const confirmationCode = generateConfirmationCode();
 
-        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id } });
+        await this._databaseService.confirmationCode.create({ data: { ...confirmationCode, userId: user.id }, select: null });
 
-        await this._emailService.sendMail(new EmailConfirmationMail(user.email, { code: confirmationCode.code }));
+        await this._emailService.sendMail(new EmailConfirmationMail(body.email, { code: confirmationCode.code }));
     }
 
     public async login(body: LoginBodyDto): Promise<LoginResponseDto> {
-        const user = await this._validationService.user.getUserByEmailOrThrow(body.email, new InvalidCredentialsException());
+        const user = await this._databaseService.user.findUnique({
+            where: { email: body.email },
+            select: { accountType: true, password: true, isConfirmed: true, id: true, tokenVersion: true }
+        });
+
+        if (!user) throw new InvalidCredentialsException();
 
         this._validationService.user.throwIfUserHasSocialMediaAccount(user);
 
@@ -49,7 +54,7 @@ export class AuthService {
         const token = await this._tokenService.generate(
             new AccessToken({
                 id: user.id,
-                email: user.email,
+                email: body.email,
                 version: user.tokenVersion
             })
         );
@@ -58,6 +63,6 @@ export class AuthService {
     }
 
     public async logout(id: string, tokenVersion: number): Promise<void> {
-        await this._databaseService.user.update({ where: { id }, data: { tokenVersion: tokenVersion + 1 } });
+        await this._databaseService.user.update({ where: { id }, data: { tokenVersion: tokenVersion + 1 }, select: null });
     }
 }

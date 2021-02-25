@@ -18,6 +18,11 @@ export class CreateBookBodyDto implements Readonly<CreateBookBodyDto> {
     @Length(1, 1000)
     public description: string;
 
+    @ApiProperty({ minLength: 1, maxLength: 100 })
+    @IsString()
+    @Length(1, 100)
+    public author: string;
+
     @ApiProperty({ minimum: 1, maximum: 3000 })
     @IsNumber()
     @Min(1)

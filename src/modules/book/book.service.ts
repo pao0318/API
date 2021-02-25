@@ -39,20 +39,20 @@ export class BookService {
     }
 
     public async createBook(body: CreateBookBodyDto, userId: string): Promise<void> {
-        const book = await this._googleApiService.getBookByIsbn(body.isbn);
-
-        if (!book) throw new IsbnNotFoundException();
-
         const user = await this._databaseService.user.findUnique({ where: { id: userId }, select: { latitude: true, longitude: true } });
 
         await this._databaseService.book.create({
             data: {
-                ...book,
+                isbn: body.isbn,
+                title: body.title,
+                description: body.description,
+                author: body.author,
+                image: 'default.jpeg',
                 ownerId: userId,
                 latitude: user.latitude,
                 longitude: user.longitude,
                 genre: body.genre,
-                language: mapAcronimToLanguage(book.language)
+                language: body.language
             }
         });
     }

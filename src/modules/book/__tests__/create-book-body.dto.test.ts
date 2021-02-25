@@ -10,6 +10,7 @@ const generateDto = (input: Partial<CreateBookBodyDto>): CreateBookBodyDto => {
     dto.isbn = data.isbn;
     dto.title = data.title;
     dto.description = data.description;
+    dto.author = data.author;
     dto.pages = data.pages;
     dto.genre = data.genre;
     dto.language = data.language;
@@ -22,6 +23,7 @@ const generateDtoData = () => {
         isbn: '7853079263849',
         title: random.alphaNumeric(10),
         description: random.alphaNumeric(10),
+        author: random.alphaNumeric(10),
         pages: random.number({ min: 1, max: 3000 }),
         genre: random.arrayElement(Object.values(Genre)),
         language: random.arrayElement(Object.values(Language))
@@ -155,6 +157,47 @@ describe('Create Book Body Dto', () => {
     describe('When description has more than 1000 characters', () => {
         it('Should return a validation error', async () => {
             const body = generateDto({ description: random.alphaNumeric(1050) });
+
+            const errors = await validate(body);
+
+            expect(errors).toHaveLength(1);
+        });
+    });
+
+    describe('When author does not exist', () => {
+        it('Should return a validation error', async () => {
+            const body = generateDto({ author: undefined });
+
+            const errors = await validate(body);
+
+            expect(errors).toHaveLength(1);
+        });
+    });
+
+    describe('When author is not a string', () => {
+        it('Should return a validation error', async () => {
+            /* @ts-expect-error */
+            const body = generateDto({ author: random.number() });
+
+            const errors = await validate(body);
+
+            expect(errors).toHaveLength(1);
+        });
+    });
+
+    describe('When author has less than 1 character', () => {
+        it('Should return a validation error', async () => {
+            const body = generateDto({ author: '' });
+
+            const errors = await validate(body);
+
+            expect(errors).toHaveLength(1);
+        });
+    });
+
+    describe('When author has more than 100 characters', () => {
+        it('Should return a validation error', async () => {
+            const body = generateDto({ author: random.alphaNumeric(150) });
 
             const errors = await validate(body);
 

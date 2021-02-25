@@ -4,7 +4,7 @@ import { random } from 'faker';
 import { CreateBookBodyDto } from '../dto/create-book-body.dto';
 
 const generateDto = (input: Partial<CreateBookBodyDto>): CreateBookBodyDto => {
-    const data = { ...generateDtoData(), ...input };
+    const data = { ...CreateBookBodyDto.generateFakeData(), ...input };
     const dto = new CreateBookBodyDto();
 
     dto.isbn = data.isbn;
@@ -16,18 +16,6 @@ const generateDto = (input: Partial<CreateBookBodyDto>): CreateBookBodyDto => {
     dto.language = data.language;
 
     return dto;
-};
-
-const generateDtoData = () => {
-    return {
-        isbn: '7853079263849',
-        title: random.alphaNumeric(10),
-        description: random.alphaNumeric(10),
-        author: random.alphaNumeric(10),
-        pages: random.number({ min: 1, max: 3000 }),
-        genre: random.arrayElement(Object.values(Genre)),
-        language: random.arrayElement(Object.values(Language))
-    };
 };
 
 describe('Create Book Body Dto', () => {

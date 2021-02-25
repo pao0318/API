@@ -21,7 +21,7 @@
     "start:docker": "npx prisma generate && npx prisma migrate deploy --preview-feature && yarn build && yarn start:dev",
     "seed:user": "nestjs-command seed:user",
     "test": "yarn test:unit && yarn test:e2e",
-    "test:unit": "cross-env NODE_ENV=test jest --testTimeout=25000 --detectOpenHandles --forceExit --runInBand  __tests__/create-book-body.dto.test.ts",
+    "test:unit": "cross-env NODE_ENV=test jest --testTimeout=25000 --detectOpenHandles --forceExit --runInBand  __tests__/",
     "test:e2e": "cross-env NODE_ENV=test jest --testTimeout=25000 --detectOpenHandles --forceExit --runInBand e2e/",
     "lint": "eslint src",
     "format": "prettier --write 'src/**/*.ts'",

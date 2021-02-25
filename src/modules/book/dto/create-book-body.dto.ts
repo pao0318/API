@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Genre, Language } from '@prisma/client';
 import { IsEnum, IsNumber, IsNumberString, IsString, Length, Max, Min } from 'class-validator';
+import { random } from 'faker';
 
 export class CreateBookBodyDto implements Readonly<CreateBookBodyDto> {
     @ApiProperty({ minLength: 13, maxLength: 13 })
@@ -36,4 +37,16 @@ export class CreateBookBodyDto implements Readonly<CreateBookBodyDto> {
     @ApiProperty({ enum: Language })
     @IsEnum(Language)
     public language: Language;
+
+    public static generateFakeData(): CreateBookBodyDto {
+        return {
+            isbn: Math.random().toString().slice(2, 15),
+            title: random.alphaNumeric(10),
+            description: random.alphaNumeric(10),
+            author: random.alphaNumeric(10),
+            pages: random.number({ min: 1, max: 3000 }),
+            genre: random.arrayElement(Object.values(Genre)),
+            language: random.arrayElement(Object.values(Language))
+        };
+    }
 }

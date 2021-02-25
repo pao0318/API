@@ -13,7 +13,6 @@ import { DeclineExchangeBodyDto } from './dto/decline-exchange-body.dto';
 import { InvalidRequestException } from '../../common/exceptions/invalid-request.exception';
 import { AcceptExchangeBodyDto } from './dto/accept-exchange-body.dto';
 import { ValidationService } from '../validation/validation.service';
-import { mapAcronimToLanguage } from '../../common/helpers/map-acronim-to-language';
 
 @Injectable()
 export class BookService {

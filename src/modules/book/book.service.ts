@@ -34,6 +34,7 @@ export class BookService {
 
     public async getBookDataByTitle(title: string): Promise<BookDataResponseDto[]> {
         const books = await this._googleApiService.getBooksDataByTitle(title);
+
         return books.map((book) => BookDataResponseDto.fromBookData(book));
     }
 
@@ -58,33 +59,41 @@ export class BookService {
 
     public async borrowBook(body: BorrowBookBodyDto, user: IAccessTokenPayload): Promise<void> {
         const book = await this._databaseService.book.findUnique({ where: { id: body.id }, select: { ownerId: true, borrowerId: true } });
+
         if (!book) throw new InvalidRequestException();
 
         this._validationService.book.throwIfUserOwnsTheBook(user.id, book);
+
         this._validationService.book.throwIfBookIsBorrowed(book);
 
         const bookRequest = await this._databaseService.bookRequest.findFirst({ where: { userId: user.id, bookId: body.id }, select: null });
+
         if (bookRequest) throw new InvalidRequestException();
 
         await this._databaseService.bookRequest.create({ data: { userId: user.id, bookId: body.id }, select: null });
+
         await this._emailService.sendMail(new BorrowRequestMail(user.email));
     }
 
     public async declineExchange(body: DeclineExchangeBodyDto, userId: string): Promise<void> {
         const bookRequest = await this._databaseService.bookRequest.findUnique({ where: { id: body.id }, select: { book: true } });
+
         if (!bookRequest) throw new InvalidRequestException();
 
         this._validationService.book.throwIfUserDoesNotOwnTheBook(userId, bookRequest.book);
+
         await this._databaseService.bookRequest.delete({ where: { id: body.id }, select: null });
     }
 
     public async acceptExchange(body: AcceptExchangeBodyDto, userId: string): Promise<void> {
         const bookRequest = await this._databaseService.bookRequest.findUnique({ where: { id: body.id }, select: { book: true, bookId: true, userId: true } });
+
         if (!bookRequest) throw new InvalidRequestException();
 
         this._validationService.book.throwIfUserDoesNotOwnTheBook(userId, bookRequest.book);
 
         await this._databaseService.book.update({ where: { id: bookRequest.bookId }, data: { borrowerId: bookRequest.userId }, select: null });
+
         await this._databaseService.bookRequest.deleteMany({ where: { bookId: bookRequest.bookId } });
     }
 }

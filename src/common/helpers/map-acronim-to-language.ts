@@ -1,5 +1,12 @@
 import { Language } from '@prisma/client';
 
 export default (acronim: string): Language => {
-    throw new Error('Not implemented');
+    const languages = {
+        en: Language.ENGLISH,
+        de: Language.GERMAN,
+        fr: Language.FRENCH,
+        sp: Language.SPANISH
+    };
+
+    return languages[acronim.toString()];
 };

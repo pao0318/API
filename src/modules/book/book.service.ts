@@ -5,7 +5,6 @@ import { GoogleApiService } from './api/google-api.service';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
 import { CreateBookBodyDto } from './dto/create-book-body.dto';
 import { PrismaService } from '../../database/prisma.service';
-import { Language } from '@prisma/client';
 import { BorrowBookBodyDto } from './dto/borrow-book-body.dto';
 import { IEmailService } from '../email/types/IEmailService';
 import { BorrowRequestMail } from '../email/mails/borrow-request-mail';
@@ -14,6 +13,7 @@ import { DeclineExchangeBodyDto } from './dto/decline-exchange-body.dto';
 import { InvalidRequestException } from '../../common/exceptions/invalid-request.exception';
 import { AcceptExchangeBodyDto } from './dto/accept-exchange-body.dto';
 import { ValidationService } from '../validation/validation.service';
+import { mapAcronimToLanguage } from '../../common/helpers/map-acronim-to-language';
 
 @Injectable()
 export class BookService {
@@ -51,7 +51,7 @@ export class BookService {
                 latitude: user.latitude,
                 longitude: user.longitude,
                 genre: body.genre,
-                language: this._mapLanguageAcronimToEnum(book.language)
+                language: mapAcronimToLanguage(book.language)
             }
         });
     }
@@ -86,16 +86,5 @@ export class BookService {
 
         await this._databaseService.book.update({ where: { id: bookRequest.bookId }, data: { borrowerId: bookRequest.userId }, select: null });
         await this._databaseService.bookRequest.deleteMany({ where: { bookId: bookRequest.bookId } });
-    }
-
-    private _mapLanguageAcronimToEnum(language: string): Language {
-        const languages = {
-            en: Language.ENGLISH,
-            de: Language.GERMAN,
-            fr: Language.FRENCH,
-            sp: Language.SPANISH
-        };
-
-        return languages[language.toString()];
     }
 }

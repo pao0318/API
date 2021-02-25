@@ -1,5 +1,5 @@
 import { Language } from '@prisma/client';
-import mapAcronimToLanguage from '../map-acronim-to-language';
+import { mapAcronimToLanguage } from '../map-acronim-to-language';
 
 describe('Map acronim to language', () => {
     describe("When acronim is 'en'", () => {

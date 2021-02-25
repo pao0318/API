@@ -1,4 +1,4 @@
-import readFile from '../../../common/helpers/read-file';
+import { readFile } from '../../../common/helpers/read-file';
 import { IMailContext } from '../types/IMailContext';
 
 export abstract class Mail {

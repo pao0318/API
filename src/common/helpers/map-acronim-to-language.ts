@@ -1,6 +1,6 @@
 import { Language } from '@prisma/client';
 
-export default (acronim: string): Language => {
+export const mapAcronimToLanguage = (acronim: string): Language => {
     const languages = {
         en: Language.ENGLISH,
         de: Language.GERMAN,

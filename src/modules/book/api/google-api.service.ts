@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Constants } from '../../../common/constants';
+import { mapAcronimToLanguage } from '../../../common/helpers/map-acronim-to-language';
 import { UrlBuilder } from '../../../common/utils/url-builder';
 import { IHttpService } from '../../http/types/IHttpService';
 import { RedisService } from '../../redis/redis.service';
@@ -15,6 +16,10 @@ export class GoogleApiService {
     public async getBookByIsbn(isbn: string): Promise<IBookData | null> {
         const cachedBook = await this._redisService.get({ key: `${Constants.REDIS.GOOGLE_API_PREFIX}:${isbn}` });
         if (cachedBook) return this._returnBookDataBasedOnCache(cachedBook);
+
+        // if(cachedBook) {
+        //     if(cachedBook === C)
+        // }
 
         const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByIsbnUrl(isbn), this._getCompressionHeaders());
 
@@ -72,7 +77,7 @@ export class GoogleApiService {
             description: data.volumeInfo.description || null,
             image: data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default.jpg',
             isbn: this._bookContainsIsbn(data) ? data.volumeInfo.industryIdentifiers[0].identifier : null,
-            language: data.volumeInfo.language,
+            language: data.volumeInfo.language ? mapAcronimToLanguage(data.volumeInfo.language) : null,
             pages: data.volumeInfo.pageCount ? data.volumeInfo.pageCount : null
         };
     }

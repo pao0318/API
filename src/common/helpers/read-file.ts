@@ -1,9 +1,9 @@
-import { readFile } from 'fs';
+import { readFile as ReadFile } from 'fs';
 import { promisify } from 'util';
 
-const readFileAsync = promisify(readFile);
+const readFileAsync = promisify(ReadFile);
 
-export default async (path: string): Promise<string> => {
+export const readFile = async (path: string): Promise<string> => {
     const buffer = await readFileAsync(path);
     return buffer.toString();
 };

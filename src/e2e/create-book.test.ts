@@ -8,8 +8,7 @@ import { PrismaService } from '../database/prisma.service';
 import { BookModule } from '../modules/book/book.module';
 import { AccessToken } from '../modules/token/tokens/access-token';
 import { ITokenService } from '../modules/token/types/ITokenService';
-import { random } from 'faker';
-import { Genre } from '@prisma/client';
+import { CreateBookBodyDto } from '../modules/book/dto/create-book-body.dto';
 
 describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
     let databaseService: PrismaService;
@@ -67,34 +66,12 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
         });
     });
 
-    describe('When isbn does not exist', () => {
+    describe('When input is valid', () => {
+        const data = CreateBookBodyDto.generateFakeData();
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer())
-                .post(Constants.ENDPOINT.BOOK.CREATE)
-                .send({ isbn: '9781291578011', genre: random.arrayElement(Object.values(Genre)) })
-                .set({ authorization: token });
-        });
-
-        it('Should return status code 404', () => {
-            expect(response.status).toEqual(404);
-        });
-
-        it(`Should return error id ${Constants.EXCEPTION.ISBN_NOT_FOUND}`, () => {
-            expect(response.body.error.id).toEqual(Constants.EXCEPTION.ISBN_NOT_FOUND);
-        });
-    });
-
-    describe('When isbn exists', () => {
-        const isbn = '9798654585776';
-        let response: Response;
-
-        beforeAll(async () => {
-            response = await request(app.getHttpServer())
-                .post(Constants.ENDPOINT.BOOK.CREATE)
-                .send({ isbn, genre: random.arrayElement(Object.values(Genre)) })
-                .set({ authorization: token });
+            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.CREATE).send(data).set({ authorization: token });
         });
 
         it('Should return status code 201', () => {
@@ -102,8 +79,8 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
         });
 
         it('Should create book in the database', async () => {
-            const book = await databaseService.book.findFirst({ where: { isbn } });
-            expect(book.isbn).toEqual(isbn);
+            const book = await databaseService.book.findFirst({ where: { isbn: data.isbn } });
+            expect(book.isbn).toEqual(data.isbn);
         });
     });
 });

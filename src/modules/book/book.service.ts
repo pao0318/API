@@ -5,7 +5,6 @@ import { GoogleApiService } from './api/google-api.service';
 import { BookDataResponseDto } from './dto/book-data-response.dto';
 import { CreateBookBodyDto } from './dto/create-book-body.dto';
 import { PrismaService } from '../../database/prisma.service';
-import { Language } from '@prisma/client';
 import { BorrowBookBodyDto } from './dto/borrow-book-body.dto';
 import { IEmailService } from '../email/types/IEmailService';
 import { BorrowRequestMail } from '../email/mails/borrow-request-mail';
@@ -34,68 +33,66 @@ export class BookService {
 
     public async getBookDataByTitle(title: string): Promise<BookDataResponseDto[]> {
         const books = await this._googleApiService.getBooksDataByTitle(title);
+
         return books.map((book) => BookDataResponseDto.fromBookData(book));
     }
 
     public async createBook(body: CreateBookBodyDto, userId: string): Promise<void> {
-        const book = await this._googleApiService.getBookByIsbn(body.isbn);
-
-        if (!book) throw new IsbnNotFoundException();
-
         const user = await this._databaseService.user.findUnique({ where: { id: userId }, select: { latitude: true, longitude: true } });
 
         await this._databaseService.book.create({
             data: {
-                ...book,
+                isbn: body.isbn,
+                title: body.title,
+                description: body.description,
+                author: body.author,
+                image: 'default.jpeg',
                 ownerId: userId,
                 latitude: user.latitude,
                 longitude: user.longitude,
                 genre: body.genre,
-                language: this._mapLanguageAcronimToEnum(book.language)
+                language: body.language
             }
         });
     }
 
     public async borrowBook(body: BorrowBookBodyDto, user: IAccessTokenPayload): Promise<void> {
         const book = await this._databaseService.book.findUnique({ where: { id: body.id }, select: { ownerId: true, borrowerId: true } });
+
         if (!book) throw new InvalidRequestException();
 
         this._validationService.book.throwIfUserOwnsTheBook(user.id, book);
+
         this._validationService.book.throwIfBookIsBorrowed(book);
 
         const bookRequest = await this._databaseService.bookRequest.findFirst({ where: { userId: user.id, bookId: body.id }, select: null });
+
         if (bookRequest) throw new InvalidRequestException();
 
         await this._databaseService.bookRequest.create({ data: { userId: user.id, bookId: body.id }, select: null });
+
         await this._emailService.sendMail(new BorrowRequestMail(user.email));
     }
 
     public async declineExchange(body: DeclineExchangeBodyDto, userId: string): Promise<void> {
         const bookRequest = await this._databaseService.bookRequest.findUnique({ where: { id: body.id }, select: { book: true } });
+
         if (!bookRequest) throw new InvalidRequestException();
 
         this._validationService.book.throwIfUserDoesNotOwnTheBook(userId, bookRequest.book);
+
         await this._databaseService.bookRequest.delete({ where: { id: body.id }, select: null });
     }
 
     public async acceptExchange(body: AcceptExchangeBodyDto, userId: string): Promise<void> {
         const bookRequest = await this._databaseService.bookRequest.findUnique({ where: { id: body.id }, select: { book: true, bookId: true, userId: true } });
+
         if (!bookRequest) throw new InvalidRequestException();
 
         this._validationService.book.throwIfUserDoesNotOwnTheBook(userId, bookRequest.book);
 
         await this._databaseService.book.update({ where: { id: bookRequest.bookId }, data: { borrowerId: bookRequest.userId }, select: null });
+
         await this._databaseService.bookRequest.deleteMany({ where: { bookId: bookRequest.bookId } });
-    }
-
-    private _mapLanguageAcronimToEnum(language: string): Language {
-        const languages = {
-            en: Language.ENGLISH,
-            de: Language.GERMAN,
-            fr: Language.FRENCH,
-            sp: Language.SPANISH
-        };
-
-        return languages[language.toString()];
     }
 }

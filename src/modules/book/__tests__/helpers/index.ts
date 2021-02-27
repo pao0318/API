@@ -8,7 +8,7 @@ export const generateGoogleBooksApiResponse = (values: { isAuthor: boolean; isDe
         description: values.isDescription ? random.word() : null,
         image: values.isImage ? random.word() : null,
         isbn: '671061760618',
-        language: 'en',
+        language: 'ENGLISH',
         pages: 200
     };
 
@@ -23,7 +23,7 @@ export const generateGoogleBooksApiResponse = (values: { isAuthor: boolean; isDe
                     thumbnail: fakeValues.image
                 },
                 industryIdentifiers: [{ type: 'ISBN_13', identifier: fakeValues.isbn }],
-                language: fakeValues.language,
+                language: 'en',
                 pageCount: fakeValues.pages
             }
         }

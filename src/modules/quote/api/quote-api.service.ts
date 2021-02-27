@@ -20,7 +20,6 @@ export class QuoteApiService {
     private async _fetchQuotes(): Promise<void> {
         try {
             const response = await this._httpService.performGetRequest(Constants.URL.QUOTES_API);
-
             this._quotes = response.data as IQuote[];
         } catch (error) {
             logger.error(error.message);

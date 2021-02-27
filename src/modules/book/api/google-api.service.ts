@@ -17,6 +17,10 @@ export class GoogleApiService {
         const cachedBook = await this._redisService.get({ key: `${Constants.REDIS.GOOGLE_API_PREFIX}:${isbn}` });
         if (cachedBook) return this._returnBookDataBasedOnCache(cachedBook);
 
+        // if(cachedBook) {
+        //     if(cachedBook === C)
+        // }
+
         const response = await this._httpService.performGetRequest(UrlBuilder.buildGetBookByIsbnUrl(isbn), this._getCompressionHeaders());
 
         if (response.data.totalItems === 0) {

@@ -17,7 +17,7 @@ export class GoogleApiService {
         const cachedBook = await this._redisService.get({ key: `${Constants.REDIS.GOOGLE_API_PREFIX}:${isbn}` });
 
         if (cachedBook) {
-            if (cachedBook === Constants.REDIS.GOOGLE_API_PREFIX) return null;
+            if (cachedBook === Constants.REDIS.GOOGLE_API_NOT_AVAILABLE) return null;
             else return cachedBook as IBookData;
         }
 

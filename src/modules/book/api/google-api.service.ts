@@ -41,11 +41,10 @@ export class GoogleApiService {
             this._getCompressionHeaders()
         );
 
-        if (response.data.totalItems === 0) {
-            return [];
-        }
+        if (response.data.totalItems === 0) return [];
 
         const books = response.data.items.map((item: Record<string, unknown>) => mapResponseToBookData(item));
+
         const booksWithIsbn = books.filter((book: IBookData) => book.isbn !== null).slice(0, 3);
 
         return booksWithIsbn;

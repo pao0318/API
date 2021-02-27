@@ -5,19 +5,18 @@ import { Test } from '@nestjs/testing';
 import { Constants } from '../common/constants';
 import { TestUtils } from '../common/utils/test-utils';
 import { PrismaService } from '../database/prisma.service';
-import { BookModule } from '../modules/book/book.module';
 import { AccessToken } from '../modules/token/tokens/access-token';
 import { ITokenService } from '../modules/token/types/ITokenService';
-import { CreateBookBodyDto } from '../modules/book/dto/create-book-body.dto';
+import { QuoteModule } from '../modules/quote/quote.module';
 
-describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
+describe(`GET ${Constants.ENDPOINT.QUOTE.GET}`, () => {
     let databaseService: PrismaService;
     let app: INestApplication;
     let token: string;
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: [BookModule]
+            imports: [QuoteModule]
         }).compile();
 
         app = await TestUtils.createTestApplication(module);
@@ -38,7 +37,7 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.CREATE);
+            response = await request(app.getHttpServer()).get(Constants.ENDPOINT.QUOTE.GET);
         });
 
         it('Should return status code 401', () => {
@@ -50,37 +49,20 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
         });
     });
 
-    describe('When input is invalid', () => {
+    describe('When the user is authorized', () => {
         let response: Response;
 
         beforeAll(async () => {
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.CREATE).set({ authorization: token });
+            response = await request(app.getHttpServer()).get(Constants.ENDPOINT.QUOTE.GET).set({ authorization: token });
         });
 
-        it('Should return status code 400', () => {
-            expect(response.status).toEqual(400);
+        it('Should return status code 200', () => {
+            expect(response.status).toEqual(200);
         });
 
-        it(`Should return error id ${Constants.EXCEPTION.INVALID_INPUT}`, () => {
-            expect(response.body.error.id).toEqual(Constants.EXCEPTION.INVALID_INPUT);
-        });
-    });
-
-    describe('When input is valid', () => {
-        const data = CreateBookBodyDto.generateFakeData();
-        let response: Response;
-
-        beforeAll(async () => {
-            response = await request(app.getHttpServer()).post(Constants.ENDPOINT.BOOK.CREATE).send(data).set({ authorization: token });
-        });
-
-        it('Should return status code 201', () => {
-            expect(response.status).toEqual(201);
-        });
-
-        it('Should create book in the database', async () => {
-            const book = await databaseService.book.findFirst({ where: { isbn: data.isbn } });
-            expect(book.isbn).toEqual(data.isbn);
+        it('Should a random quote', () => {
+            expect(response.body.text).toBeDefined();
+            expect(response.body.author).toBeDefined();
         });
     });
 });

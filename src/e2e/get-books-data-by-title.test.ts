@@ -45,7 +45,7 @@ describe(`GET ${Constants.ENDPOINT.BOOK.DATA.GET_BY_TITLE}`, () => {
             expect(response.status).toEqual(401);
         });
 
-        it(`Should return errro id ${Constants.EXCEPTION.UNAUTHORIZED}`, () => {
+        it(`Should return error id ${Constants.EXCEPTION.UNAUTHORIZED}`, () => {
             expect(response.body.error.id).toEqual(Constants.EXCEPTION.UNAUTHORIZED);
         });
     });

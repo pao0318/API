@@ -1,4 +1,3 @@
-import { Genre, Language } from '@prisma/client';
 import { validate } from 'class-validator';
 import { random } from 'faker';
 import { CreateBookBodyDto } from '../dto/create-book-body.dto';

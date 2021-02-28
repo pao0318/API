@@ -5,7 +5,7 @@ import { Constants } from '../common/constants';
 import { TestUtils } from '../common/utils/test-utils';
 import { PrismaService } from '../database/prisma.service';
 import { QuoteModule } from '../modules/quote/quote.module';
-import { compileTestingApplication, createUserAndAccessToken } from './helpers';
+import { compileTestingApplication, createAccessToken } from './helpers';
 
 describe(`GET ${Constants.ENDPOINT.QUOTE.GET}`, () => {
     let databaseService: PrismaService;
@@ -17,11 +17,16 @@ describe(`GET ${Constants.ENDPOINT.QUOTE.GET}`, () => {
 
         databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
 
-        token = (await createUserAndAccessToken(app)).token;
+        const user = await TestUtils.createUserInDatabase(databaseService);
+
+        token = await createAccessToken(app, user);
     });
 
     afterAll(async () => {
         await TestUtils.dropDatabase(databaseService);
+
+        await TestUtils.closeDatabase(databaseService);
+
         await app.close();
     });
 

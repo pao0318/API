@@ -1,12 +1,11 @@
 import * as request from 'supertest';
 import { Response } from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import { Constants } from '../common/constants';
 import { TestUtils } from '../common/utils/test-utils';
 import { PrismaService } from '../database/prisma.service';
 import { QuoteModule } from '../modules/quote/quote.module';
-import { createUserAndAccessToken } from './helpers';
+import { compileTestingApplication, createUserAndAccessToken } from './helpers';
 
 describe(`GET ${Constants.ENDPOINT.QUOTE.GET}`, () => {
     let databaseService: PrismaService;
@@ -14,11 +13,7 @@ describe(`GET ${Constants.ENDPOINT.QUOTE.GET}`, () => {
     let token: string;
 
     beforeAll(async () => {
-        const module = await Test.createTestingModule({
-            imports: [QuoteModule]
-        }).compile();
-
-        app = await TestUtils.createTestApplication(module);
+        app = await compileTestingApplication([QuoteModule]);
 
         databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
 

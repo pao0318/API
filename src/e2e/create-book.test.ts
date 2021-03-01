@@ -1,14 +1,12 @@
 import * as request from 'supertest';
 import { Response } from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import { Constants } from '../common/constants';
 import { TestUtils } from '../common/utils/test-utils';
 import { PrismaService } from '../database/prisma.service';
 import { BookModule } from '../modules/book/book.module';
-import { AccessToken } from '../modules/token/tokens/access-token';
-import { ITokenService } from '../modules/token/types/ITokenService';
 import { CreateBookBodyDto } from '../modules/book/dto/create-book-body.dto';
+import { compileTestingApplication, createAccessToken } from './helpers';
 
 describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
     let databaseService: PrismaService;
@@ -16,21 +14,20 @@ describe(`POST ${Constants.ENDPOINT.BOOK.CREATE}`, () => {
     let token: string;
 
     beforeAll(async () => {
-        const module = await Test.createTestingModule({
-            imports: [BookModule]
-        }).compile();
+        app = await compileTestingApplication([BookModule]);
 
-        app = await TestUtils.createTestApplication(module);
         databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
 
-        const tokenService = (await app.resolve(Constants.DEPENDENCY.TOKEN_SERVICE)) as ITokenService;
         const user = await TestUtils.createUserInDatabase(databaseService);
 
-        token = await tokenService.generate(new AccessToken({ id: user.id, email: user.email, version: user.tokenVersion }));
+        token = await createAccessToken(app, user);
     });
 
     afterAll(async () => {
         await TestUtils.dropDatabase(databaseService);
+
+        await TestUtils.closeDatabase(databaseService);
+
         await app.close();
     });
 

@@ -1,14 +1,12 @@
 import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import { Response } from 'supertest';
 import { Constants } from '../common/constants';
 import { TestUtils } from '../common/utils/test-utils';
 import { PrismaService } from '../database/prisma.service';
 import { BookModule } from '../modules/book/book.module';
-import { ITokenService } from '../modules/token/types/ITokenService';
-import { AccessToken } from '../modules/token/tokens/access-token';
 import { RedisService } from '../modules/redis/redis.service';
+import { compileTestingApplication, createAccessToken } from './helpers';
 
 describe(`GET ${Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN}`, () => {
     let databaseService: PrismaService;
@@ -17,23 +15,24 @@ describe(`GET ${Constants.ENDPOINT.BOOK.DATA.GET_BY_ISBN}`, () => {
     let token: string;
 
     beforeAll(async () => {
-        const module = await Test.createTestingModule({
-            imports: [BookModule]
-        }).compile();
+        app = await compileTestingApplication([BookModule]);
 
-        app = await TestUtils.createTestApplication(module);
         databaseService = await app.resolve(Constants.DEPENDENCY.DATABASE_SERVICE);
+
         redisService = await app.resolve(Constants.DEPENDENCY.REDIS_SERVICE);
 
-        const tokenService = (await app.resolve(Constants.DEPENDENCY.TOKEN_SERVICE)) as ITokenService;
         const user = await TestUtils.createUserInDatabase(databaseService);
 
-        token = await tokenService.generate(new AccessToken({ id: user.id, email: user.email, version: user.tokenVersion }));
+        token = await createAccessToken(app, user);
     });
 
     afterAll(async () => {
         await TestUtils.dropDatabase(databaseService);
+
+        await TestUtils.closeDatabase(databaseService);
+
         await TestUtils.dropRedis(redisService);
+
         await app.close();
     });
 
